@@ -1,5 +1,6 @@
 {
   "hosting": {
+    "site": "octa3d-439a2",
     "public": "dist",
     "ignore": [
       "firebase.json",
