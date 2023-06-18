@@ -17,8 +17,8 @@ jobs:
     steps:
       - uses: actions/checkout@v3
       - run: npm i && npm run build
-        env:
-          PRODUCTION_DOMAIN: ${{ secrets.OCTA3D_MAIN_DOMAIN }}
+        # env:
+        #   PRODUCTION_DOMAIN: ${{ secrets.OCTA3D_MAIN_DOMAIN }}
 
       - uses: FirebaseExtended/action-hosting-deploy@v0
         with:
