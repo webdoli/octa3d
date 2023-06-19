@@ -1,22 +1,28 @@
 
 const mount = ( el ) => {
 
-    console.log('팀명: ' + el );
+    let assetPage = `
+        <div id="assetPage">
+            <h1> 에셋 페이지 생성 </h1>
+        </div>
+    `
+
+    el.innerHTML += assetPage;
 
     return {
 
-        onNavi: 'Asset전달: '+el
+        res: '@@ 에셋 페이지 생성 End @@'
 
     }
 
-    if( process.env.NODE_ENV === 'development' ) {
+    // if( process.env.NODE_ENV === 'development' ) {
 
-        const devRoot = document.querySelector('#asset-root');
+    //     const devRoot = document.querySelector('#asset-root');
 
-        if( devRoot ) {
-            mount( devRoot )
-        }
-    }
+    //     if( devRoot ) {
+    //         mount( devRoot )
+    //     }
+    // }
 
 }
 

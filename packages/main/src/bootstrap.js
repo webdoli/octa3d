@@ -1,7 +1,12 @@
 import { mount } from 'assets/Assets';
 
+const assetPageDOM = document.querySelector('.section-content');
 
-console.log('메인서버 bootstrap @@');
-const { onNavi } = mount( '배포팀' );
-console.log('main onNavi: ' + onNavi );
+document.querySelector('.btn-asset').addEventListener('click', () => {
+
+    assetPageDOM.removeChild( assetPageDOM.firstElementChild );    
+    const { res } = mount( assetPageDOM );
+
+});
+
 
