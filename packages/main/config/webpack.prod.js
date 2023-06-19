@@ -1,7 +1,8 @@
 const { merge } = require('webpack-merge');
+const ModuleFederationPlugin = require('webpack/lib/container/ModuleFederationPlugin');
 const commonConfig = require('./webpack.common');
-//const packageJson = require('../package.json');
-//const tmpDomain = 'https://octa3d-439a2.web.app/';
+const packageJson = require('../package.json');
+const assetsDomain = 'https://octa3d-assets.web.app/';
 
 const prodConfig = {
 
@@ -11,7 +12,13 @@ const prodConfig = {
         publicPath: '/'
     },
     plugins: [
-
+        new ModuleFederationPlugin({
+            name: 'container',
+            remotes: {
+                marketing: `assets@${assetsDomain}/remoteEntry.js`
+            },
+            shared: packageJson.dependencies,
+        }),
     ]
 
 }
