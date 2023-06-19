@@ -1,0 +1,12 @@
+{
+  "hosting": {
+    "site": "octa3d-assets",
+    "appAssociation": "AUTO",
+    "public": "dist",
+    "ignore": [
+      "firebase.json",
+      "**/.*",
+      "**/node_modules/**"
+    ]
+  }
+}
