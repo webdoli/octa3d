@@ -1,3 +1,5 @@
+import { mainHeader } from "./components/header.js";
+
 (function ($) {
 "use strict";
     
@@ -6,8 +8,10 @@ preloader
 ---------------------------- */	
 
 $(window).on('load',function(){
-    var pre_loader = $('#preloader')
-pre_loader.fadeOut('slow',function(){$(this).remove();});
+
+    var pre_loader = $('#preloader');
+	pre_loader.fadeOut('slow',function(){$(this).remove();});
+
 });	
 
 // meanmenu
@@ -22,6 +26,12 @@ $('#mobile-menu').meanmenu({
 	
 var windows = $(window);
 var sticky = $('#sticker');
+
+windows.on('DOMContentLoaded', () => {
+	
+	const headerOne = $('.header-one');
+	headerOne.append( mainHeader );
+})
 
 windows.on('scroll', function() {
     var scroll = windows.scrollTop();

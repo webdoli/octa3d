@@ -3,6 +3,7 @@ const ModuleFederationPlugin = require('webpack/lib/container/ModuleFederationPl
 const commonConfig = require('./webpack.common');
 const packageJson = require('../package.json');
 const path = require('path');
+const CopyPlugin = require('copy-webpack-plugin');
 
 const devConfig = {
 
@@ -21,6 +22,13 @@ const devConfig = {
                 assets:'assets@http://localhost:8081/remoteEntry.js',
             },
             shared: packageJson.dependencies,
+        }),
+        new CopyPlugin({
+            patterns: [
+                {
+                    from: path.resolve('static')
+                }
+            ]
         })
     ]
 
