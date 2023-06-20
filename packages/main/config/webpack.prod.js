@@ -26,8 +26,7 @@ const prodConfig = {
             patterns: [
                 {
                     from: path.resolve('src/img/*'),
-                    to: path.resolve('dist'),
-                    context: 'src',
+                    to: path.resolve('dist')
                 }
             ]
         })
