@@ -1,4 +1,5 @@
 import { mainHeader } from "./components/header.js";
+import { MainFooter } from "./components/footer.js";
 
 (function ($) {
 "use strict";
@@ -31,6 +32,7 @@ windows.on('DOMContentLoaded', () => {
 	
 	const headerOne = $('.header-one');
 	headerOne.append( mainHeader );
+
 })
 
 windows.on('scroll', function() {
@@ -41,6 +43,24 @@ windows.on('scroll', function() {
         sticky.addClass('stick');
     }
 });
+
+/*---------------------
+ Main Menu Stick
+--------------------- */
+
+
+/*---------------------
+ Bottom Menu Stick
+--------------------- */
+
+windows.on('DOMContentLoaded', () => {
+
+	console.log('mainFooter: ' + MainFooter );
+	const footer = $('.footer1');
+	//footer.append( MainFooter.footerBottom );
+
+})
+
     
 /*--------------------------
  MagnificPopup

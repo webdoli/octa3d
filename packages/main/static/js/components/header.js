@@ -1,6 +1,6 @@
 const mainHeader = () => {
 
-    const headerHTML = `
+    return `
         <div id="sticker" class="header-area header-area-2">
             <div class="container">
                 <div class="row center-header">
@@ -33,8 +33,6 @@ const mainHeader = () => {
             </div>
         </div>
     `
-
-    return headerHTML;
 
 }
 
