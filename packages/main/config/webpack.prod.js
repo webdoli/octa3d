@@ -12,7 +12,6 @@ const prodConfig = {
     mode: 'production',
     output: {
         filename: '[name].[contenthash].js',
-        path: path.resolve('./dist'),
         publicPath: '/'
     },
     plugins: [
