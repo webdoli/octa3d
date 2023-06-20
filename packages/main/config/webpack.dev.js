@@ -2,7 +2,7 @@ const { merge } = require('webpack-merge');
 const ModuleFederationPlugin = require('webpack/lib/container/ModuleFederationPlugin');
 const commonConfig = require('./webpack.common');
 const packageJson = require('../package.json');
-const CopyPlugin = require('copy-webpack-plugin');
+const path = require('path');
 
 const devConfig = {
 
@@ -21,16 +21,7 @@ const devConfig = {
                 assets:'assets@http://localhost:8081/remoteEntry.js',
             },
             shared: packageJson.dependencies,
-        }),
-        // new CopyPlugin({
-        //     patterns: [
-        //         {
-        //             from: path.resolve('src/img/*'),
-        //             to: path.resolve('dist'),
-        //             context: 'src',
-        //         }
-        //     ]
-        // })
+        })
     ]
 
 }
