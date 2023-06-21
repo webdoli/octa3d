@@ -1,8 +1,8 @@
 
-const mount = ( db ) => {
 
-    console.log('db: ' + db );
-    window.assetDB = db;
+const mount = ( el ) => {
+
+    console.log('db: ' + el );
 
     return {
 
@@ -12,17 +12,29 @@ const mount = ( db ) => {
 
 }
 
-/*
 if( process.env.NODE_ENV === 'development' ) {
 
     const devRoot = document.querySelector('#asset-root');
 
-    console.log('devRoot: ' + devRoot );
-
     if( devRoot ) {
-        mount( db, devRoot )
+        mount( devRoot )
     }
 }
-*/
 
-export { mount }
+
+const db = ( db ) => {
+
+
+    //파이어베이스 정보 넣기
+
+    return {
+        res: '@@ db 전달 완료 @@'
+    }
+
+}
+
+
+
+
+
+export { mount, db }
