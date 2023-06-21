@@ -1,29 +1,28 @@
 
-const mount = ( el ) => {
+const mount = ( db ) => {
 
-    let assetPage = `
-        <div id="assetPage">
-            <h1> 에셋 페이지 생성 </h1>
-        </div>
-    `
-
-    el.innerHTML += assetPage;
+    console.log('db: ' + db );
+    window.assetDB = db;
 
     return {
 
-        res: '@@ 에셋 페이지 생성 End @@'
+        res: '@@ 에셋 페이지 유저DB window 저장 @@'
 
     }
 
-    // if( process.env.NODE_ENV === 'development' ) {
-
-    //     const devRoot = document.querySelector('#asset-root');
-
-    //     if( devRoot ) {
-    //         mount( devRoot )
-    //     }
-    // }
-
 }
+
+/*
+if( process.env.NODE_ENV === 'development' ) {
+
+    const devRoot = document.querySelector('#asset-root');
+
+    console.log('devRoot: ' + devRoot );
+
+    if( devRoot ) {
+        mount( db, devRoot )
+    }
+}
+*/
 
 export { mount }

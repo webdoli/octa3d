@@ -1,2 +1,2 @@
-console.log('@@@ Asset page @@@');
+console.log('@@@ Asset index.js @@@');
 import ('./bootstrap');

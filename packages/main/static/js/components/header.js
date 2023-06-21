@@ -17,7 +17,7 @@ const mainHeader = () => {
                                         <ul class="main-menu">
                                             <li><a href="animation.html">About</a></li>
                                             <li><a href="">Octa 3D</a>
-                                            <li><a href="#">Assets</a></li>
+                                            <li><a href="#" class="octa-asset-page-btn">Assets</a></li>
                                             <li><a href="#">Scenes</a></li>
                                             <li><a href="#">Blog</a></li>
                                         </ul>

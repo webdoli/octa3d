@@ -55,9 +55,9 @@ windows.on('scroll', function() {
 
 windows.on('DOMContentLoaded', () => {
 
-	console.log('mainFooter: ' + MainFooter );
+	//console.log('mainFooter: ' + MainFooter );
 	const footer = $('.footer1');
-	//footer.append( MainFooter.footerBottom );
+	footer.append( MainFooter );
 
 })
 

@@ -1,7 +1,7 @@
 
 function MainFooter() {
 
-    this.footerArea = `
+    const footer = `
     <div class="footer-area">
         <div class="container">
             <div class="row footer-center-bg wow fadeInUp" data-wow-delay="0.10s">
@@ -96,9 +96,6 @@ function MainFooter() {
             <img src="img/background/foot2.png" alt="">
         </div>
     </div>
-`;
-
-    this.footerBottom = `
     <div class="footer-area-bottom">
         <div class="container">
             <div class="row">
@@ -113,7 +110,9 @@ function MainFooter() {
             </div>
         </div>
     </div>
-`
+`;
+
+    return footer;
 
 }
 

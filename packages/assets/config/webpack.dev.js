@@ -2,6 +2,8 @@ const { merge } = require('webpack-merge');
 const ModuleFederationPlugin = require('webpack/lib/container/ModuleFederationPlugin');
 const commonConfig = require('./webpack.common');
 const packageJson = require('../package.json');
+const path = require('path');
+const CopyPlugin = require('copy-webpack-plugin');
 
 const devConfig = {
 
@@ -21,6 +23,13 @@ const devConfig = {
                 './Assets': './src/bootstrap'
             },
             shared: packageJson.dependencies
+        }),
+        new CopyPlugin({
+            patterns: [
+                {
+                    from: path.resolve('static')
+                }
+            ]
         })
     ]
 
