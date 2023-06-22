@@ -1,3 +1,15 @@
+console.log('로그인 name: ' + window.name );
+
+// window.onload = () => {
+//     window.addEventListener( 'message', ( evt ) => {
+
+//         if( evt.origin !== 'http://localhost:8081') return;
+    
+//         console.log( evt.data );
+    
+//     })
+// }
+
 
 const mount = ( el ) => {
 
@@ -22,11 +34,6 @@ if( process.env.NODE_ENV === 'development' ) {
 
 const db = ( db ) => {
 
-    window.addEventListener('message', ( event ) => {
-
-        console.log( event.data );
-
-    })
 
     //파이어베이스 정보 넣기
     for( let item in db ) {

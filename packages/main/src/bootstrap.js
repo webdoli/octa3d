@@ -2,19 +2,26 @@ import { db } from 'assets/Assets';
 
 //const assetPageDOM = document.querySelector('.section-content');
 
+// function openWithData( url, data ) {
+
+//     window.open(url)
+//         .postMessage( data, url );
+
+//  }
 
 document.querySelector('.octa-asset-page-btn').addEventListener('click', (e) => {
 
     e.preventDefault();
-
-    window.open('http://localhost:8081/')
-        .postMessage('이주헌', '*')
-
     const userData = {
         name: 'tmp유저',
         id: 'tmp00',
-        login: true
+        login: 'ok'
     }
+
+    //openWithData( 'http://localhost:8081', '이주헌' )
+
+    var newWin = window.open('http://localhost:8081/')
+    newWin.name = '이주헌';
 
     // 1]파이어베이스 리얼타임
     // 2]로컬스토러지 활용
@@ -22,7 +29,9 @@ document.querySelector('.octa-asset-page-btn').addEventListener('click', (e) => 
     
     console.log('res: ' + res );
 
-})
+});
+
+
 
 // document.querySelector('.btn-asset').addEventListener('click', () => {
 
