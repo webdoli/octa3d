@@ -1,6 +1,8 @@
-import { mount } from 'assets/Assets';
+import { mount, db } from 'assets/Assets';
 
-const assetPageDOM = document.querySelector('.section-content');
+//const assetPageDOM = document.querySelector('.section-content');
+
+//mount( '' );
 
 document.querySelector('.octa-asset-page-btn').addEventListener('click', (e) => {
 
@@ -13,7 +15,10 @@ document.querySelector('.octa-asset-page-btn').addEventListener('click', (e) => 
         login: true
     }
 
-    const { res } = mount( userData );
+    // 1]파이어베이스 리얼타임
+    // 2]로컬스토러지 활용
+    const { res } = db( userData );
+    
 
     console.log('res: ' + res );
 
