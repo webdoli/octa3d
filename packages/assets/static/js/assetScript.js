@@ -1,3 +1,11 @@
 
+window.addEventListener('DOMContentLoaded', () => {
 
-console.log('window: ' + window.assetDB );
+    window.addEventListener('message', ( event ) => {
+
+        console.log( event.data );
+    
+    });
+
+})
+

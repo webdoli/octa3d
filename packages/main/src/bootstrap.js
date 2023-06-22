@@ -1,14 +1,15 @@
-import { mount, db } from 'assets/Assets';
+import { db } from 'assets/Assets';
 
 //const assetPageDOM = document.querySelector('.section-content');
 
-//mount( '' );
 
 document.querySelector('.octa-asset-page-btn').addEventListener('click', (e) => {
 
     e.preventDefault();
 
-    console.log('asset페이지 이동');
+    window.open('http://localhost:8081/')
+        .postMessage('이주헌', '*')
+
     const userData = {
         name: 'tmp유저',
         id: 'tmp00',
@@ -19,7 +20,6 @@ document.querySelector('.octa-asset-page-btn').addEventListener('click', (e) => 
     // 2]로컬스토러지 활용
     const { res } = db( userData );
     
-
     console.log('res: ' + res );
 
 })
