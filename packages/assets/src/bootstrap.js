@@ -1,24 +1,26 @@
-console.log('로그인 name: ' + window.name );
+import Menu from "./component/menu";
 
-// window.onload = () => {
-//     window.addEventListener( 'message', ( evt ) => {
+const mount = ( el, db ) => {
 
-//         if( evt.origin !== 'http://localhost:8081') return;
-    
-//         console.log( evt.data );
-    
-//     })
-// }
+    // console.log('menu: ' + Menu() );
 
+    let assetSection= `
+    <div>
+        <h1>에셋 페이지</h1>
+        <ul>
+            <li>에셋1</li>
+            <li>에셋2</li>
+            <li>에셋3</li>
+        </ul>    
+    </div>
+    `
 
-const mount = ( el ) => {
-
-    //console.log('el: ' + el );
+    // el.appendChild( Menu() );
+    assetSection += Menu();
+    el.innerHTML = assetSection;
 
     return {
-
         res: '@@ 에셋 페이지 유저DB window 저장 @@'
-
     }
 }
 
@@ -31,19 +33,4 @@ if( process.env.NODE_ENV === 'development' ) {
     }
 }
 
-
-const db = ( db ) => {
-
-
-    //파이어베이스 정보 넣기
-    for( let item in db ) {
-        console.log( db[item] + ': ' + item );
-    }
-    
-    return {
-        res: '@@ db 전달 완료 @@',
-    }
-}
-
-
-export { mount, db }
+export { mount }
