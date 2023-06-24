@@ -1,11 +1,15 @@
 import Header from "./component/header";
 import MainSection from "./component/mainSection";
 import Footer from "./component/footer";
+import './assetStyle.css';
 
 const mount = ( el, db ) => {
 
     let assetDom= `
-        <div class="asset-wrap"></div>
+        <section class="asset-main-wrap">
+            <div class="asset-container">
+            </div>
+        </section>
     `
 
     assetDom += Header();
