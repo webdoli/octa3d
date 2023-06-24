@@ -20,12 +20,9 @@ document.querySelector('.octa-asset-page-btn').addEventListener('click', (e) => 
 });
 
 
-
 // document.querySelector('.btn-asset').addEventListener('click', () => {
 
 //     assetPageDOM.removeChild( assetPageDOM.firstElementChild );    
 //     const { res } = mount( assetPageDOM );
 
 // });
-
-

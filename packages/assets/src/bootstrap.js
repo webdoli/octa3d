@@ -1,23 +1,18 @@
-import Menu from "./component/menu";
+import Header from "./component/header";
+import MainSection from "./component/mainSection";
+import Footer from "./component/footer";
 
 const mount = ( el, db ) => {
 
-    // console.log('menu: ' + Menu() );
-
-    let assetSection= `
-    <div>
-        <h1>에셋 페이지</h1>
-        <ul>
-            <li>에셋1</li>
-            <li>에셋2</li>
-            <li>에셋3</li>
-        </ul>    
-    </div>
+    let assetDom= `
+        <div class="asset-wrap"></div>
     `
 
-    // el.appendChild( Menu() );
-    assetSection += Menu();
-    el.innerHTML = assetSection;
+    assetDom += Header();
+    assetDom += MainSection();
+    assetDom += Footer();
+
+    el.innerHTML = assetDom;    
 
     return {
         res: '@@ 에셋 페이지 유저DB window 저장 @@'
