@@ -1,4 +1,4 @@
-import "./menuStyle.css";
+import "./header.css";
 
 const Header = () => {
 

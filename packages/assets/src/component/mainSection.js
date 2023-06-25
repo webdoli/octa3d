@@ -1,20 +1,15 @@
 
+import Header from "./header";
+import MainWrapper from "./mainWrapper";
 
 const MainSection = () => {
 
-    const content = `
-        <div class="octa3d-asset-main-section">
-            <ul>
-                <li> Vehicles </li>
-                <li> Interior </li>
-                <li> Exterior </li>
-                <li> Environment </li>
-                <li> Acc.. </li>
-            </ul>
-        </div>
-    `
+    let container = document.createElement('div');
+        container.className = 'asset-container';
 
-    return content
+    container.innerHTML = Header();
+    
+    return container
 
 }
 
