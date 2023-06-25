@@ -56,8 +56,8 @@ body {
     font-family: 'Barlow', sans-serif;
     font-weight: normal;
     font-style: normal;
-    color: #d9dbed;
-    font-size: 15px;
+    /* color: #d9dbed;
+    font-size: 15px; */
 }
 
 .img,img {
@@ -123,7 +123,7 @@ h4,
 h5,
 h6 {
     font-family: 'Philosopher', sans-serif;
-    color: #fff;
+    /* color: #fff; */
     margin-top: 0px;
     font-weight: 500;
     margin-bottom: 15px;
@@ -513,7 +513,7 @@ div#preloader {
     top: 5px;
 }
 .header-one {
-    position: absolute;
+    /* position: absolute; */
     top: 0;
     left: 0;
     width: 100%;
@@ -660,6 +660,16 @@ div#preloader {
     content: "";
     z-index: -1;
 }
+
+/*----------------------------------------*/
+/*  3-1. Intro Area
+/*----------------------------------------*/
+
+#menu {
+    display: flex;
+}
+
+
 /*----------------------------------------*/
 /*  3. Intro Area
 /*----------------------------------------*/
