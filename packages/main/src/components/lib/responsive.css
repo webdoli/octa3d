@@ -1,0 +1,912 @@
+@media (min-width: 1919px) {
+ .container, .container-lg, .container-md, .container-sm, .container-xl {
+    max-width: 1360px;
+    } 
+.header-logo::after {
+    top: -20px;
+    width: 100%;
+}
+    
+.header-right {
+    margin-left: 30px;
+}
+.header-area.stick .header-right {
+    margin-left: 30px;
+}              
+.header-logo::after {
+    left: -300px;
+    top: -20px;
+    width: 130%;
+}    
+    
+    
+    
+	
+}
+
+@media (min-width: 1200px) and (max-width: 1500px) {
+    
+  .container, .container-lg, .container-md, .container-sm, .container-xl {
+    max-width: 1200px;
+    }  
+    
+    
+    
+    
+    
+    
+}
+
+
+
+
+/* Normal desktop :992px. */
+@media (min-width: 992px) and (max-width: 1200px) {
+
+.header_menu ul li {
+    margin-left: 20px;
+}
+.header-area.stick .header-right,
+.header-right {
+    margin-left: 25px;
+}  
+.title-2 {
+    font-size: 60px;
+    line-height: 73px;
+    margin-bottom: 15px;
+} 
+.intro-content {
+    margin-top: -50px;
+}    
+.slide-all-text {
+    margin-top: 0px;
+}
+.slide-images-inner .games-img {
+    display: inline-block;
+    width: 80%;
+}
+.slide-images {
+    margin-top: -40px;
+}            
+.ready-btn {
+    padding: 12px 24px;
+    font-size: 20px;
+} 
+.header-logo::after {
+    left: -100px;
+    top: 0px;
+    width: 125%;
+    height: 140%;
+}
+.header-logo img {
+    position: relative;
+    top: 20px;
+}
+slide-images-inner {
+    margin-right: 80px;
+    margin-left: 60px;
+    margin-top: 50px;
+}
+.ab-image-2 {
+    top: 80px;
+    left: 30px;
+}
+.about-images {
+    min-height: 300px;
+}
+.single-about {
+    width: 100%;
+    float: none;
+}
+.ab-text-one {
+    margin-right: 0px;
+    margin-bottom: 20px;
+}
+.single-fun {
+    padding: 15px 10px;
+}
+.single-services {
+    width: 60%;
+}
+.team-content {
+    top: 60%;
+}
+.wel-under-text span {
+    display: block;
+}   
+.brand-text {
+    margin: 0px 40px 0px 30px;
+    padding: 15px 0px 0px;
+}    
+.quote-center {
+    top: 60px;
+}
+.support-content {
+    padding-left: 150px;
+}
+.header-social-icons ul li {
+    margin-left: 3px;
+    font-size: 15px;
+}    
+.single-anime:hover .anime-dec {
+    height: 50px;
+}    
+.prices {
+    font-size: 30px;
+}    
+.blog-content {
+    padding: 40px 0px 0px;
+}    
+.blog-content {
+    padding: 40px 0px 10px;
+}    
+.intro-home-3 .title-2 {
+    font-size: 56px;
+    line-height: 66px;
+}    
+.support-services {
+    margin-right: 0px;
+}    
+.page-area::after {
+    background-position: center top;
+}
+.intro-home-2 .title-2 {
+    font-size: 40px;
+    line-height: 54px;
+} 
+.single-slide::after {
+    background-position: left bottom;
+}
+.logo-footer {
+    margin-right: 20px;
+}    
+.last-content {
+    margin-right: 0px;
+    margin-left: 20px;
+}    
+    
+    
+    
+    
+    
+
+}
+
+
+/* Tablet desktop :768px. */
+@media (min-width: 768px) and (max-width: 992px) {
+.header-right {
+    margin-right: 20px;
+    padding: 15px 0px;
+}
+.header-area.stick .header-right{
+    padding: 15px 0px;
+}
+.mean-container a.meanmenu-reveal {
+    margin-top: -59px;
+}
+.mean-container a.meanmenu-reveal span {
+    background: #fff;
+    top: 2px;
+}
+.mean-container .mean-nav {
+    margin-top: 0px;
+}    
+.intro-area{
+    float: none;
+    width: 100%;
+    height: 100%;
+    min-height: 500px;
+}
+.bg-wrapper,
+.bg-wrapper img {
+    width: 100%;
+    height: 100%;
+    min-height: 500px;
+    object-fit: cover;
+}    
+.title-2 {
+    font-size: 60px;
+    line-height: 70px;
+    margin: 10px 0px;
+}   
+.ready-btn {
+    color: #fff;
+    font-weight: 600;
+    padding: 13px 25px
+}    
+.slide-images {
+    margin-top: 20px;
+}
+.intro-content {
+    margin-top: -120px;
+}
+.slide-images-inner {
+    margin-left: 0px;
+}
+.slide-top-image img {
+    margin-left: 0px;
+}
+.header-logo::after {
+    left: -32px;
+    top: -4px;
+    width: 190%;
+    height: 150%;
+} 
+.header-area.stick .header-logo::after {
+    left: -40px;
+    top: 0px;
+    width: 140%;
+    height: 100%;
+}
+.header-area.stick .mean-container a.meanmenu-reveal {
+    margin-top: -50px;
+}
+.header-logo img {
+    top: 15px;
+}
+.header-area.stick .header-logo img {
+    position: relative;
+    top: 0px;
+    width: 70%;
+}
+.left-bg-btn {
+    margin-bottom: 40px;
+}
+.ab-image-2 {
+    top: 80px;
+    left: 20px;
+}
+.well-services {
+    display: block;
+    margin-bottom: 30px;
+}
+.ab-text-two{
+    margin-right: 30px;
+}
+.ab-text-one {
+    margin-bottom:20px;
+}
+.animation-name-inner {
+    left: 0px;
+    top: -50px;
+}
+.film-carousel.owl-carousel .owl-nav div.owl-prev {
+    right: 6%;
+    top: 45%;
+}
+.single-about {
+    width: 100%;
+    float: none;
+}
+.price-details {
+    width: 50%;
+    padding-left: 20px;
+    margin-top: -30px;
+}
+.quote-area {
+    position: relative;
+    padding: 0px 40px 100px;
+}
+.single-services {
+    margin-top:10px;
+}
+.shape-bg {
+    height: 200px;
+    width: 200px;
+    top: 10px;
+    left: 30px;
+}
+.about-content {
+    margin-left: 0px;
+}
+.section-headline h2 {
+    font-size: 30px;
+    line-height: 40px;
+}
+.header-area-3 .center-header {
+    padding: 15px 20px;
+}
+.video-vid {
+    width: 90%;
+}    
+.well-service-text {
+    margin-top: 20px;
+    margin-left: 0px;
+}    
+.single-review {
+    margin: 0px 20px 0px 60px;
+}    
+.footer-area {
+    padding: 100px 0px;
+}
+.footer1::after {
+    background-position: left center;
+}
+.quote-all {
+    margin-right: 0px;
+    margin-left: 0px;
+    margin-top: 40px;
+}    
+.bread-pd {
+    padding: 150px 0px 10px;
+}    
+.bread-bg {
+    padding: 0px;
+    background-position: center top;
+}   
+.contact-head {
+    margin-right: 0px;
+    margin-bottom: 30px;
+}    
+.quote-center {
+    top: 0px;
+}    
+.right-side {
+    padding-left: 0px;
+}
+.related-post-list .recent-single-post:last-child {
+    padding: 0px 0px 0px 10px;
+}        
+.blog-search-option input {
+    width: 71%;
+}    
+.recent-single-post .post-img {
+    display: none;
+}    
+.recent-single-post .pst-content {
+    padding-left:0px;
+}     
+.left-blog-page {
+    padding: 20px 15px;
+}    
+.feature-images {
+    margin-top: 50px;
+    float: left;
+}    
+.wel-content {
+    margin-right: 0px;
+}    
+.anime-inner-top {
+    margin: 10px 0px 60px;
+}    
+.support-content {
+    padding-left: 150px;
+}    
+.brand-content {
+    margin-top: 40px;
+}    
+.faq-padding {
+    padding: 0px;
+}    
+.company-faq-left {
+    margin-left: 10px;
+}    
+.anime-inner-details {
+    margin-left: 0px;
+}     
+.about-center {
+    padding: 60px 20px;
+}    
+.footer-content-5,
+.footer-content-4{
+    display: none;
+}
+.header-area {
+    padding: 5px 0px;
+}    
+.review-inner {
+    margin-right: 40px;
+}
+.page-area {
+    padding: 160px 0px 90px;
+}   
+.intro-area-2 {
+    min-height: 570px;
+}    
+.slider-height {
+    min-height: 570px;
+}   
+.intro-home-3 .title-2 {
+    width: 100%;
+}    
+.intro-home-2 .title-2 {
+    width: 100%;
+    font-size: 40px;
+    line-height: 54px;
+}    
+.wel-under-inner {
+    width: 60%;
+    margin: 10px auto 0px;
+}    
+.single-fun.three-fun {
+    border-right: none;
+}    
+.single-services {
+    width: 70%;
+}    
+.services-image {
+    width: 100%;
+}    
+.film-carousel.owl-carousel .owl-nav div.owl-next {
+    right: 6%;
+}    
+.footer-content{
+    margin-bottom: 30px;
+}    
+.header-area-3 .mean-container a.meanmenu-reveal {
+    margin-top: -51px;
+}    
+.header-area-3.stick .mean-container a.meanmenu-reveal {
+    margin-top: -44px;
+}    
+.intro-home-3 .single-slide::after {
+    background-position: center top;
+} 
+.single-slide::after {
+    background-position: left bottom;
+}    
+.last-content {
+    margin-bottom: 0px;
+    margin-right: 10px;
+}    
+    
+    
+    
+    
+
+}
+
+
+/* small mobile :320px. */
+@media (max-width: 767px) {    
+.header-area.stick .logo a {
+    padding: 2px 0;
+}
+.header-center {
+    padding: 5px 0px;
+    background: #452D88;
+}
+.header-area-2 .header-center{
+    padding: 5px 0px;
+}
+.header-logo img {
+    position: relative;
+    top: 13px;
+    width: 30%;
+}
+.intro-content {
+    margin-top: -180px;
+}
+.intro-bg{
+	display: none;
+}
+.intro-area{
+    float: none;
+    width: 100%;
+    height: 100%;
+    min-height: 560px;
+}
+.bg-wrapper,
+.bg-wrapper img {
+    width: 100%;
+    height: 100%;
+    min-height: 560px;
+    object-fit: cover;
+}
+.slide-all-text {
+    text-align: center;
+}
+.intro-home-3 .slide-all-text {
+    margin-top: 20px;
+}
+.title-2 {
+    font-size: 54px;
+    line-height: 64px;
+    margin-bottom: 10px;
+}
+.ready-btn {
+    margin-top: 10px;
+} 
+.slide-images {
+    margin-top: 30px;
+    text-align: center;
+}
+.header-right {
+    display: none;
+}
+.slide-images-inner .single-games {
+    text-align: center;
+}
+.header-area.stick .logo a {
+    padding: 2px 0;
+} 
+.section-headline p {
+    width: auto;
+}    
+.section-headline h2 {
+    font-size: 30px;
+    line-height: 40px;
+}
+.left-headline h2{
+font-size: 28px;
+line-height: 38px;
+}    
+.top-bar {
+    display: none;
+}    
+.header-area {
+    padding: 10px 0px;
+}    
+.header-logo::after {
+    left: -50px;
+    top:0;
+} 
+.contact-head {
+    margin-right: 0px;
+    margin-bottom: 40px;
+}
+.wel-under-inner {
+    margin: 20px auto 0px;
+}
+.slide-images-inner {
+    margin-right: 0px;
+    margin-left: 0px;
+}   
+.mar-rt {
+    margin-right: 10px;
+}
+.down-item {
+    margin-top: 0;
+}
+.wel-under-text.text-center span {
+    display: block;
+    margin-bottom: 15px;
+}
+.small-btn {
+    margin-left: 0px;
+}
+.single-anime {
+    margin-bottom: 0px;
+    margin-right: 0px;
+    transform: rotate(0deg);
+    margin-top: 30px;
+}    
+.video-vid {
+    width: 95%;
+}
+.about-center {
+    padding: 60px 20px;
+}
+.shape-bg {
+    height: 250px;
+    width: 250px;
+    top: 0px;
+    left: 40px;
+}
+.single-about {
+    width: 100%;
+    float: none;
+    margin-bottom: 20px;
+}
+.ab-text-two {
+    margin-right: 30px;
+}
+.ab-image-2 {
+    top: 60px;
+}
+.well-service-text {
+    margin-left: 0px;
+}
+.single-services {
+    display: block;
+}
+.single-review {
+    margin: 0px 0px 0px 60px;
+}    
+.review-img-1, .review-img-2, .review-img-3, .review-img-4 {
+    transform: rotate(0deg);
+}
+.review-center-img img {
+    width: 200px;
+    transform: rotate(0deg);
+}    
+.review-inner {
+    margin-bottom: 40px;
+    margin-right: 0px;
+}
+.brand-text {
+    margin: 0px 20px 0px 20px;
+    padding: 0px 0px 0px;
+}
+.quote-all {
+    padding: 100px 20px 100px 20px;
+    margin-right: 0px;
+}
+.quote-area #contactForm input.last-part {
+    margin-bottom: 20px;
+}
+.logo-footer {
+    width: 100%;
+}
+.footer-area {
+    padding: 120px 0 110px;
+} 
+.footer-content{
+    margin-bottom: 30px;    
+    }
+.footer-down-menu ul li {
+    margin: 5px 5px;
+}    
+.footer-down-menu ul li a {
+    font-size: 16px;
+}        
+.moving-top-wrap {
+    font-size: 50px;
+    line-height: 60px;
+}    
+.moving-section-area {
+    padding: 10px 0px 50px;
+}    
+.main-wel {
+    padding: 0;
+    margin-left: 0;
+}   
+.wel-content {
+    float: none;
+    margin-right: 0px;
+    width: 100%;
+}    
+.service-bt-icon {
+    float: left;
+    padding: 0px;
+}    
+.section-bg-btn {
+    float: left;
+    margin-bottom: 30px;
+}
+.well-services {
+    display: block;
+}
+.services-img {
+    margin-bottom: 20px;
+}
+.review-area {
+    background-position: top left;
+}
+.animation-name-inner {
+    left: 0;
+    padding: 20px;
+    top: 0px;
+}
+.anime-meta ul li {
+    margin-right: 10px;
+}
+.film-carousel.owl-carousel .owl-nav div.owl-prev {
+    right: 3%;
+    top: 31%;
+}
+.film-carousel.owl-carousel .owl-nav div.owl-next {
+    right: 2%;
+    top: 41%;
+}
+.right-headline {
+    margin: 30px 20px 30px 20px;
+}
+.review-carousel.owl-carousel .owl-dots {
+    right: 24%;
+}
+.table-list {
+    padding: 20px;
+}
+.price-details {
+    padding-left: 20px;
+}
+.top-price-inner h3 {
+    font-size: 24px;
+}
+.prices {
+    font-size: 24px;
+}
+.table-list li.check::before {
+    left: -15px;
+}
+.work-list {
+    padding-left: 10px;
+}
+.footer1::after {
+    background-position: left center;
+}
+.quote-center {
+    position: relative;
+    top: 0px;
+}        
+.quote-all {
+    padding: 40px 20px 40px 20px;
+    margin-right: 0px;
+    margin-left: 0;
+    margin-top: 50px;
+}   
+.footer-area {
+    background-position: center center;
+}    
+.bread-pd {
+    padding: 120px 0px 10px;
+}    
+.bread-bg {
+    padding: 0px 0px 0px;
+}    
+.feature-all {
+    margin-right: 0px;
+}    
+.support-content {
+    padding-left: 130px;
+}    
+.feature-content {
+    margin-top: 30px;
+}    
+.mar-right {
+    margin-right: 0px;
+}       
+.product-additional-tab {
+    display: block;
+} 
+.tp-content-tab {
+    margin-left: 0px;
+}    
+.company-faq-left {
+    margin-left: 0px;
+    margin-top: 40px;
+}    
+.faq-padding {
+    padding: 0px;
+}
+.high-text {
+    font-size: 140px;
+    line-height: 160px;
+}    
+.error-bot {
+    font-size: 18px;
+}    
+.right-side {
+    padding-left: 0px;
+    margin-top: 50px;
+}    
+.related-post-list .recent-single-post {
+    width: 100%;
+    float: none;
+    padding: 0px;
+}
+.related-post-list .recent-single-post:last-child {
+    padding: 0px;
+}    
+.project-social {
+    margin-left: 0px;
+}    
+.brand-content {
+    margin-top: 40px;
+}    
+.anime-inner-details {
+    margin-left: 0px;
+    margin-top: 30px;
+}
+.anime-inner-top {
+    margin: 60px 0px 20px;
+    padding: 40px 20px;
+    margin-bottom: 40px;
+}
+.support-services {
+    margin-right: 0px;
+}       
+.last-content{
+    margin-bottom: 0px;
+}    
+.page-area {
+    padding: 120px 0px 120px;
+}    
+.breadcrumb-title h2 {
+    font-size: 40px;
+    line-height: 50px;
+}    
+.intro-home-2 .title-2 {
+    font-size: 38px;
+    line-height: 50px;
+}    
+.intro-area-2 .title-1 {
+    font-size: 22px;
+}
+.intro-home-3,
+.intro-area-2 {
+    min-height: 570px;
+}    
+.slider-height {
+    min-height: 570px;
+}   
+.intro-home-3 .title-2 {
+    width: 100%;
+}       
+.blog-image {
+    width: 100%;
+    float: none;
+    margin-right: 0px;
+}    
+.blog-home .blog-content {
+    position: absolute;
+    left: 30px;
+    width: 90%;
+    top: 27%;
+    transition: 0.4s;
+}     
+.blog-meta {
+    margin-bottom: 5px;
+}    
+.footer-head h4 {
+    margin-bottom: 0px;
+} 
+.header-area-2 .header-logo img,
+.header-area-3 .header-logo img {
+    position: relative;
+    top: 0px;
+}    
+.header-area-3 .center-header {
+    padding: 0px 0px;
+}    
+.threaded-comments {
+    margin-left: 20px;
+}    
+ .header-logo {
+    top: -10px;
+} 
+.well-services {
+    margin: 15px 10px;
+    padding: 30px 20px;
+}
+.center-bg {
+    padding: 50px 20px;
+}
+.about-images {
+    margin: 0 auto 40px;
+    min-height: auto;
+}   
+.single-fun {
+    border-right: none;
+    border-bottom: 1px solid #7176AA;
+    margin: 0;
+}    
+.last-item {
+    border-bottom: none;
+}    
+.row.service-wrapper {
+    position: relative;
+    top: 10px;
+    left: 0;
+}    
+.single-services {
+    width: 100%;
+}    
+.review-center-bg {
+    padding: 80px 30px;
+}    
+.single-testi {
+    margin: 20px 0px 30px;
+}    
+.single-slide::after {
+    background-position: left bottom;
+    opacity: 0.90;
+}    
+.last-content {
+    margin-bottom: 0px;
+    margin-right: 10px;
+}    
+
+}
+
+/* Large Mobile :480px. */
+@media only screen and (min-width: 400px) and (max-width: 767px) {
+   
+    
+    
+    
+    
+    
+}

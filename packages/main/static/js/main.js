@@ -1,8 +1,9 @@
-import { mainHeader } from "./components/header.js";
-import { MainFooter } from "./components/footer.js";
+// import { mainHeader } from "./components/header.js";
+// import { MainFooter } from "./components/footer.js";
 
 (function ($) {
 "use strict";
+
     
 /*--------------------------
 preloader
@@ -28,12 +29,12 @@ $('#mobile-menu').meanmenu({
 var windows = $(window);
 var sticky = $('#sticker');
 
-windows.on('DOMContentLoaded', () => {
+// windows.on('DOMContentLoaded', () => {
 	
-	const headerOne = $('.header-one');
-	headerOne.append( mainHeader );
+// 	const headerOne = $('.header-one');
+// 	headerOne.append( mainHeader );
 
-})
+// })
 
 windows.on('scroll', function() {
     var scroll = windows.scrollTop();
@@ -53,13 +54,13 @@ windows.on('scroll', function() {
  Bottom Menu Stick
 --------------------- */
 
-windows.on('DOMContentLoaded', () => {
+// windows.on('DOMContentLoaded', () => {
 
-	//console.log('mainFooter: ' + MainFooter );
-	const footer = $('.footer1');
-	footer.append( MainFooter );
+// 	//console.log('mainFooter: ' + MainFooter );
+// 	const footer = $('.footer1');
+// 	footer.append( MainFooter );
 
-})
+// })
 
     
 /*--------------------------
@@ -227,37 +228,37 @@ mainSlider();
     });
 
 //  Scroll back to top
-    var progressPath = document.querySelector('.progress-wrap path');
-    var pathLength = progressPath.getTotalLength();
-    progressPath.style.transition = progressPath.style.WebkitTransition = 'none';
-    progressPath.style.strokeDasharray = pathLength + ' ' + pathLength;
-    progressPath.style.strokeDashoffset = pathLength;
-    progressPath.getBoundingClientRect();
-    progressPath.style.transition = progressPath.style.WebkitTransition = 'stroke-dashoffset 10ms linear';
-    var updateProgress = function () {
-        var scroll = $(window).scrollTop();
-        var height = $(document).height() - $(window).height();
-        var progress = pathLength - (scroll * pathLength / height);
-        progressPath.style.strokeDashoffset = progress;
-    }
-    updateProgress();
-    $(window).scroll(updateProgress);
-    var offset = 150;
-    var duration = 550;
-    jQuery(window).on('scroll', function () {
-        if (jQuery(this).scrollTop() > offset) {
-            jQuery('.progress-wrap').addClass('active-progress');
-        } else {
-            jQuery('.progress-wrap').removeClass('active-progress');
-        }
-    });
-    jQuery('.progress-wrap').on('click', function (event) {
-        event.preventDefault();
-        jQuery('html, body').animate({
-            scrollTop: 0
-        }, duration);
-        return false;
-    })
+    // var progressPath = document.querySelector('.progress-wrap path');
+    // var pathLength = progressPath.getTotalLength();
+    // progressPath.style.transition = progressPath.style.WebkitTransition = 'none';
+    // progressPath.style.strokeDasharray = pathLength + ' ' + pathLength;
+    // progressPath.style.strokeDashoffset = pathLength;
+    // progressPath.getBoundingClientRect();
+    // progressPath.style.transition = progressPath.style.WebkitTransition = 'stroke-dashoffset 10ms linear';
+    // var updateProgress = function () {
+    //     var scroll = $(window).scrollTop();
+    //     var height = $(document).height() - $(window).height();
+    //     var progress = pathLength - (scroll * pathLength / height);
+    //     progressPath.style.strokeDashoffset = progress;
+    // }
+    // updateProgress();
+    // $(window).scroll(updateProgress);
+    // var offset = 150;
+    // var duration = 550;
+    // jQuery(window).on('scroll', function () {
+    //     if (jQuery(this).scrollTop() > offset) {
+    //         jQuery('.progress-wrap').addClass('active-progress');
+    //     } else {
+    //         jQuery('.progress-wrap').removeClass('active-progress');
+    //     }
+    // });
+    // jQuery('.progress-wrap').on('click', function (event) {
+    //     event.preventDefault();
+    //     jQuery('html, body').animate({
+    //         scrollTop: 0
+    //     }, duration);
+    //     return false;
+    // })
 /*----------------------------
     Contact form
 ------------------------------ */
