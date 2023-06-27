@@ -1,50 +1,17 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Octa3D</title>
+import MainCSS from "./mainStyle";
 
-    <!-- bootstrap 5.0 css -->
-    <link rel="stylesheet" href="./css/bootstrap.min.css">
-    <!-- owl.carousel css -->
-    <link rel="stylesheet" href="./css/owl.carousel.min.css">
-    <link rel="stylesheet" href="./css/owl.transitions.css">
-    <link rel="stylesheet" href="./css/slick-slider.css">
-    <!-- Animate css -->
-    <link rel="stylesheet" href="./css/animate.min.css">
-    <!-- magnific css -->
-    <link rel="stylesheet" href="./css/magnific-popup.css">
-    <!-- meanmenu css -->
-    <link rel="stylesheet" href="./css/meanmenu.min.css">
-    <!-- Icon font css -->
-     <link rel="stylesheet" href="./css/flaticon.css">
-    <link rel="stylesheet" href="./css/font-awesome.min.css">
-    <link rel="stylesheet" href="./css/themify-icons.css">
-    <!-- style css -->
-    <link rel="stylesheet" href="./style.css">
-    <!-- responsive css -->
-    <link rel="stylesheet" href="./css/responsive.css">
-</head>
-<body>
-    <!-- preloader  -->
-    <div id="preloader"></div>
+const Main = () => {
 
-    <!-- Scroll to top  -->
-    <div class="progress-wrap cursor-pointer">
-        <svg class="progress-circle svg-content" width="100%" height="100%" viewBox="-1 -1 102 102">
-            <path d="M50,1 a49,49 0 0,1 0,98 a49,49 0 0,1 0,-98" />
-        </svg>
-    </div>
+    let container = document.createElement('div');
+    container.className = 'mainContent';
 
-    <!-- Start header -->
-    <header class="header-one">
-    </header>
-    <!-- End header area -->
+    let mainSecStyle = document.createElement('style');
+    mainSecStyle.id = 'mainSecStyle';
+    mainSecStyle.innerHTML += MainCSS();
 
-    <main id="main">
-        <button class="octa-asset-page-btn">에셋 페이지 생성 버튼</button>
-    <div class="mainContent"> 
+    container.appendChild( mainSecStyle );
+
+    container.innerHTML += `
         <section class="intro-area intro-home-2 intro-area-2">
             <div class="hero-slider">
                 <div class="slider-active">
@@ -209,11 +176,11 @@
         <div class="blog-area fix area-padding-3 bg-color">
             <div class="container">
                 <div class="row">
-					<div class="section-headline text-center wow fadeInUp" data-wow-delay="0.3s ">
+                    <div class="section-headline text-center wow fadeInUp" data-wow-delay="0.3s ">
                         <span class="title-up">Content Blog</span>
                         <h2>Latest News</h2>
                     </div>
-				</div>
+                </div>
                 <div class="row">
                     <!-- Start single blog -->
                     <div class="col-xl-4 col-lg-4 col-md-6">
@@ -338,7 +305,7 @@
         <!--End Blog Area-->
 
         <!-- Start Quote Area -->
-		<div class="quote-area bg-color">
+        <div class="quote-area bg-color">
             <div class="container">
                 <div class="row quote-center">
                    <div class="col-xl-6 col-lg-6 col-md-12">
@@ -404,35 +371,10 @@
                 </div>
             </div>
         </div>
-		<!-- End Quote Area -->
-    </div> <!-- mainContent -->
-    </main>
+    `
 
-    <footer class="footer1">
-    </footer>
-    <!-- End Footer Area -->
+    return container
 
-    <!-- modernizr JS -->
-    <script src="js/vendor/modernizr-3.5.0.min.js"></script>
-    <!-- jquery latest version -->
-    <script src="js/vendor/jquery-1.12.4.min.js"></script>
-     <!-- owl.carousel js -->
-    <script src="js/owl.carousel.min.js"></script>
-    <script src="js/slick.min.js"></script>
-    <!-- Poper js -->
-    <script src="js/popper.min.js"></script>
-    <!-- bootstrap js -->
-    <script src="js/bootstrap.min.js"></script>
-    <!-- meanmenu js -->
-    <script src="js/jquery.meanmenu.js"></script>
-    <!-- magnific js -->
-    <script src="js/magnific.min.js"></script>
-    <!-- wow js -->
-    <script src="js/wow.min.js"></script>
-    <!-- plugins js -->
-    <script src="js/plugins.js"></script>
-    <!-- main js -->
-    <script src="js/main.js" type="module"></script>
-    
-</body>
-</html>
+}
+
+export default Main;

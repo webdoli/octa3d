@@ -1,10 +1,16 @@
-import './headerSection.css';
+import HeaderCSS from "./headerStyle";
 
 const Header = () => {
 
     let container = document.createElement('div');
     container.id = 'sticker';
     container.className = 'header-area header-area-2';
+
+    let headerStyle = document.createElement('style');
+        headerStyle.id = 'main-header-style';
+        headerStyle.innerHTML += HeaderCSS();
+
+    container.appendChild( headerStyle );
 
     container.innerHTML += `
         <div class="container">
@@ -16,7 +22,7 @@ const Header = () => {
                                 <a href="/"><img src="img/logo/logo3.png" alt=""></a>
                             </div>
                         </div>
-                        <div class="col-xl-7 col-lg-7 col-md-9">
+                        <div class="header-table col-xl-7 col-lg-7 col-md-9">
                             <div class="header_menu f-right">
                                 <nav id="mobile-menu">
                                     <ul class="main-menu">

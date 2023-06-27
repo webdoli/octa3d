@@ -1,10 +1,20 @@
 import MainSection from "./component/mainSection";
-import './assetStyle.css';
+import mainStyle from "./mainStyle";
+import bootstrapCSS from "./bootstrapCSS";
+// import './assetStyle.css';
 
 const mount = ( el, db ) => {
 
     let assetDom = document.createElement('section');
-        assetDom.className = 'asset-main-wrap padding-top padding-bottom'; 
+        assetDom.className = 'asset-main-wrap padding-top padding-bottom';
+        
+    let lib_bootstrap = document.createElement('style');
+        lib_bootstrap.innerHTML += bootstrapCSS();
+        assetDom.appendChild( lib_bootstrap );
+
+    let assetStyle = document.createElement('style');
+        assetStyle.innerHTML += mainStyle();
+        assetDom.appendChild( assetStyle );
 
     // assetDom.innerHTML += MainSection();
     assetDom.appendChild( MainSection() );
