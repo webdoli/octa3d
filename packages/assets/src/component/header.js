@@ -12,7 +12,7 @@ const Header = () => {
                         <option value="3">Video</option>
                         <option value="3">Digital Anime</option>
                     </select>
-                    <label for="catSelect">Select a Category</label>
+                    <label for="catSelect">Select 카테고리</label>
                 </div>
                 <div class="form-floating">
                     <select class="form-select" id="sortSelect" aria-label="Floating label select example">

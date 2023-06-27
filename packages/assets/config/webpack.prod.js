@@ -10,6 +10,7 @@ const domain = 'https://octa3d-assets.web.app/';
 const prodConfig = {
 
     mode: 'production',
+    entry: './src/index.js',
     output: {
         filename: '[name].[contenthash].js',
         publicPath: `${ domain }`

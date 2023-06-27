@@ -1,8 +1,14 @@
 {
   "hosting": {
     "site": "octa3d-assets",
-    "appAssociation": "AUTO",
     "public": "dist",
+    "appAssociation": "AUTO",
+    "rewrites": [
+      {
+        "source":"**",
+        "destination": "/index.html"
+      }
+    ],
     "ignore": [
       "firebase.json",
       "**/.*",
