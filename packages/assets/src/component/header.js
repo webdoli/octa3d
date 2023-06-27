@@ -1,10 +1,5 @@
-// import "./header.css";
 
 const Header = () => {
-
-    // const menuEle = document.createElement('div');
-    // menuEle.id = 'asset-menu';
-    // menuEle.innerText = '@@@ 에셋 메뉴판 @@@';
 
     const content = `
         <div class="section-header">
