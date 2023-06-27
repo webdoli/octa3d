@@ -1,6 +1,5 @@
 
 import Header from "./header";
-import MainWrapper from "./mainWrapper";
 
 const MainSection = () => {
 
