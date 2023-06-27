@@ -35,4 +35,14 @@ if( process.env.NODE_ENV === 'development' ) {
     }
 }
 
+if ( process.env.NODE_ENV === 'production' ) {
+
+    const devRoot = document.querySelector('#asset-root');
+
+    if ( devRoot ) {
+        mount( devRoot );
+    }
+
+}
+
 export { mount }

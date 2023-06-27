@@ -10,11 +10,7 @@ const domain = 'https://octa3d-assets.web.app/';
 const prodConfig = {
 
     mode: 'production',
-    entry: './src/index.js',
-    output: {
-        filename: '[name].[contenthash].js',
-        publicPath: `${ domain }`
-    },
+    // entry: './src/index.js',
     plugins: [
         new ModuleFederationPlugin({
             name: 'assets',
@@ -31,7 +27,11 @@ const prodConfig = {
                 }
             ]
         })
-    ]
+    ],
+    output: {
+        filename: '[name].[contenthash].js',
+        publicPath: `${ domain }`
+    }
 
 }
 

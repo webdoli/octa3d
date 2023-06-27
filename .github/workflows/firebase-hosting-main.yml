@@ -6,7 +6,6 @@ on:
   push:
     branches:
       - main
-      - home-pc
 
 defaults:
   run:
@@ -17,7 +16,7 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
       - run: npm i && npm run build
       
       - uses: FirebaseExtended/action-hosting-deploy@v0
