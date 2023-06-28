@@ -2,6 +2,23 @@
 let MainCSS = () => {
 
     return `
+
+    /*--------------------------------*/
+    /* Library
+    /*--------------------------------*/
+    @import url('css/bootstrap.min.css'); 
+    @import url('css/owl.carousel.min.css');
+    @import url('css/owl.transitions.css');
+    @import url('css/slick-slider.css');
+    @import url('css/animate.min.css');
+    @import url('css/magnific-popup.css');
+    @import url('css/meanmenu.min.css');
+    @import url('css/flaticon.css');
+    @import url('css/font-awesome.min.css');
+    @import url('css/themify-icons.css');
+    @import url('css/responsive.css');
+
+    
     /*----------------------------------------*/
     /*  1. Theme default CSS
     /*----------------------------------------*/
