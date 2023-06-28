@@ -47,6 +47,26 @@ function loadScript( index, ele ) {
   
 loadScript( 0 , mainEle ); // Load the first script manually.
 
+
+// Event
+document.querySelector('.octa3d-main-container-mobile svg').addEventListener('click', (e) => {
+    
+    let mobileMenu = document.querySelector('.octa3d-mobile');
+    mobileMenu.classList.add('open');
+
+    mobileMenu.innerHTML += `
+        <div class="mobile-hambuger-open">
+            <ul class="mobile-hambuger-open-menu">
+                <li>About</li>
+                <li>Editor</li>
+                <li>Assets</li>
+                <li>Blog</li>
+                <li>Contact</li>
+            </ul>
+        </div>
+    `
+})
+
 document.querySelector('.octa-asset-page-btn').addEventListener('click', (e) => {
 
     e.preventDefault();
@@ -63,4 +83,4 @@ document.querySelector('.octa-asset-page-btn').addEventListener('click', (e) => 
     const { res } = mount( mainEle, userData );
     console.log('res: ' + res );
 
-})
+});
