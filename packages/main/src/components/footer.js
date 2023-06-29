@@ -11,7 +11,7 @@ const Footer = () => {
     let footerCSS = document.createElement('style');
     footerCSS.innerHTML += FooterStyle();
 
-    footer01.appendChild( footerCSS );
+    footer02.appendChild( footerCSS );
 
     footer01.innerHTML += `
     <div class="container">

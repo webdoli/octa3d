@@ -1,24 +1,54 @@
 import MainSection from "./component/mainSection";
-import mainStyle from "./mainStyle";
-import bootstrapCSS from "./bootstrapCSS";
-// import './assetStyle.css';
+import AssetStyle from "./assetStyle";
+import bootstrapLib_501 from "./lib/bootstrapMin";
 
 const mount = ( el, db ) => {
 
     let assetDom = document.createElement('section');
-        assetDom.className = 'asset-main-wrap padding-top padding-bottom';
-        
-    let lib_bootstrap = document.createElement('style');
-        lib_bootstrap.innerHTML += bootstrapCSS();
-        assetDom.appendChild( lib_bootstrap );
+        assetDom.className = 'explore-section padding-top padding-bottom';
 
-    let assetStyle = document.createElement('style');
-        assetStyle.innerHTML += mainStyle();
-        assetDom.appendChild( assetStyle );
+    let bootstrapLibCSS = document.createElement('style');
+        bootstrapLibCSS.innerHTML += bootstrapLib_501();
+        assetDom.appendChild( bootstrapLibCSS );
 
-    // assetDom.innerHTML += MainSection();
+    let assetCSS = document.createElement('style');
+        assetCSS.innerHTML += AssetStyle();
+        assetDom.appendChild( assetCSS );
+
     assetDom.appendChild( MainSection() );
-    assetDom.innerHTML += `<scrip src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js" integrity="sha512-VK2zcvntEufaimc+efOYi622VN5ZacdnufnmX7zIhCPmjhKnOi9ZDMtg1/ug5l183f19gG1/cBstPO4D8N/Img==" crossorigin="anonymous" referrerpolicy="no-referrer"></scrip>`
+
+    //script 생성
+    let libs = [
+        "https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.1/jquery.min.js",
+        "https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.0.1/js/bootstrap.bundle.min.js",
+        "https://cdnjs.cloudflare.com/ajax/libs/lightcase/2.5.0/js/lightcase.min.js",
+        "https://cdnjs.cloudflare.com/ajax/libs/Swiper/9.4.1/swiper-bundle.min.js",
+        "https://cdnjs.cloudflare.com/ajax/libs/jquery.isotope/3.0.6/isotope.pkgd.min.js",
+        "https://firebasestorage.googleapis.com/v0/b/octa3d-439a2.appspot.com/o/octa3d%2Fassets%2Fjs%2Ffunctions.js?alt=media&token=b6564251-0249-4fe9-a6f8-fcd1fa5617a4"
+    ];
+
+    function loadScript( index, ele ) {
+
+        if( index >= libs.length ) {
+            return false;
+        }
+    
+        let el = document.createElement('script');
+        el.onload = function() {
+          //console.log("Script loaded: ", libs[index]);
+          loadScript( index+1, ele );
+        }
+
+        el.src = libs[ index ];
+        ele.appendChild( el );
+        // OR
+        // document.head.appendChild(el);
+    }
+    
+    loadScript( 0 , assetDom ); // Load the first script manually.
+
+
+    //최종 Home main섹션 추가
     el.appendChild(assetDom);    
 
     return {
@@ -29,19 +59,14 @@ const mount = ( el, db ) => {
 if( process.env.NODE_ENV === 'development' ) {
 
     const devRoot = document.querySelector('#asset-root');
+    if( devRoot ) mount( devRoot );
 
-    if( devRoot ) {
-        mount( devRoot )
-    }
 }
 
 if ( process.env.NODE_ENV === 'production' ) {
 
     const devRoot = document.querySelector('#asset-root');
-
-    if ( devRoot ) {
-        mount( devRoot );
-    }
+    if ( devRoot ) mount( devRoot );
 
 }
 

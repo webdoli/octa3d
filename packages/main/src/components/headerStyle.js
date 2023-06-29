@@ -14,6 +14,11 @@ let HeaderCSS = () => {
     /*---------------------------------------*/
     body {
         margin: 0;
+        box-sizing: border-box;
+    }
+
+    a {
+        color: #F0C83C;
     }
 
 
@@ -137,7 +142,6 @@ let HeaderCSS = () => {
         .octa3d-main-container-mobile {
             margin: 0 auto;
             max-width: 620px;
-            height: 63px;
             display: flex;
             justify-content: space-between;
             align-items: center;
