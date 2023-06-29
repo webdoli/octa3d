@@ -2,7 +2,9 @@ import { mount } from 'assets/Assets';
 import Header from './components/header';
 import Main from './components/main';
 import Footer from './components/footer';
+import Navigo from 'navigo';
 
+const router = new Navigo('/');
 const headerEle = document.querySelector('.header-one');
 const mainEle = document.querySelector('#main');
 const footerEle = document.querySelector('.footer1');
@@ -65,27 +67,40 @@ iconExit.addEventListener('click', (e) => {
         
     }
 
-})
+});
 
 // Event
+router.on('/assets', () => {
+
+    mountAsset( mainEle, footerEle, mount )
+
+});
+
 document.querySelector('.octa-asset-page-btn').addEventListener('click', (e) => {
 
     e.preventDefault();
 
-    mainEle.innerHTML = '';
-    // **첫번째 자식 삭제: mainEle.removeChild( mainEle.firstElementChild );
-    footerEle.removeChild( footerEle.firstElementChild );
-    
+    mountAsset( mainEle, footerEle, mount )
+
+});
+
+// 마운트
+function mountAsset( mainSec, footerSec, pageMount ) {
+
+    mainSec.innerHTML = '';
+    footerSec.removeChild( footerSec.firstElementChild );
+
+    //db user & content
     const userData = {
         name: 'tmp유저', 
         id: 'tmp00',
         login: 'ok'
     }
 
-    const { res } = mount( mainEle, userData );
-    console.log('res: ' + res );
+    const { res } = pageMount( mainSec, userData );
+    console.log( 'res: ' + res );
 
-});
+}
 
 
 iconHamburger.addEventListener('click', (e) => {
@@ -129,3 +144,5 @@ iconHamburger.addEventListener('click', (e) => {
     }
  
 });
+
+router.resolve();
