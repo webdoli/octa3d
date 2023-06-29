@@ -48,24 +48,64 @@ function loadScript( index, ele ) {
 loadScript( 0 , mainEle ); // Load the first script manually.
 
 
-// Event
-document.querySelector('.octa3d-main-container-mobile svg').addEventListener('click', (e) => {
-    
-    let mobileMenu = document.querySelector('.octa3d-mobile');
-    mobileMenu.classList.add('open');
+let iconHamburger = document.querySelector('#icon-mobile-ham');
+let iconExit = document.querySelector('#icon-mobile-exit');
+let mobileMenu = document.querySelector('.octa3d-mobile');
 
-    mobileMenu.innerHTML += `
-        <div class="mobile-hambuger-open">
-            <ul class="mobile-hambuger-open-menu">
-                <li>About</li>
-                <li>Editor</li>
-                <li>Assets</li>
-                <li>Blog</li>
-                <li>Contact</li>
-            </ul>
-        </div>
-    `
+
+iconExit.addEventListener('click', (e) => {
+    e.preventDefault();
+
+    let attr = iconExit.getAttribute('class');
+    if( attr == 'active' ) { 
+        iconExit.removeAttribute('class');
+        iconHamburger.setAttribute('class', 'active');
+
+        mobileMenu.removeChild( mobileMenu.lastElementChild );
+        
+    }
+
 })
+
+// Event
+iconHamburger.addEventListener('click', (e) => {
+    
+    let attr = iconHamburger.getAttribute('class');
+
+    if( attr == 'active' ) {
+        
+        iconHamburger.removeAttribute('class');
+        iconExit.setAttribute('class', 'active');
+
+        mobileMenu.classList.add('open');
+        mobileMenu.insertAdjacentHTML('beforeend', `
+            <div class="mobile-hambuger-open">
+                <ul class="mobile-hambuger-open-menu">
+                    <li>About</li>
+                    <li>Editor</li>
+                    <li>Assets</li>
+                    <li>Blog</li>
+                    <li>Contact</li>
+                </ul>
+            </div>
+        `) 
+    } 
+    
+});
+
+
+
+// iconExit.addEventListener('click', (e) => {
+
+//     alert('닫기');
+//     e.preventDefault();
+//     e.target.style.display = 'none';
+//     iconHamburger.style.display = 'block';
+
+//     mobileMenu.remove();
+
+// })
+
 
 document.querySelector('.octa-asset-page-btn').addEventListener('click', (e) => {
 

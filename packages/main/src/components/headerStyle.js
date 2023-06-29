@@ -157,8 +157,21 @@ let HeaderCSS = () => {
         }
 
         .octa3d-main-container-mobile svg {
-            margin-right: 18px;
+            margin-right: 22px;
             fill: #fff;
+        }
+
+        #icon-mobile-ham {
+            display: none;
+        }
+
+        #icon-mobile-exit {
+            margin-right: 35px;
+            display: none;
+        }
+
+        .active {
+            display: block !important;
         }
 
         .mobile-hambuger-open {
