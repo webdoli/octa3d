@@ -2,7 +2,7 @@ import { mount as AssetMount } from 'assets/Assets';
 import Header from './components/header';
 import Main from './components/main';
 import Footer from './components/footer';
-
+import detectUrlChange from 'detect-url-change';
 
 import Login from './components/login';
 import Signup from './components/signup';
@@ -101,14 +101,40 @@ iconExit.addEventListener('click', (e) => {
 
 /*******************/
 /*   Event Func    */
-/*******************/ 
+/*******************/
+detectUrlChange.on('change', (newUrl) => {
+    console.log(`URL changed: ${newUrl}`);
+  });
+  
 
 document.querySelector('.octa3d-login-btn').addEventListener('click', (e) => {
 
     mountLogin( mainEle, footerEle, Login );
-    history.pushState({ data: '로긴' }, '로긴 페이지 이동', '/login')
+    history.pushState({ data: '로긴' }, 'Login Page', '/login');
+
+    console.log('location: ' + window.location.href );
+
+});
+
+document.querySelector('.octa3d-signup-btn').addEventListener('click', (e) => {
+
+    const tmpData = {
+        name: 'tmp유저', 
+        id: 'tmp00',
+        login: 'ok'
+    }
+
+    mountLogin( mainEle, footerEle, Signup );
+    history.replaceState({ data: tmpData }, 'SignUp Page', '/signup' )
+
+});
+
+window.addEventListener('locationchange', () => {
+
+    console.log('location changed!');
 
 })
+
 
 // mobile button Evt
 iconHamburger.addEventListener('click', (e) => {
