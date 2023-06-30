@@ -69,7 +69,12 @@ iconExit.addEventListener('click', (e) => {
 
 });
 
-// Event
+
+/*******************/
+/* Mounting Pages  */
+/*******************/ 
+
+// Asset Mount
 router.on('/assets', () => {
 
     mountAsset( mainEle, footerEle, mount )
@@ -84,7 +89,12 @@ document.querySelector('.octa-asset-page-btn').addEventListener('click', (e) => 
 
 });
 
-// 마운트
+
+/*******************/
+/*   Event Func    */
+/*******************/ 
+
+// Asset Mount Func
 function mountAsset( mainSec, footerSec, pageMount ) {
 
     mainSec.innerHTML = '';
@@ -107,8 +117,6 @@ iconHamburger.addEventListener('click', (e) => {
     
     let attr = iconHamburger.getAttribute('class');
     let wrap = this;
-
-    
 
     if( attr == 'active' ) {
         

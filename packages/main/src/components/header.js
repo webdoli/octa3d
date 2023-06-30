@@ -24,7 +24,14 @@ const Header = () => {
                     <li><a href="#" class="octa-asset-page-btn">Assets</a></li>
                     <li><a href="#">Scenes</a></li>
                     <li><a href="#">Blog</a></li>
+                    <div class="octa3d-login-guest" style="margin-left:40px;">
+                        <ul>
+                            <li><a href="#">LOGIN</a></li>
+                            <li><a href="#">SIGN UP</a></li>
+                        </ul>
+                    </div>
                 </ul>
+                
             </div>
             <div class="octa3d-mobile">
                 <div class="octa3d-main-container-mobile">
