@@ -25,6 +25,15 @@ let HeaderCSS = () => {
     /*----------------------------------------*/
     /*  2. Header bottom area
     /*----------------------------------------*/
+
+    .octa3d-login-guest a {
+        color: #F0C83C !important;
+    }
+
+    .octa3d-login-guest a:hover {
+        color: #f17c3a !important;
+    }
+
     .octa3d-main-header-nav {
         top: 0;
         left: 0;
