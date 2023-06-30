@@ -103,7 +103,7 @@ iconExit.addEventListener('click', (e) => {
 /*   Event Func    */
 /*******************/
 
-console.log(' url변경 Ver01 ');
+console.log(' url변경 Ver02 ');
 
 detectUrlChange.on('change', (newUrl) => {
     
