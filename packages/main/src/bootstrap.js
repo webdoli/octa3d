@@ -102,8 +102,12 @@ iconExit.addEventListener('click', (e) => {
 /*******************/
 /*   Event Func    */
 /*******************/
+
+console.log(' url변경 Ver01 ');
+
 detectUrlChange.on('change', (newUrl) => {
     
+    console.log('url 변경: ' + newUrl );
 
     if( newUrl === 'http://localhost:8080/login') {
         mountLogin( mainEle, footerEle, Login );
