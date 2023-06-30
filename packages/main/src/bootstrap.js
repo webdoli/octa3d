@@ -7,7 +7,7 @@ import Navigo from 'navigo';
 import Login from './components/login';
 import Signup from './components/signup';
 
-const router = new Navigo('/');
+const router = new Navigo( '/', false );
 const headerEle = document.querySelector('.header-one');
 const mainEle = document.querySelector('#main');
 const footerEle = document.querySelector('.footer1');
@@ -91,7 +91,7 @@ router.on('/login', () => {
 
 });
 
-router.navigate('/signup', () => {
+router.on('/signup', () => {
 
     mountSignup( mainEle, footerEle, Signup );
 
