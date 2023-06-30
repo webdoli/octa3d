@@ -82,7 +82,7 @@ router.on('/assets', () => {
 
     mountAsset( mainEle, footerEle, AssetMount )
 
-});
+}, false );
 
 // Login & Signup Mount
 router.on('/login', () => {
