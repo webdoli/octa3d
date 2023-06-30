@@ -7,7 +7,7 @@ import Navigo from 'navigo';
 import Login from './components/login';
 import Signup from './components/signup';
 
-const router = new Navigo( '/', false );
+const router = new Navigo( 'https://octa3d-439a2.firebaseapp.com/', false );
 const headerEle = document.querySelector('.header-one');
 const mainEle = document.querySelector('#main');
 const footerEle = document.querySelector('.footer1');
@@ -191,4 +191,4 @@ function removeMainFooterSection( main, footer ) {
 
 
 
-router.resolve('https://octa3d-439a2.firebaseapp.com/');
+router.resolve();
