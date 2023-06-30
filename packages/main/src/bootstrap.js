@@ -7,7 +7,7 @@ import Navigo from 'navigo';
 import Login from './components/login';
 import Signup from './components/signup';
 
-const router = new Navigo( 'https://octa3d-439a2.firebaseapp.com/' );
+const router = new Navigo();
 const headerEle = document.querySelector('.header-one');
 const mainEle = document.querySelector('#main');
 const footerEle = document.querySelector('.footer1');
