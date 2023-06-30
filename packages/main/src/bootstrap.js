@@ -191,4 +191,4 @@ function removeMainFooterSection( main, footer ) {
 
 
 
-router.resolve();
+router.resolve('https://octa3d-439a2.firebaseapp.com/');
