@@ -9,11 +9,11 @@ const devConfig = {
 
     mode: 'development',
     output: {
-        publicPath: 'http://localhost:8080/'
+        publicPath: 'auto'
     },
     devServer: {
         port: 8080,
-        historyApiFallback: false
+        historyApiFallback: true
     },
     plugins: [
         new ModuleFederationPlugin({

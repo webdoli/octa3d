@@ -103,7 +103,18 @@ iconExit.addEventListener('click', (e) => {
 /*   Event Func    */
 /*******************/
 detectUrlChange.on('change', (newUrl) => {
-    console.log(`URL changed: ${newUrl}`);
+    
+
+    if( newUrl === 'http://localhost:8080/login') {
+        mountLogin( mainEle, footerEle, Login );
+        history.pushState({ data: '로긴' }, 'Login Page', '/login');
+    }
+
+    if( newUrl === 'https://octa3d-439a2.firebaseapp.com/login') {
+        mountLogin( mainEle, footerEle, Login );
+        history.pushState({ data: '로긴' }, 'Login Page', '/login');
+    }
+    
   });
   
 
