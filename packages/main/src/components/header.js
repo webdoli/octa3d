@@ -21,13 +21,13 @@ const Header = () => {
                 <ul class="octa3d-main-menu">
                     <li><a href="animation.html">About</a></li>
                     <li><a href="">Octa 3D</a>
-                    <li><a href="#" class="octa-asset-page-btn">Assets</a></li>
-                    <li><a href="#">Scenes</a></li>
+                    <li><a href="/assets">Assets</a></li>
+                    <!--<li><a href="#">Scenes</a></li>-->
                     <li><a href="#">Blog</a></li>
                     <div class="octa3d-login-guest" style="margin-left:40px;">
                         <ul>
-                            <li><a href="#">LOGIN</a></li>
-                            <li><a href="#">SIGN UP</a></li>
+                            <li><a href="/login" class="octa3d-login-btn">LOGIN</a></li>
+                            <li><a href="/signup" class="octa3d-signup-btn">SIGN UP</a></li>
                         </ul>
                     </div>
                 </ul>

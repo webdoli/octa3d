@@ -1,8 +1,11 @@
-import { mount } from 'assets/Assets';
+import { mount as AssetMount } from 'assets/Assets';
 import Header from './components/header';
 import Main from './components/main';
 import Footer from './components/footer';
 import Navigo from 'navigo';
+
+import Login from './components/login';
+import Signup from './components/signup';
 
 const router = new Navigo('/');
 const headerEle = document.querySelector('.header-one');
@@ -77,42 +80,30 @@ iconExit.addEventListener('click', (e) => {
 // Asset Mount
 router.on('/assets', () => {
 
-    mountAsset( mainEle, footerEle, mount )
+    mountAsset( mainEle, footerEle, AssetMount )
 
 });
 
-document.querySelector('.octa-asset-page-btn').addEventListener('click', (e) => {
+// Login & Signup Mount
+router.on('/login', () => {
 
-    e.preventDefault();
-
-    mountAsset( mainEle, footerEle, mount )
+    mountLogin( mainEle, footerEle, Login );
 
 });
+
+router.on('/signup', () => {
+
+    mountSignup( mainEle, footerEle, Signup );
+
+});
+
 
 
 /*******************/
 /*   Event Func    */
 /*******************/ 
 
-// Asset Mount Func
-function mountAsset( mainSec, footerSec, pageMount ) {
-
-    mainSec.innerHTML = '';
-    footerSec.removeChild( footerSec.firstElementChild );
-
-    //db user & content
-    const userData = {
-        name: 'tmp유저', 
-        id: 'tmp00',
-        login: 'ok'
-    }
-
-    const { res } = pageMount( mainSec, userData );
-    console.log( 'res: ' + res );
-
-}
-
-
+// mobile button Evt
 iconHamburger.addEventListener('click', (e) => {
     
     let attr = iconHamburger.getAttribute('class');
@@ -152,5 +143,52 @@ iconHamburger.addEventListener('click', (e) => {
     }
  
 });
+
+
+/*******************/
+/*   Mount Func    */
+/*******************/ 
+
+// Asset Mount Func
+function mountAsset( mainSec, footerSec, pageMount ) {
+
+    removeMainFooterSection( mainSec, footerSec );
+
+    //db user & content
+    const userData = {
+        name: 'tmp유저', 
+        id: 'tmp00',
+        login: 'ok'
+    }
+
+    const { res } = pageMount( mainSec, userData );
+    console.log( 'res: ' + res );
+
+}
+
+// Login & Signup Func
+function mountLogin( mainSec, footerSec, loginEle ) {
+
+    removeMainFooterSection( mainSec, footerSec );
+    mainSec.appendChild( loginEle() );
+
+}
+
+function mountSignup( mainSec, footerSec, signEle ) {
+
+    removeMainFooterSection( mainSec, footerSec );
+    mainSec.appendChild( signEle() );
+
+}
+
+
+// Common Mount Func: remove mainSection & FooterSection
+function removeMainFooterSection( main, footer ) {
+
+    main.innerHTML = '';
+    footer.removeChild( footer.firstElementChild );
+}
+
+
 
 router.resolve();

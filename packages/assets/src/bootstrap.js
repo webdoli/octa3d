@@ -49,7 +49,7 @@ const mount = ( el, db ) => {
 
 
     //최종 Home main섹션 추가
-    el.appendChild(assetDom);    
+    el.appendChild(assetDom);
 
     return {
         res: '@@ 에셋 페이지 유저DB window 저장 @@'
