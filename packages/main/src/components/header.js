@@ -26,8 +26,8 @@ const Header = () => {
                     <li><a href="#">Blog</a></li>
                     <div class="octa3d-login-guest" style="margin-left:40px;">
                         <ul>
-                            <li><a href="/login" class="octa3d-login-btn">LOGIN</a></li>
-                            <li><a href="/signup" class="octa3d-signup-btn">SIGN UP</a></li>
+                            <li><span class="octa3d-login-btn">LOGIN</span></li>
+                            <li><span class="octa3d-signup-btn">SIGN UP</span></li>
                         </ul>
                     </div>
                 </ul>

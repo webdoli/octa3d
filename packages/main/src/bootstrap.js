@@ -2,12 +2,12 @@ import { mount as AssetMount } from 'assets/Assets';
 import Header from './components/header';
 import Main from './components/main';
 import Footer from './components/footer';
-import Navigo from 'navigo';
+
 
 import Login from './components/login';
 import Signup from './components/signup';
 
-const router = new Navigo();
+
 const headerEle = document.querySelector('.header-one');
 const mainEle = document.querySelector('#main');
 const footerEle = document.querySelector('.footer1');
@@ -75,33 +75,40 @@ iconExit.addEventListener('click', (e) => {
 
 /*******************/
 /* Mounting Pages  */
-/*******************/ 
+/*******************/
 
 // Asset Mount
-router.on('/assets', () => {
+// router.on('/assets', () => {
 
-    mountAsset( mainEle, footerEle, AssetMount )
+//     mountAsset( mainEle, footerEle, AssetMount )
 
-}, false );
+// }, false );
 
 // Login & Signup Mount
-router.on('/login', () => {
+// router.on('/login', () => {
 
-    mountLogin( mainEle, footerEle, Login );
+//     mountLogin( mainEle, footerEle, Login );
 
-});
+// });
 
-router.on('/signup', () => {
+// router.on('/signup', () => {
 
-    mountSignup( mainEle, footerEle, Signup );
+//     mountSignup( mainEle, footerEle, Signup );
 
-});
+// });
 
 
 
 /*******************/
 /*   Event Func    */
 /*******************/ 
+
+document.querySelector('.octa3d-login-btn').addEventListener('click', (e) => {
+
+    mountLogin( mainEle, footerEle, Login );
+    history.pushState({ data: '로긴' }, '로긴 페이지 이동', '/login')
+
+})
 
 // mobile button Evt
 iconHamburger.addEventListener('click', (e) => {
@@ -188,7 +195,3 @@ function removeMainFooterSection( main, footer ) {
     main.innerHTML = '';
     footer.removeChild( footer.firstElementChild );
 }
-
-
-
-router.resolve();
