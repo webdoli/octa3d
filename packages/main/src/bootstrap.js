@@ -29,7 +29,7 @@ let libs = [
     "js/magnific.min.js",
     "js/wow.min.js",
     "js/plugins.js",
-    "js/main.js"
+    "js/myScript.js"
 ];
 
 function loadScript( index, ele ) {
@@ -102,49 +102,60 @@ iconExit.addEventListener('click', (e) => {
 /*******************/
 /*   Event Func    */
 /*******************/
+
+console.log(' url변경 Ver03 ');
+
 detectUrlChange.on('change', (newUrl) => {
     
+    console.log('url 변경: ' + newUrl );
 
-    if( newUrl === 'http://localhost:8080/login') {
-        mountLogin( mainEle, footerEle, Login );
+    if( newUrl === 'http://localhost:8080/login' || newUrl === 'https://octa3d-439a2.firebaseapp.com/login' ) {
+    
+        mountPage( mainEle, footerEle, Login );
         history.pushState({ data: '로긴' }, 'Login Page', '/login');
-    }
+    
+    } else if( newUrl === 'http://localhost:8080/signup' || newUrl === 'https://octa3d-439a2.firebaseapp.com/signup' ) {
 
-    if( newUrl === 'https://octa3d-439a2.firebaseapp.com/login') {
-        mountLogin( mainEle, footerEle, Login );
-        history.pushState({ data: '로긴' }, 'Login Page', '/login');
+        mountPage( mainEle, footerEle, Signup );
+        history.pushState({ data: '회원가입' }, 'Signup Page', '/signup');
+
+    } else if( newUrl === 'http://localhost:8080/assets' || newUrl === 'https://octa3d-439a2.firebaseapp.com/assets' ) {
+
+        mountAsset( mainEle, footerEle, AssetMount );
+        history.pushState({ data: '에셋' }, 'Asset Page', '/assets');
+
     }
     
-  });
+});
   
 
-document.querySelector('.octa3d-login-btn').addEventListener('click', (e) => {
+// document.querySelector('.octa3d-login-btn').addEventListener('click', (e) => {
 
-    mountLogin( mainEle, footerEle, Login );
-    history.pushState({ data: '로긴' }, 'Login Page', '/login');
+//     mountPage( mainEle, footerEle, Login );
+//     history.pushState({ data: '로긴' }, 'Login Page', '/login');
 
-    console.log('location: ' + window.location.href );
+//     console.log('location: ' + window.location.href );
 
-});
+// });
 
-document.querySelector('.octa3d-signup-btn').addEventListener('click', (e) => {
+// document.querySelector('.octa3d-signup-btn').addEventListener('click', (e) => {
 
-    const tmpData = {
-        name: 'tmp유저', 
-        id: 'tmp00',
-        login: 'ok'
-    }
+//     const tmpData = {
+//         name: 'tmp유저', 
+//         id: 'tmp00',
+//         login: 'ok'
+//     }
 
-    mountLogin( mainEle, footerEle, Signup );
-    history.replaceState({ data: tmpData }, 'SignUp Page', '/signup' )
+//     mountPage( mainEle, footerEle, Signup );
+//     history.replaceState({ data: tmpData }, 'SignUp Page', '/signup' )
 
-});
+// });
 
-window.addEventListener('locationchange', () => {
+// window.addEventListener('locationchange', () => {
 
-    console.log('location changed!');
+//     console.log('location changed!');
 
-})
+// })
 
 
 // mobile button Evt
@@ -194,6 +205,16 @@ iconHamburger.addEventListener('click', (e) => {
 /*******************/ 
 
 // Asset Mount Func
+function mountPage( mainSec, footerSec, mount, db ) {
+   
+     removeMainFooterSection( mainSec, footerSec );
+     if( db ) console.log( 'db: ' + db );
+
+     mainSec.appendChild( mount() )
+
+}
+
+
 function mountAsset( mainSec, footerSec, pageMount ) {
 
     removeMainFooterSection( mainSec, footerSec );
@@ -211,19 +232,19 @@ function mountAsset( mainSec, footerSec, pageMount ) {
 }
 
 // Login & Signup Func
-function mountLogin( mainSec, footerSec, loginEle ) {
+// function mountLogin( mainSec, footerSec, loginEle ) {
 
-    removeMainFooterSection( mainSec, footerSec );
-    mainSec.appendChild( loginEle() );
+//     removeMainFooterSection( mainSec, footerSec );
+//     mainSec.appendChild( loginEle() );
 
-}
+// }
 
-function mountSignup( mainSec, footerSec, signEle ) {
+// function mountSignup( mainSec, footerSec, signEle ) {
 
-    removeMainFooterSection( mainSec, footerSec );
-    mainSec.appendChild( signEle() );
+//     removeMainFooterSection( mainSec, footerSec );
+//     mainSec.appendChild( signEle() );
 
-}
+// }
 
 
 // Common Mount Func: remove mainSection & FooterSection
