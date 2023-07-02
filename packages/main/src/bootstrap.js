@@ -52,7 +52,9 @@ function loadScript( index, ele ) {
   
 loadScript( 0 , mainEle ); // Load the first script manually.
 
-// 모바일 메뉴 
+/*******************/
+/*    Mobile Evt    */
+/*******************/
 let iconHamburger = document.querySelector('#icon-mobile-ham');
 let iconExit = document.querySelector('#icon-mobile-exit');
 let mobileMenu = document.querySelector('.octa3d-mobile');
@@ -72,97 +74,10 @@ iconExit.addEventListener('click', (e) => {
 
 });
 
-
-/*******************/
-/* Mounting Pages  */
-/*******************/
-
-// Asset Mount
-// router.on('/assets', () => {
-
-//     mountAsset( mainEle, footerEle, AssetMount )
-
-// }, false );
-
-// Login & Signup Mount
-// router.on('/login', () => {
-
-//     mountLogin( mainEle, footerEle, Login );
-
-// });
-
-// router.on('/signup', () => {
-
-//     mountSignup( mainEle, footerEle, Signup );
-
-// });
-
-
-
-/*******************/
-/*   Event Func    */
-/*******************/
-
-console.log(' url변경 Ver03 ');
-
-detectUrlChange.on('change', (newUrl) => {
-    
-    console.log('url 변경: ' + newUrl );
-
-    if( newUrl === 'http://localhost:8080/login' || newUrl === 'https://octa3d-439a2.firebaseapp.com/login' ) {
-    
-        mountPage( mainEle, footerEle, Login );
-        history.pushState({ data: '로긴' }, 'Login Page', '/login');
-    
-    } else if( newUrl === 'http://localhost:8080/signup' || newUrl === 'https://octa3d-439a2.firebaseapp.com/signup' ) {
-
-        mountPage( mainEle, footerEle, Signup );
-        history.pushState({ data: '회원가입' }, 'Signup Page', '/signup');
-
-    } else if( newUrl === 'http://localhost:8080/assets' || newUrl === 'https://octa3d-439a2.firebaseapp.com/assets' ) {
-
-        mountAsset( mainEle, footerEle, AssetMount );
-        history.pushState({ data: '에셋' }, 'Asset Page', '/assets');
-
-    }
-    
-});
-  
-
-// document.querySelector('.octa3d-login-btn').addEventListener('click', (e) => {
-
-//     mountPage( mainEle, footerEle, Login );
-//     history.pushState({ data: '로긴' }, 'Login Page', '/login');
-
-//     console.log('location: ' + window.location.href );
-
-// });
-
-// document.querySelector('.octa3d-signup-btn').addEventListener('click', (e) => {
-
-//     const tmpData = {
-//         name: 'tmp유저', 
-//         id: 'tmp00',
-//         login: 'ok'
-//     }
-
-//     mountPage( mainEle, footerEle, Signup );
-//     history.replaceState({ data: tmpData }, 'SignUp Page', '/signup' )
-
-// });
-
-// window.addEventListener('locationchange', () => {
-
-//     console.log('location changed!');
-
-// })
-
-
 // mobile button Evt
 iconHamburger.addEventListener('click', (e) => {
     
     let attr = iconHamburger.getAttribute('class');
-    let wrap = this;
 
     if( attr == 'active' ) {
         
@@ -201,8 +116,32 @@ iconHamburger.addEventListener('click', (e) => {
 
 
 /*******************/
-/*   Mount Func    */
-/*******************/ 
+/*    Mounting     */
+/*******************/
+
+detectUrlChange.on('change', (newUrl) => {
+    
+    console.log('url 변경: ' + newUrl );
+
+    if( newUrl === 'http://localhost:8080/login' || newUrl === 'https://octa3d-439a2.firebaseapp.com/login' ) {
+    
+        mountPage( mainEle, footerEle, Login );
+        history.pushState({ data: '로긴' }, 'Login Page', '/login');
+    
+    } else if( newUrl === 'http://localhost:8080/signup' || newUrl === 'https://octa3d-439a2.firebaseapp.com/signup' ) {
+
+        mountPage( mainEle, footerEle, Signup );
+        history.pushState({ data: '회원가입' }, 'Signup Page', '/signup');
+
+    } else if( newUrl === 'http://localhost:8080/assets' || newUrl === 'https://octa3d-439a2.firebaseapp.com/assets' ) {
+
+        mountAsset( mainEle, footerEle, AssetMount );
+        history.pushState({ data: '에셋' }, 'Asset Page', '/assets');
+
+    }
+    
+});
+
 
 // Asset Mount Func
 function mountPage( mainSec, footerSec, mount, db ) {
@@ -231,23 +170,7 @@ function mountAsset( mainSec, footerSec, pageMount ) {
 
 }
 
-// Login & Signup Func
-// function mountLogin( mainSec, footerSec, loginEle ) {
-
-//     removeMainFooterSection( mainSec, footerSec );
-//     mainSec.appendChild( loginEle() );
-
-// }
-
-// function mountSignup( mainSec, footerSec, signEle ) {
-
-//     removeMainFooterSection( mainSec, footerSec );
-//     mainSec.appendChild( signEle() );
-
-// }
-
-
-// Common Mount Func: remove mainSection & FooterSection
+// remove mainSection & FooterSection
 function removeMainFooterSection( main, footer ) {
 
     main.innerHTML = '';
