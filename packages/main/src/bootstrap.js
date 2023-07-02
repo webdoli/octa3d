@@ -29,7 +29,7 @@ let libs = [
     "js/magnific.min.js",
     "js/wow.min.js",
     "js/plugins.js",
-    "js/main.js"
+    "js/myScript.js"
 ];
 
 function loadScript( index, ele ) {
@@ -129,27 +129,27 @@ detectUrlChange.on('change', (newUrl) => {
 });
   
 
-document.querySelector('.octa3d-login-btn').addEventListener('click', (e) => {
+// document.querySelector('.octa3d-login-btn').addEventListener('click', (e) => {
 
-    mountPage( mainEle, footerEle, Login );
-    history.pushState({ data: '로긴' }, 'Login Page', '/login');
+//     mountPage( mainEle, footerEle, Login );
+//     history.pushState({ data: '로긴' }, 'Login Page', '/login');
 
-    console.log('location: ' + window.location.href );
+//     console.log('location: ' + window.location.href );
 
-});
+// });
 
-document.querySelector('.octa3d-signup-btn').addEventListener('click', (e) => {
+// document.querySelector('.octa3d-signup-btn').addEventListener('click', (e) => {
 
-    const tmpData = {
-        name: 'tmp유저', 
-        id: 'tmp00',
-        login: 'ok'
-    }
+//     const tmpData = {
+//         name: 'tmp유저', 
+//         id: 'tmp00',
+//         login: 'ok'
+//     }
 
-    mountPage( mainEle, footerEle, Signup );
-    history.replaceState({ data: tmpData }, 'SignUp Page', '/signup' )
+//     mountPage( mainEle, footerEle, Signup );
+//     history.replaceState({ data: tmpData }, 'SignUp Page', '/signup' )
 
-});
+// });
 
 // window.addEventListener('locationchange', () => {
 
