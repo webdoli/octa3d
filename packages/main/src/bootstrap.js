@@ -12,6 +12,8 @@ const headerEle = document.querySelector('.header-one');
 const mainEle = document.querySelector('#main');
 const footerEle = document.querySelector('.footer1');
 
+
+
 headerEle.appendChild( Header() );
 mainEle.appendChild( Main() );
 footerEle.appendChild( Footer().footer01 );
@@ -80,9 +82,11 @@ detectUrlChange.on('change', (newUrl) => {
 
             e.preventDefault();
             const { signup } = hook_Signup();
-            let userID = document.querySelector('#userIdInput');
-            let userPW = document.querySelector('#confirmPass');
-            let userName = document.querySelector('#floatingInput');
+            let userID = document.querySelector('#userIdInput').value;
+            let userPW = document.querySelector('#confirmPass').value;
+            let userName = document.querySelector('#floatingInput').value;
+
+            console.log( `ID: ${ userID }, PW: ${ userPW }, Name: ${ userName }` );
 
             signup( userID, userPW, userName );
 
