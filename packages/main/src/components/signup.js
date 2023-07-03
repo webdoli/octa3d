@@ -14,15 +14,15 @@ const Signup = () => {
                     <div class="col-lg-5">
                         <div class="account-wrapper">
                             <h3 class="title">Sign Up</h3>
-                            <form class="account-form">
+                            <form class="account-form" id="octa3d-signup-form">
                                 <div class="form-floating mb-3">
                                     <input type="text" class="form-control" id="userIdInput" placeholder="user-id">
                                     <label for="userIdInput">User ID</label>
                                 </div>
                                 <div class="form-floating mb-3">
-                                    <input type="email" class="form-control" id="floatingInput"
+                                    <input type="text" class="form-control" id="floatingInput"
                                         placeholder="name@example.com">
-                                    <label for="floatingInput">Email address</label>
+                                    <label for="floatingInput">Nick Name</label>
                                 </div>
                                 <div class="form-floating mb-3">
                                     <input type="password" class="form-control" id="floatingPassword"
@@ -81,6 +81,7 @@ const Signup = () => {
 
             </div>
         `
+
     return container
 
 }
