@@ -12,8 +12,6 @@ const headerEle = document.querySelector('.header-one');
 const mainEle = document.querySelector('#main');
 const footerEle = document.querySelector('.footer1');
 
-
-
 headerEle.appendChild( Header() );
 mainEle.appendChild( Main() );
 footerEle.appendChild( Footer().footer01 );
