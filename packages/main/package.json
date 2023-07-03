@@ -17,6 +17,7 @@
     "copy-webpack-plugin": "^11.0.0",
     "css-loader": "^6.8.1",
     "detect-url-change": "^1.0.2",
+    "firebase": "^9.23.0",
     "firebase-tools": "^12.4.0",
     "html-webpack-plugin": "^5.5.3",
     "path": "^0.12.7",
