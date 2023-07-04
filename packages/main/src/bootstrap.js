@@ -1,199 +1,210 @@
-import { mount as AssetMount } from 'assets/Assets';
-import Header from './components/header';
-import Main from './components/main';
-import Footer from './components/footer';
+import { onAuthStateChanged } from 'firebase/auth';
+import { auth } from './db/firebaseDB';
 import detectUrlChange from 'detect-url-change';
 
-import Login from './components/login';
-import Signup from './components/signup';
-import { hook_Signup } from './hooks/hook_signup';
+import GuestHeader from './components/guestHeader';
+import UserHeader from './components/userHeader';
+import Main from './components/main';
+import Footer from './components/footer';
+
+import { mount as AssetMount } from 'assets/Assets';
+import LoginGUI from './components/login';
+import SignupGUI from './components/signup';
+
+import { hookSignout } from './hooks/hook_signout';
+import hookAssetMount from './hooks/hook_AssetMount';
+import hookSignupMount from './hooks/hook_SignupMount';
+import hookSigninMount from './hooks/hook_SigninMount';
 
 const headerEle = document.querySelector('.header-one');
 const mainEle = document.querySelector('#main');
 const footerEle = document.querySelector('.footer1');
 
-headerEle.appendChild( Header() );
-mainEle.appendChild( Main() );
-footerEle.appendChild( Footer().footer01 );
-footerEle.appendChild( Footer().footer02 );
+onAuthStateChanged( auth, ( user ) => {
 
-//script 생성
-let libs = [
-    "js/vendor/modernizr-3.5.0.min.js",
-    "js/vendor/jquery-1.12.4.min.js",
-    "js/owl.carousel.min.js",
-    "js/slick.min.js",
-    "js/popper.min.js",
-    "js/bootstrap.min.js",
-    "js/jquery.meanmenu.js",
-    "js/magnific.min.js",
-    "js/wow.min.js",
-    "js/plugins.js",
-    "js/myScript.js"
-];
+    if( user ) {
 
-function loadScript( index, ele ) {
+        console.log('유저 로그인')
+        userMain( headerEle, mainEle, footerEle, user );
+      
+    } else {
 
-    if( index >= libs.length ) {
-        return false;
-    }
-  
-    let el = document.createElement('script');
-    el.onload = function() {
-      //console.log("Script loaded: ", libs[index]);
-      loadScript( index+1, ele );
+        console.log('Guest');
+        guestMain( headerEle, mainEle , footerEle );
+        routeGuestPage( mainEle, footerEle );
+
     }
 
-    el.src = libs[ index ];
-    ele.appendChild( el );
-    // OR
-    // document.head.appendChild(el);
+})
+
+/*******************/
+/*    Function     */
+/*******************/
+
+// Loading Login Page
+function userMain( header, main, footer, user ) {
+
+    if( window.location.href === 'http://localhost:8080/') {
+
+        header.appendChild( UserHeader() );
+        main.appendChild( Main() );
+        footer.appendChild( Footer().footer01 );
+        footer.appendChild( Footer().footer02 );
+
+    } else if( window.location.href === 'http://localhost:8080/assets'){
+
+        
+        header.appendChild( UserHeader() );
+        footer.appendChild( Footer().footer02 );
+
+        mountAsset( mainEle, footerEle, AssetMount, user );
+        document.querySelector('.preloader').style.display = 'none';
+
+    } else {
+
+        window.location.href = '/';
+
+    }
+
+    if( document.querySelector('.octa3d-logout-btn') ) {
+
+        let { logout } = hookSignout();
+
+        document.querySelector('.octa3d-logout-btn').addEventListener('click', (e) => {
+            console.log('로그아웃');
+            logout();
+        })
+    }
+
+    mobileExe( mainEle, footerEle );
+
 }
-  
-loadScript( 0 , mainEle ); // Load the first script manually.
 
-/*******************/
-/*      Event      */
-/*******************/
+// Loading Guest Page
+function guestMain( header, main, footer ) {
 
+    header.appendChild( GuestHeader() );
+    main.appendChild( Main() );
+    footer.appendChild( Footer().footer01 );
+    footer.appendChild( Footer().footer02 );
+
+    mobileExe( mainEle, footerEle );
+
+}
+
+function mountAsset( mainSec, footerSec, pageMount, user ) {
+
+    //removeMainFooterSection( mainSec, footerSec );
+    mainSec.innerHTML = '';
+
+    const { res } = pageMount( mainSec, user );
+    console.log( 'res: ' + res );
+
+}
 
 
 /*******************/
 /*    Mounting     */
 /*******************/
+function routeGuestPage( mainEle, footerEle ) {
 
-detectUrlChange.on('change', (newUrl) => {
+    let pre_loader = document.querySelector('.preloader');
+    console.log('guest page mounting ');
+
+    detectUrlChange.on('change', (newUrl) => {
+
+        console.log('url: ' + newUrl );
+
+        switch ( newUrl ) {
+
+            case 'http://localhost:8080/login' || 'https://octa3d-439a2.firebaseapp.com/login' :
+                console.log('login mount')
+                hookSigninMount( mainEle, footerEle, LoginGUI, pre_loader );
+                break;
+
+            case 'http://localhost:8080/signup' || 'https://octa3d-439a2.firebaseapp.com/signup' :
+                hookSignupMount( mainEle, footerEle, SignupGUI, pre_loader );
+                break;
+
+            case 'http://localhost:8080/assets' || 'https://octa3d-439a2.firebaseapp.com/assets' :
+                hookAssetMount( mainEle, footerEle, AssetMount, false, pre_loader );
+                break;
+
+        }
     
-    console.log('url 변경: ' + newUrl );
-
-    if( newUrl === 'http://localhost:8080/login' || newUrl === 'https://octa3d-439a2.firebaseapp.com/login' ) {
+    });
     
-        mountPage( mainEle, footerEle, Login );
-        history.pushState({ data: '로긴' }, 'Login Page', '/login');
-    
-    } else if( newUrl === 'http://localhost:8080/signup' || newUrl === 'https://octa3d-439a2.firebaseapp.com/signup' ) {
-
-        mountPage( mainEle, footerEle, Signup );
-        history.pushState({ data: '회원가입' }, 'Signup Page', '/signup');
-
-        document.querySelector('#octa3d-signup-form').addEventListener('submit', (e) => {
-
-            e.preventDefault();
-            const { signup } = hook_Signup();
-            let userID = document.querySelector('#userIdInput').value;
-            let userPW = document.querySelector('#confirmPass').value;
-            let userName = document.querySelector('#floatingInput').value;
-
-            console.log( `ID: ${ userID }, PW: ${ userPW }, Name: ${ userName }` );
-
-            signup( userID, userPW, userName );
-
-        })
-
-    } else if( newUrl === 'http://localhost:8080/assets' || newUrl === 'https://octa3d-439a2.firebaseapp.com/assets' ) {
-
-        mountAsset( mainEle, footerEle, AssetMount );
-        history.pushState({ data: '에셋' }, 'Asset Page', '/assets');
-
-    }
-    
-});
-
-
-// Asset Mount Func
-function mountPage( mainSec, footerSec, mount, db ) {
-   
-     removeMainFooterSection( mainSec, footerSec );
-     if( db ) console.log( 'db: ' + db );
-
-     mainSec.appendChild( mount() )
-
-}
-
-
-function mountAsset( mainSec, footerSec, pageMount ) {
-
-    removeMainFooterSection( mainSec, footerSec );
-
-    //db user & content
-    const userData = {
-        name: 'tmp유저', 
-        id: 'tmp00',
-        login: 'ok'
-    }
-
-    const { res } = pageMount( mainSec, userData );
-    console.log( 'res: ' + res );
-
-}
-
-// remove mainSection & FooterSection
-function removeMainFooterSection( main, footer ) {
-
-    main.innerHTML = '';
-    footer.removeChild( footer.firstElementChild );
 }
 
 
 /*******************/
-/*    Mobile Evt    */
+/*    Mobile Evt   */
 /*******************/
-let iconHamburger = document.querySelector('#icon-mobile-ham');
-let iconExit = document.querySelector('#icon-mobile-exit');
-let mobileMenu = document.querySelector('.octa3d-mobile');
+
+function mobileExe( mainEle, footerEle ) {
+
+    console.log('모바일 버튼 실행');
+    
+    
+    let iconHamburger = document.querySelector('#icon-mobile-ham');
+    let iconExit = document.querySelector('#icon-mobile-exit');
+    let mobileMenu = document.querySelector('.octa3d-mobile');
 
 
-iconExit.addEventListener('click', (e) => {
-    e.preventDefault();
+    iconExit.addEventListener('click', (e) => {
+        e.preventDefault();
 
-    let attr = iconExit.getAttribute('class');
-    if( attr == 'active' ) { 
-        iconExit.removeAttribute('class');
-        iconHamburger.setAttribute('class', 'active');
+        let attr = iconExit.getAttribute('class');
+        if( attr == 'active' ) { 
+            iconExit.removeAttribute('class');
+            iconHamburger.setAttribute('class', 'active');
 
-        mobileMenu.removeChild( mobileMenu.lastElementChild );
-        
-    }
+            mobileMenu.removeChild( mobileMenu.lastElementChild );
 
-});
+        }
+
+    });
 
 // mobile button Evt
-iconHamburger.addEventListener('click', (e) => {
+    iconHamburger.addEventListener('click', (e) => {
     
-    let attr = iconHamburger.getAttribute('class');
+        let attr = iconHamburger.getAttribute('class');
 
-    if( attr == 'active' ) {
-        
-        iconHamburger.removeAttribute('class');
-        iconExit.setAttribute('class', 'active');
+            if( attr == 'active' ) {
 
-        mobileMenu.classList.add('open');
-        mobileMenu.insertAdjacentHTML('beforeend', `
-            <div class="mobile-hambuger-open">
-                <ul class="mobile-hambuger-open-menu">
-                    <li><a href="#">About</a></li>
-                    <li><a href="#">OCTA 3D</a></li>
-                    <li><a href="#" class="octa-asset-page-mobile-btn">ASSETS</a></li>
-                    <li><a href="#">SCENES</a></li>
-                    <li><a href="#">BLOG</a></li>
-                </ul>
-            </div>
-        `);
+                iconHamburger.removeAttribute('class');
+                iconExit.setAttribute('class', 'active');
 
-        document.querySelector('.octa-asset-page-mobile-btn').addEventListener('click', (e) => {
-            mainEle.innerHTML = '';
-            footerEle.removeChild( footerEle.firstElementChild );
-            const userData = {
-                name: 'tmp유저', 
-                id: 'tmp00',
-                login: 'ok'
+                mobileMenu.classList.add('open');
+                mobileMenu.insertAdjacentHTML('beforeend', `
+                    <div class="mobile-hambuger-open">
+                        <ul class="mobile-hambuger-open-menu">
+                            <li><a href="#">About</a></li>
+                            <li><a href="#">OCTA 3D</a></li>
+                            <li><a href="#" class="octa-asset-page-mobile-btn">ASSETS</a></li>
+                            <li><a href="#">SCENES</a></li>
+                            <li><a href="#">BLOG</a></li>
+                        </ul>
+                    </div>
+                `);
+
+                document.querySelector('.octa-asset-page-mobile-btn').addEventListener('click', (e) => {
+                    mainEle.innerHTML = '';
+                    footerEle.removeChild( footerEle.firstElementChild );
+                    const userData = {
+                        name: 'tmp유저', 
+                        id: 'tmp00',
+                        login: 'ok'
+                    }
+                
+                    const { res } = mount( mainEle, userData );
+                    console.log('res: ' + res );
+                })
+
             }
-        
-            const { res } = mount( mainEle, userData );
-            console.log('res: ' + res );
-        })
-
-    }
  
-});
+        });
+}
+
+
 

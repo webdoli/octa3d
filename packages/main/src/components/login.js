@@ -1,6 +1,6 @@
 import AuthCSS from "./authStyle";
 
-const Login = () => {
+const LoginGUI = () => {
 
     let container = document.createElement('div');
         container.className = 'login-section padding-top padding-bottom';
@@ -14,7 +14,7 @@ const Login = () => {
                 <div class="col-lg-5">
                     <div class="account-wrapper">
                         <h3 class="title">Sign In</h3>
-                        <form class="account-form">
+                        <form class="account-form" id="octa3d-signin-form">
                             <div class="form-floating mb-3">
                                 <input type="email" class="form-control" id="floatingInput"
                                     placeholder="name@example.com">
@@ -72,7 +72,8 @@ const Login = () => {
         </div>
         `
 
+        console.log('로그인 html추가 완료');
     return container
 }
 
-export default Login
+export default LoginGUI

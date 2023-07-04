@@ -1,6 +1,6 @@
 import AuthCSS from "./authStyle";
 
-const Signup = () => {
+const SignupGUI = () => {
 
     let container = document.createElement('div');
         container.className = 'login-section padding-top padding-bottom'
@@ -86,4 +86,4 @@ const Signup = () => {
 
 }
 
-export default Signup
+export default SignupGUI

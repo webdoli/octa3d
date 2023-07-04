@@ -1,7 +1,7 @@
 import { auth } from "../db/firebaseDB";
 import { createUserWithEmailAndPassword, updateProfile } from "firebase/auth";
 
-export const hook_Signup = () => {
+export const hookSignup = () => {
 
     const signup = ( email, password, nickName ) => {
 
