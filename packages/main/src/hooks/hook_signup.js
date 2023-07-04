@@ -3,7 +3,7 @@ import { createUserWithEmailAndPassword, updateProfile } from "firebase/auth";
 
 export const hook_Signup = () => {
 
-    const signup = ( email, password, nickName ) => {
+    const hookSignup = ( email, password, nickName ) => {
 
         createUserWithEmailAndPassword( auth, email, password )
             .then( res => {
@@ -31,6 +31,6 @@ export const hook_Signup = () => {
 
     }
 
-    return { signup }
+    return { hookSignup }
 
 }

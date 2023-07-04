@@ -1,6 +1,38 @@
 import MainCSS from "./mainStyle";
 
+function createScript( index, main, lib ) {
+
+    if( index >= lib.length ) {
+        return false;
+    }
+
+    let el = document.createElement('script');
+    el.onload = function() {
+      //console.log("Script loaded: ", libs[index]);
+      createScript( index+1, main, lib );
+    }
+
+    el.src = lib[ index ];
+    main.appendChild( el );
+
+}
+
 const Main = () => {
+
+    //script 생성
+    let libs = [
+        "js/vendor/modernizr-3.5.0.min.js",
+        "js/vendor/jquery-1.12.4.min.js",
+        "js/owl.carousel.min.js",
+        "js/slick.min.js",
+        "js/popper.min.js",
+        "js/bootstrap.min.js",
+        "js/jquery.meanmenu.js",
+        "js/magnific.min.js",
+        "js/wow.min.js",
+        "js/plugins.js",
+        "js/myScript.js"
+    ];
 
     let container = document.createElement('div');
     container.className = 'mainContent';
@@ -371,7 +403,9 @@ const Main = () => {
                 </div>
             </div>
         </div>
-    `
+    `;
+
+    createScript( 0, container, libs );
 
     return container
 

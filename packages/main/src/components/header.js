@@ -59,7 +59,7 @@ const HeaderPromise = new Promise( (resolve, reject) => {
                             <div class="octa3d-login-guest" style="margin-left:40px;">
                                 <ul>
                                     <li><a href="/myPage" class="octa3d-myPage-btn">MY PAGE</a></li>
-                                    <li><a href="/" class="octa3d-logout-btn">LOGOUT</a></li>
+                                    <li><a href="#" class="octa3d-logout-btn">LOGOUT</a></li>
                                 </ul>
                             </div>
                         </ul>

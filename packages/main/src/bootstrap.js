@@ -7,58 +7,98 @@ import detectUrlChange from 'detect-url-change';
 import Login from './components/login';
 import Signup from './components/signup';
 import { hook_Signup } from './hooks/hook_signup';
+import { hookSignout } from './hooks/hook_signout';
+import { hookSignin } from './hooks/hook_signin';
 
-mainExe();
+const headerEle = document.querySelector('.header-one');
+const mainEle = document.querySelector('#main');
+const footerEle = document.querySelector('.footer1');
 
-async function mainExe() {
-    const headerEle = document.querySelector('.header-one');
-    const mainEle = document.querySelector('#main');
-    const footerEle = document.querySelector('.footer1');
+mainExe( headerEle, mainEle , footerEle );
+routePage( mainEle, footerEle );
+// createScript( 0, mainEle, libs );
+
+async function mainExe( headerEle, mainEle , footerEle ) {
 
     headerEle.appendChild( await Header() );
+
+    if( document.querySelector('.octa3d-logout-btn') ) {
+
+        let { logout } = hookSignout();
+
+        document.querySelector('.octa3d-logout-btn').addEventListener('click', (e) => {
+            console.log('로그아웃');
+            logout();
+        })
+    }
+    
     mainEle.appendChild( Main() );
     footerEle.appendChild( Footer().footer01 );
     footerEle.appendChild( Footer().footer02 );
-
-//script 생성
-    let libs = [
-        "js/vendor/modernizr-3.5.0.min.js",
-        "js/vendor/jquery-1.12.4.min.js",
-        "js/owl.carousel.min.js",
-        "js/slick.min.js",
-        "js/popper.min.js",
-        "js/bootstrap.min.js",
-        "js/jquery.meanmenu.js",
-        "js/magnific.min.js",
-        "js/wow.min.js",
-        "js/plugins.js",
-        "js/myScript.js"
-    ];
-
-function loadScript( index, ele ) {
-
-    if( index >= libs.length ) {
-        return false;
-    }
-  
-    let el = document.createElement('script');
-    el.onload = function() {
-      //console.log("Script loaded: ", libs[index]);
-      loadScript( index+1, ele );
-    }
-
-    el.src = libs[ index ];
-    ele.appendChild( el );
-    // OR
-    // document.head.appendChild(el);
-}
-
     
-    loadScript( 0 , mainEle ); // Load the first script manually.
     mobileExe( mainEle, footerEle );
-    routePage( mainEle, footerEle );
-    
+
 }
+
+
+/*******************/
+/*    Function     */
+/*******************/
+
+// Asset Mount Func
+function mountPage( mainSec, footerSec, mount, db ) {
+    
+    console.log('마운트 함수 실행');
+     removeMainFooterSection( mainSec, footerSec );
+     if( db ) console.log( 'db: ' + db );
+
+     mainSec.appendChild( mount() )
+
+}
+
+
+function mountAsset( mainSec, footerSec, pageMount ) {
+
+    //removeMainFooterSection( mainSec, footerSec );
+    console.log( 'mainSec: ' + mainSec.id );
+    mainSec.innerHTML = '';
+
+    //db user & content
+    const userData = {
+        name: 'tmp유저', 
+        id: 'tmp00',
+        login: 'ok'
+    }
+
+    //const { res } = pageMount( mainSec, userData );
+    //console.log( 'res: ' + res );
+
+}
+
+// remove mainSection & FooterSection
+function removeMainFooterSection( main, footer ) {
+    console.log('remove함수 실행');
+    main.innerHTML = '';
+    console.log('footer: ' + footer );
+    footer.removeChild( footer.firstElementChild );
+}
+
+function fadeOut( target, speed ) {
+    
+    let fadeEffect = setInterval( () => {
+        if( !target.style.opacity ) {
+            target.style.opacity = 1
+        }
+        if( target.style.opacity > 0 ) {
+            target.style.opacity -= 0.2;
+        } else {
+            
+            clearInterval( fadeEffect )
+            target.style.display = 'none';
+        }
+    }, speed )
+}
+
 
 
 /*******************/
@@ -67,32 +107,47 @@ function loadScript( index, ele ) {
 
 function routePage( mainEle, footerEle) {
 
+    let pre_loader = document.querySelector('.preloader');
+
     detectUrlChange.on('change', (newUrl) => {
     
         console.log('url 변경: ' + newUrl );
     
         if( newUrl === 'http://localhost:8080/login' || newUrl === 'https://octa3d-439a2.firebaseapp.com/login' ) {
 
-            console.log('@#$@%%@@@@@@@ 로그인 페이지 로딩 @@@@@@@@@@@@@@@@@$')
             mountPage( mainEle, footerEle, Login );
             history.pushState({ data: '로긴' }, 'Login Page', '/login');
+            fadeOut( pre_loader, 80 );
+
+            document.querySelector('#octa3d-signin-form').addEventListener('submit', (e) => {
+
+                e.preventDefault();
+                const { hookLogin } = hookSignin();
+                let userID = document.querySelector('#floatingInput').value;
+                let userPW = document.querySelector('#floatingPassword').value;
+
+                hookLogin( userID, userPW );
+
+            })
+
         
         } else if( newUrl === 'http://localhost:8080/signup' || newUrl === 'https://octa3d-439a2.firebaseapp.com/signup' ) {
-    
+            
             mountPage( mainEle, footerEle, Signup );
-            history.pushState({ data: '회원가입' }, 'Signup Page', '/signup');
+            history.pushState({ data: '회원가입' }, 'Signup Page', '/signup'); 
+            fadeOut( pre_loader, 80 );
     
             document.querySelector('#octa3d-signup-form').addEventListener('submit', (e) => {
     
                 e.preventDefault();
-                const { signup } = hook_Signup();
+                const { hookSignup } = hook_Signup();
                 let userID = document.querySelector('#userIdInput').value;
                 let userPW = document.querySelector('#confirmPass').value;
                 let userName = document.querySelector('#floatingInput').value;
     
                 console.log( `ID: ${ userID }, PW: ${ userPW }, Name: ${ userName }` );
     
-                signup( userID, userPW, userName );
+                hookSignup( userID, userPW, userName );
     
             })
     
@@ -100,47 +155,13 @@ function routePage( mainEle, footerEle) {
     
             mountAsset( mainEle, footerEle, AssetMount );
             history.pushState({ data: '에셋' }, 'Asset Page', '/assets');
+                
+            fadeOut( pre_loader, 80 );
     
         }
         
     });
     
-    
-    // Asset Mount Func
-    function mountPage( mainSec, footerSec, mount, db ) {
-    
-        console.log('마운트 함수 실행');
-         removeMainFooterSection( mainSec, footerSec );
-         if( db ) console.log( 'db: ' + db );
-
-         mainSec.appendChild( mount() )
-
-    }
-
-
-    function mountAsset( mainSec, footerSec, pageMount ) {
-
-        removeMainFooterSection( mainSec, footerSec );
-
-        //db user & content
-        const userData = {
-            name: 'tmp유저', 
-            id: 'tmp00',
-            login: 'ok'
-        }
-
-        const { res } = pageMount( mainSec, userData );
-        console.log( 'res: ' + res );
-
-    }
-
-    // remove mainSection & FooterSection
-    function removeMainFooterSection( main, footer ) {
-        console.log('remove함수 실행');
-        main.innerHTML = '';
-        footer.removeChild( footer.firstElementChild );
-    }
-
 }
 
 
@@ -151,6 +172,7 @@ function routePage( mainEle, footerEle) {
 function mobileExe( mainEle, footerEle ) {
 
     console.log('모바일 버튼 실행');
+    
     
     let iconHamburger = document.querySelector('#icon-mobile-ham');
     let iconExit = document.querySelector('#icon-mobile-exit');
