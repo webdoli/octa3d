@@ -27,7 +27,6 @@ onAuthStateChanged( auth, ( user ) => {
         console.log('유저 로그인')
         userMain( headerEle, mainEle, footerEle, user );
       
-
     } else {
 
         console.log('Guest');
