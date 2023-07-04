@@ -44,14 +44,14 @@ onAuthStateChanged( auth, ( user ) => {
 // Loading Login Page
 function userMain( header, main, footer, user ) {
 
-    if( window.location.href === 'http://localhost:8080/') {
+    if( window.location.href === 'http://localhost:8080/' || window.location.href === 'https://octa3d-439a2.firebaseapp.com/' ) {
 
         header.appendChild( UserHeader() );
         main.appendChild( Main() );
         footer.appendChild( Footer().footer01 );
         footer.appendChild( Footer().footer02 );
 
-    } else if( window.location.href === 'http://localhost:8080/assets'){
+    } else if( window.location.href === 'http://localhost:8080/assets' || window.location.href === 'https://octa3d-439a2.firebaseapp.com/assets'){
 
         
         header.appendChild( UserHeader() );
