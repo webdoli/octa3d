@@ -4,6 +4,7 @@ import bootstrapLib_501 from "./lib/bootstrapMin";
 
 const mount = ( el, db ) => {
 
+    if(db) console.log('user: ' + db.uid )
     let assetDom = document.createElement('section');
         assetDom.className = 'explore-section padding-top padding-bottom';
 

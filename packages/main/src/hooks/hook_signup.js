@@ -1,9 +1,9 @@
 import { auth } from "../db/firebaseDB";
 import { createUserWithEmailAndPassword, updateProfile } from "firebase/auth";
 
-export const hook_Signup = () => {
+export const hookSignup = () => {
 
-    const hookSignup = ( email, password, nickName ) => {
+    const signup = ( email, password, nickName ) => {
 
         createUserWithEmailAndPassword( auth, email, password )
             .then( res => {
@@ -31,6 +31,6 @@ export const hook_Signup = () => {
 
     }
 
-    return { hookSignup }
+    return { signup }
 
 }
