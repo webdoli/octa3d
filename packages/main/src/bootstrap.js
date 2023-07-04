@@ -117,16 +117,21 @@ function routeGuestPage( mainEle, footerEle ) {
 
         switch ( newUrl ) {
 
-            case 'http://localhost:8080/login' || 'https://octa3d-439a2.firebaseapp.com/login' :
-                console.log('login mount')
+            case 'http://localhost:8080/login' :
+                hookSigninMount( mainEle, footerEle, LoginGUI, pre_loader );
+            case 'https://octa3d-439a2.firebaseapp.com/login':
                 hookSigninMount( mainEle, footerEle, LoginGUI, pre_loader );
                 break;
 
-            case 'http://localhost:8080/signup' || 'https://octa3d-439a2.firebaseapp.com/signup' :
+            case 'http://localhost:8080/signup' :
+                hookSignupMount( mainEle, footerEle, SignupGUI, pre_loader );
+            case 'https://octa3d-439a2.firebaseapp.com/signup':
                 hookSignupMount( mainEle, footerEle, SignupGUI, pre_loader );
                 break;
 
-            case 'http://localhost:8080/assets' || 'https://octa3d-439a2.firebaseapp.com/assets' :
+            case 'http://localhost:8080/assets' :
+                hookAssetMount( mainEle, footerEle, AssetMount, false, pre_loader );
+            case 'https://octa3d-439a2.firebaseapp.com/assets':
                 hookAssetMount( mainEle, footerEle, AssetMount, false, pre_loader );
                 break;
 
