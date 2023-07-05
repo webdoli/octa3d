@@ -18,9 +18,9 @@ export const hookSignin = () => {
                         online: true
                     
                     }).then( () => {
+                        console.log('로그인 성공: ')
+                        //window.location.href = '/';
 
-                        window.location.href = '/';
-                        
                     });
 
                 } 
