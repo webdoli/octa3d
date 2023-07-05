@@ -9,7 +9,8 @@ const devConfig = {
 
     mode: 'development',
     output: {
-        publicPath: 'auto'
+        publicPath: 'auto',
+        library: 'common'
     },
     devServer: {
         port: 8080,
