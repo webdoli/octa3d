@@ -1,4 +1,6 @@
-import { auth } from "../db/firebaseDB";
+import { auth, db, storage } from "../db/firebaseDB";
+import { ref, uploadBytesResumable, getDownloadURL } from 'firebase/storage';
+import { doc, setDoc, addDoc, collection } from 'firebase/firestore';
 import { createUserWithEmailAndPassword, updateProfile } from "firebase/auth";
 
 export const hookSignup = () => {
@@ -6,13 +8,26 @@ export const hookSignup = () => {
     const signup = ( email, password, nickName ) => {
 
         createUserWithEmailAndPassword( auth, email, password )
-            .then( res => {
+            .then( async (res) => {
 
-                for( let item in res.user ) {
-                    console.log( `key: ${ item }, value: ${ res.user[item]} `)
+                if( !res ) throw new Error('Could not complete signup');
+
+                const data = {
+                    online: true,
+                    nickName: nickName,
+                    id: email
                 }
-                // fireFunction sending another site or 전역변수로 res.user 저장
-                // React: Context변수로 저장 => 싱글턴 패턴으로 전역객체 저장 필요 
+
+                try {
+
+                    const docRef = await setDoc( doc( db, "users", res.user.uid ), data );
+                    console.log("Document written with ID: ", res.user.uid);
+
+                } catch (e) {
+
+                    console.error("Error adding document: ", e);
+
+                }
             })
             .then( () => {
 

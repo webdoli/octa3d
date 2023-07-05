@@ -3,7 +3,6 @@ import { auth } from './db/firebaseDB';
 import detectUrlChange from 'detect-url-change';
 
 import GuestHeader from './components/guestHeader';
-import UserHeader from './components/userHeader';
 import Main from './components/main';
 import Footer from './components/footer';
 
@@ -11,7 +10,6 @@ import { mount as guestAssetMount } from 'assets/Assets';
 import LoginGUI from './components/login';
 import SignupGUI from './components/signup';
 
-import { hookSignout } from './hooks/hook_signout';
 import hookAssetMount from './hooks/hook_AssetMount';
 import hookSignupMount from './hooks/hook_SignupMount';
 import hookSigninMount from './hooks/hook_SigninMount';
@@ -50,12 +48,10 @@ onAuthStateChanged( auth, ( user ) => {
 function userMain() {
 
     let mountUrls = [
-
         { 'http://localhost:8080/': new HomeMount },
         { 'https://octa3d-439a2.firebaseapp.com/': new HomeMount },
         { 'http://localhost:8080/assets': new AssetMount },
         { 'https://octa3d-439a2.firebaseapp.com/assets': new AssetMount },
-        
     ];
 
     let currentUrl = window.location.href;
@@ -74,45 +70,6 @@ function userMain() {
 
 }
 
-
-// function userMain( header, main, footer, user ) {
-
-//     if( window.location.href === 'http://localhost:8080/' || window.location.href === 'https://octa3d-439a2.firebaseapp.com/' ) {
-
-//         header.appendChild( UserHeader() );
-//         main.appendChild( Main() );
-//         footer.appendChild( Footer().footer01 );
-//         footer.appendChild( Footer().footer02 );
-
-//     } else if( window.location.href === 'http://localhost:8080/assets' || window.location.href === 'https://octa3d-439a2.firebaseapp.com/assets'){
-
-        
-//         header.appendChild( UserHeader() );
-//         footer.appendChild( Footer().footer02 );
-
-//         mountAsset( mainEle, footerEle, AssetMount, user );
-//         document.querySelector('.preloader').style.display = 'none';
-
-//     } else {
-
-//         window.location.href = '/';
-
-//     }
-
-//     if( document.querySelector('.octa3d-logout-btn') ) {
-
-//         let { logout } = hookSignout();
-
-//         document.querySelector('.octa3d-logout-btn').addEventListener('click', (e) => {
-//             console.log('로그아웃');
-//             logout();
-//         })
-//     }
-
-    //  mobileExe( mainEle, footerEle );
-
-// }
-
 // Loading Guest Page
 function guestMain( header, main, footer ) {
 
@@ -124,17 +81,6 @@ function guestMain( header, main, footer ) {
     mobileExe( mainEle, footerEle );
 
 }
-
-function mountAsset( mainSec, footerSec, pageMount, user ) {
-
-    //removeMainFooterSection( mainSec, footerSec );
-    mainSec.innerHTML = '';
-
-    const { res } = pageMount( mainSec, user );
-    console.log( 'res: ' + res );
-
-}
-
 
 /*******************/
 /*    Mounting     */
@@ -163,7 +109,7 @@ function routeGuestPage( mainEle, footerEle ) {
                 break;
 
             case 'http://localhost:8080/assets' :
-                hookAssetMount( mainEle, footerEle, AssetguestAssetMountMount, false, pre_loader );
+                hookAssetMount( mainEle, footerEle, guestAssetMount, false, pre_loader );
             case 'https://octa3d-439a2.firebaseapp.com/assets':
                 hookAssetMount( mainEle, footerEle, guestAssetMount, false, pre_loader );
                 break;
@@ -243,6 +189,3 @@ function mobileExe( mainEle, footerEle ) {
  
         });
 }
-
-
-
