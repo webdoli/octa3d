@@ -4,19 +4,28 @@ import { doc, updateDoc } from "firebase/firestore"
 
 export const hookSignin = () => {
 
-    const hookLogin = ( email, password ) => {
+    const hookLogin = async ( email, password ) => {
 
-        signInWithEmailAndPassword( auth, email, password )
-            .then( (res) => {
+        await signInWithEmailAndPassword( auth, email, password )
+            .then( async (res) => {
 
                 const updateRef = doc( db, 'users', res.user.uid );
-                
-                updateDoc( updateRef, {
 
-                    online: true
-                
-                });
+                try {
 
+                    await updateDoc( updateRef, {
+
+                        online: true
+                    
+                    });
+
+                } 
+                catch ( err ) {
+
+                    console.log('Error Occured: ', err );
+                
+                } 
+                
                 return res.user.uid;
 
             })
