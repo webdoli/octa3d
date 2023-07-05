@@ -11,7 +11,9 @@ export const hookSignin = () => {
 
                 updateDoc( doc( db, 'users', res.user.uid ), {
                     online: 'on'
-                })
+                });
+
+                window.location.href= '/';
 
             })
             .catch( (err) => {
