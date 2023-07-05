@@ -17,6 +17,10 @@ export const hookSignin = () => {
 
                         online: true
                     
+                    }).then( () => {
+
+                        window.location.href = '/';
+                        
                     });
 
                 } 
@@ -27,11 +31,6 @@ export const hookSignin = () => {
                 } 
                 
                 return res.user.uid;
-
-            })
-            .then( (uid) => {
-
-                window.location.href = '/';
 
             })
             .catch( (err) => {
