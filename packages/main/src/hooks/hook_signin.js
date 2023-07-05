@@ -9,14 +9,19 @@ export const hookSignin = () => {
         signInWithEmailAndPassword( auth, email, password )
             .then( (res) => {
 
+                const updateRef = doc( db, 'users', res.user.uid );
+                
+                updateDoc( updateRef, {
+
+                    online: true
+                
+                });
+
                 return res.user.uid;
-                console.log('window uid 저장: ' + res.user.uid );
 
             })
             .then( (uid) => {
 
-                console.log('db저장 uid: ' + uid )
-                // db 저장
                 window.location.href = '/';
 
             })
