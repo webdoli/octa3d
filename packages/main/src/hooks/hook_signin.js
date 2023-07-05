@@ -11,12 +11,9 @@ export const hookSignin = () => {
 
                 updateDoc( doc( db, 'users', res.user.uid ), {
                     online: 'on'
-                });
-
-                setInterval( () => {
-                    window.location.href= '/';
-                }, 1000);
-                
+                }).then( () => {
+                    location.replace('/');
+                })
 
             })
             .catch( (err) => {
