@@ -4,33 +4,14 @@ import { doc, updateDoc } from "firebase/firestore"
 
 export const hookSignin = () => {
 
-    const hookLogin = async ( email, password ) => {
+    const hookLogin = ( email, password ) => {
 
-        await signInWithEmailAndPassword( auth, email, password )
-            .then( async (res) => {
+        signInWithEmailAndPassword( auth, email, password )
+            .then( res => {
 
-                const updateRef = doc( db, 'users', res.user.uid );
-
-                try {
-
-                    await updateDoc( updateRef, {
-
-                        online: true
-                    
-                    }).then( () => {
-                        console.log('로그인 성공: ')
-                        //window.location.href = '/';
-
-                    });
-
-                } 
-                catch ( err ) {
-
-                    console.log('Error Occured: ', err );
-                
-                } 
-                
-                return res.user.uid;
+                updateDoc( doc( db, 'users', res.user.uid ), {
+                    online: 'on'
+                })
 
             })
             .catch( (err) => {
