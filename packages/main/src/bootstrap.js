@@ -50,8 +50,12 @@ onAuthStateChanged( auth, ( user ) => {
 function userMain() {
 
     let mountUrls = [
+        
         { 'http://localhost:8080/': new HomeMount },
+        { 'https://octa3d-439a2.firebaseapp.com/': new HomeMount },
         { 'http://localhost:8080/assets': new AssetMount },
+        { 'https://octa3d-439a2.firebaseapp.com/assets': new AssetMount },
+        
     ];
 
     let currentUrl = window.location.href;
