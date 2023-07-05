@@ -13,7 +13,10 @@ export const hookSignin = () => {
                     online: 'on'
                 });
 
-                window.location.href= '/';
+                setInterval( () => {
+                    window.location.href= '/';
+                }, 1000);
+                
 
             })
             .catch( (err) => {
