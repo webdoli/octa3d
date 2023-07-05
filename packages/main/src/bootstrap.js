@@ -7,7 +7,7 @@ import UserHeader from './components/userHeader';
 import Main from './components/main';
 import Footer from './components/footer';
 
-// import { mount as AssetMount } from 'assets/Assets';
+import { mount as guestAssetMount } from 'assets/Assets';
 import LoginGUI from './components/login';
 import SignupGUI from './components/signup';
 
@@ -50,7 +50,7 @@ onAuthStateChanged( auth, ( user ) => {
 function userMain() {
 
     let mountUrls = [
-        
+
         { 'http://localhost:8080/': new HomeMount },
         { 'https://octa3d-439a2.firebaseapp.com/': new HomeMount },
         { 'http://localhost:8080/assets': new AssetMount },
@@ -163,9 +163,9 @@ function routeGuestPage( mainEle, footerEle ) {
                 break;
 
             case 'http://localhost:8080/assets' :
-                hookAssetMount( mainEle, footerEle, AssetMount, false, pre_loader );
+                hookAssetMount( mainEle, footerEle, AssetguestAssetMountMount, false, pre_loader );
             case 'https://octa3d-439a2.firebaseapp.com/assets':
-                hookAssetMount( mainEle, footerEle, AssetMount, false, pre_loader );
+                hookAssetMount( mainEle, footerEle, guestAssetMount, false, pre_loader );
                 break;
 
         }
