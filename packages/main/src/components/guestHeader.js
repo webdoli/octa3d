@@ -26,7 +26,7 @@ const GuestHeader = () => {
                             <div class="octa3d-login-guest" style="margin-left:40px;">
                                 <ul>
                                     <li><a href="/login" class="octa3d-login-btn">LOGIN</a></li>
-                                    <li><a href="signup" class="octa3d-signup-btn">SIGN UP</a></li>
+                                    <li><a href="/signup" class="octa3d-signup-btn">SIGN UP</a></li>
                                 </ul>
                             </div>
                         </ul>

@@ -1,14 +1,26 @@
+import { auth } from '../db/firebaseDB';
+import getData from './../hooks/hook_getData';
 import mypageCSS from "./mypageCSS";
 import bootstrap_501 from "./libs/bootstrapCSS_501";
 
 const MypageGUI = () => {
+
+    let currentUser = auth.currentUser.uid;
 
     let container = document.createElement('section');
     container.className = 'profile-section padding-top padding-bottom';
     container.appendChild( bootstrap_501() );
     container.appendChild( mypageCSS() );
 
-    container.innerHTML += `
+    getData( 'users', currentUser )
+        .then( res => {
+            console.log('res: ' + res.data() );
+            return res.data()
+            
+        })
+        .then(( usrDB ) => {
+            
+            container.innerHTML += `
     <div class="container">
     <link rel="stylesheet" href="https://firebasestorage.googleapis.com/v0/b/octa3d-439a2.appspot.com/o/octa3d%2Fmypage%2Flibs%2Ficofont.min.css?alt=media&token=9aa24018-007d-48cc-99c0-43ea25cc9c95">
     <div class="section-wrapper">
@@ -35,8 +47,8 @@ const MypageGUI = () => {
                         </div>
                     </div>
                     <div class="profile-name">
-                        <h4>Alex joe</h4>
-                        <p>@alexjoe.jxe</p>
+                        <h4> ${ usrDB.nickName }</h4>
+                        <p> ${ usrDB.id } </p>
                     </div>
                     <ul class="profile-contact">
                         <li class="crypto-copy">
@@ -3886,6 +3898,12 @@ const MypageGUI = () => {
         <script src="https://firebasestorage.googleapis.com/v0/b/octa3d-439a2.appspot.com/o/octa3d%2Fmypage%2Flibs%2Fjquery-3.6.0.min.js?alt=media&token=ae4a4a89-0fa2-416d-a1d7-bc12c9fa3587"></script>
         <script src="https://firebasestorage.googleapis.com/v0/b/octa3d-439a2.appspot.com/o/octa3d%2Fmypage%2Flibs%2Ffunctions.js?alt=media&token=d3c23dbe-79ab-4ec7-b6f7-5c42ae758c96"></script>
     `
+
+        });
+
+    
+
+    
     return container
 
 }
