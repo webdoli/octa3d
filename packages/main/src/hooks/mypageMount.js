@@ -1,7 +1,6 @@
 import abstractMount from "./abstractMount";
 import UserHeader from "../components/userHeader";
 import Footer from "../components/footer";
-//import { mount as asset_mount } from 'assets/Assets';
 import MypageGUI from "../components/mypageGUI";
 import { hookSignout } from "./hook_signout";
 
@@ -48,10 +47,6 @@ export default class MypageMount extends abstractMount {
 
         
         createScript( libUrls, main ); 
-
-        //main.appendChild( bootstrapCSS );
-
-        //const { res } = asset_mount( main, db );
 
         document.querySelector('.preloader').style.display = 'none';
         this.setEvent();
