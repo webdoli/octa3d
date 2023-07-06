@@ -18,6 +18,7 @@ import hookSigninMount from './hooks/hook_SigninMount';
 //mount
 import AssetMount from './hooks/assetMount';
 import HomeMount from './hooks/homeMount';
+import MypageMount from './hooks/mypageMount';
 
 const headerEle = document.querySelector('.header-one');
 const mainEle = document.querySelector('#main');
@@ -52,6 +53,8 @@ function userMain() {
         { 'https://octa3d-439a2.firebaseapp.com/': new HomeMount },
         { 'http://localhost:8080/assets': new AssetMount },
         { 'https://octa3d-439a2.firebaseapp.com/assets': new AssetMount },
+        { 'http://localhost:8080/mypage': new MypageMount },
+        { 'https://octa3d-439a2.firebaseapp.com/mypage': new MypageMount }
     ];
 
     let currentUrl = window.location.href;
