@@ -13,6 +13,15 @@ const createLinkTag = ( url ) => {
     
 }
 
+const createScripts = ( url ) => {
+
+    let script = document.createElement('script');
+    script.src = url;
+
+    document.head.appendChild( script );
+
+}
+
 const MypageGUI = () => {
 
     let currentUser = auth.currentUser.uid;
@@ -20,6 +29,7 @@ const MypageGUI = () => {
     createLinkTag( './lib/mypage/bootstrap.min.css' );
     createLinkTag( './lib/mypage/icofont.min.css' );
     createLinkTag( './lib/mypage/swiper-bundle.min.css' );
+    createScripts( 'lib/mypage/js/jquery-3.6.0.min.js' );
 
     let container = document.createElement('section');
     container.className = 'profile-section padding-top padding-bottom';
@@ -39,20 +49,22 @@ const MypageGUI = () => {
 
                     <div class="profile-item">
                         <div class="profile-cover">
-                            <img src="assets/images/profile/cover.jpg" alt="cover-pic">
+                            <img src=${ user.cover_img } alt="cover-pic">
                             <div class="edit-photo custom-upload">
                                 <div class="file-btn"><i class="icofont-camera"></i>
-                                    Edit Photo</div>
+                                    Edit Photo
+                                </div>
                                 <input type="file">
                             </div>
                         </div>
                         <div class="profile-information">
                             <div class="profile-pic">
-                                <img src="assets/images/profile/Profile.jpg" alt="DP">
+                                <img src= ${ user.user_icon } alt="DP">
                                 <div class="custom-upload">
                                     <div class="file-btn">
                                         <span class="d-none d-lg-inline-block"> <i class="icofont-camera"></i>
-                                            Edit</span>
+                                            Edit
+                                        </span>
                                         <span class="d-lg-none mr-0"><i class="icofont-plus"></i></span>
                                     </div>
                                     <input type="file">
@@ -63,20 +75,6 @@ const MypageGUI = () => {
                                 <p> ${ user.id } </p>
                             </div>
                             <ul class="profile-contact">
-                                <li class="crypto-copy">
-                                    <div id="cryptoCode" class="crypto-page">
-                                        <input id="cryptoLink" value="0x731F9FBF4163D47B0F581DD9EC45C9" readonly>
-                                        <div id="cryptoCopy" data-bs-toggle="tooltip" data-bs-placement="top"
-                                            title="Copy Address">
-                                            <span class="copy-icon">
-                                                <i class="icofont-ui-copy" aria-hidden="true"
-                                                    data-copytarget="#cryptoLink"></i>
-                                            </span>
-
-                                        </div>
-                                    </div>
-
-                                </li>
                                 <li>
                                     <a href="#">
                                         <div class="icon"><i class="icofont-ui-rate-add"></i></div>
@@ -149,23 +147,30 @@ const MypageGUI = () => {
                     <div class="profile-details">
                         <nav class="profile-nav">
                             <div class="nav nav-tabs" id="nav-tab" role="tablist">
+                                <button class="nav-link" id="nav-about-tab" data-bs-toggle="tab" data-bs-target="#about"
+                                    type="button" role="tab" aria-controls="about" aria-selected="false">About
+                                </button>
                                 <button class="nav-link active" id="nav-allNft-tab" data-bs-toggle="tab"
                                     data-bs-target="#allNft" type="button" role="tab" aria-controls="allNft"
-                                    aria-selected="true">All NFT's</button>
-                                <button class="nav-link" id="nav-about-tab" data-bs-toggle="tab" data-bs-target="#about"
-                                    type="button" role="tab" aria-controls="about" aria-selected="false">About</button>
-                                <button class="nav-link" id="nav-activity-tab" data-bs-toggle="tab"
-                                    data-bs-target="#activity" type="button" role="tab" aria-controls="activity"
-                                    aria-selected="false">Activity</button>
+                                    aria-selected="true">My Assets
+                                </button>
                                 <button class="nav-link" id="nav-follower-tab" data-bs-toggle="tab"
                                     data-bs-target="#follower" type="button" role="tab" aria-controls="follower"
-                                    aria-selected="false">Follower <span class="item-number">231</span></button>
+                                    aria-selected="false">CoWorking <span class="item-number">231</span>
+                                </button>
+                                <button class="nav-link" id="nav-activity-tab" data-bs-toggle="tab"
+                                    data-bs-target="#activity" type="button" role="tab" aria-controls="activity"
+                                    aria-selected="false">
+                                    Activity
+                                </button>
                                 <button class="nav-link" id="nav-following-tab" data-bs-toggle="tab"
                                     data-bs-target="#following" type="button" role="tab" aria-controls="following"
-                                    aria-selected="false">Following <span class="item-number">145</span></button>
-                                <button class="nav-link" id="nav-wallet-tab" data-bs-toggle="tab"
+                                    aria-selected="false"> Talk <span class="item-number">145</span>
+                                </button>
+                                <!--<button class="nav-link" id="nav-wallet-tab" data-bs-toggle="tab"
                                     data-bs-target="#wallet" type="button" role="tab" aria-controls="wallet"
-                                    aria-selected="false">My Wallet</button>
+                                    aria-selected="false">My Wallet
+                                </button>-->
                                 <div class="dropdown">
                                     <a class="btn dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
                                         aria-expanded="false">
@@ -174,7 +179,7 @@ const MypageGUI = () => {
 
                                     <ul class="dropdown-menu">
                                         <li><a class="dropdown-item" href="#">Profile</a></li>
-                                        <li><a class="dropdown-item" href="#">Privacy</a></li>
+                                        <li><a class="dropdown-item" href="#">Editor</a></li>
                                         <li><a class="dropdown-item" href="#">Block user</a></li>
                                     </ul>
                                 </div>
@@ -196,35 +201,40 @@ const MypageGUI = () => {
                                                                 type="button" role="tab" aria-controls="pills-personal"
                                                                 aria-selected="false">
                                                                 <i class="icofont-flask"></i>
-                                                                Create NFT</button>
+                                                                Upload Asset
+                                                            </button>
                                                         </li>
-                                                        <li class="nav-item" role="presentation">
+                                                        <!--<li class="nav-item" role="presentation">
                                                             <button class="nav-link active" id="pills-mentions-tab"
                                                                 data-bs-toggle="pill" data-bs-target="#pills-mentions"
                                                                 type="button" role="tab" aria-controls="pills-mentions"
                                                                 aria-selected="true"><i class="icofont-flash"></i>
-                                                                On Sale</button>
-                                                        </li>
-                                                        <li class="nav-item" role="presentation">
+                                                                On Sale
+                                                            </button>
+                                                        </li>-->
+                                                        <!--<li class="nav-item" role="presentation">
                                                             <button class="nav-link" id="pills-favorites-tab"
                                                                 data-bs-toggle="pill" data-bs-target="#pills-favorites"
                                                                 type="button" role="tab" aria-controls="pills-favorites"
                                                                 aria-selected="false"><i class="icofont-license"></i>
-                                                                owned</button>
-                                                        </li>
+                                                                owned
+                                                            </button>
+                                                        </li>-->
                                                         <li class="nav-item" role="presentation">
                                                             <button class="nav-link" id="pills-groups-tab"
                                                                 data-bs-toggle="pill" data-bs-target="#pills-groups"
                                                                 type="button" role="tab" aria-controls="pills-groups"
                                                                 aria-selected="false"><i class="icofont-puzzle"></i>
-                                                                Created</button>
+                                                                Created
+                                                            </button>
                                                         </li>
                                                         <li class="nav-item" role="presentation">
                                                             <button class="nav-link" id="pills-friends-tab"
                                                                 data-bs-toggle="pill" data-bs-target="#pills-friends"
                                                                 type="button" role="tab" aria-controls="pills-friends"
                                                                 aria-selected="false"><i class="icofont-library"></i>
-                                                                Collection</button>
+                                                                Picked
+                                                            </button>
                                                         </li>
 
                                                         <li class="custom-select">
@@ -241,17 +251,18 @@ const MypageGUI = () => {
                                                             aria-labelledby="pills-personal-tab">
                                                             <div class="row">
                                                                 <div class="col">
-                                                                    <!-- create item -->
+                                                                    <!-- Upload Assets -->
                                                                     <div class="create-nft py-5 px-4">
                                                                         <form class="create-nft-form">
-                                                                            <!-- upload field -->
+                                                            
+                                                                        <!-- upload field -->
                                                                             <div class="upload-item mb-30">
-                                                                                <p>PNG,JPG,JPEG,SVG,WEBP,Mp3 & Mp4
-                                                                                    (Max-150mb)</p>
+                                                                                <p>FBX,OBJ,GLTF (Max-30mb)</p>
                                                                                 <div class="custom-upload">
-                                                                                    <div class="file-btn"><i
-                                                                                            class="icofont-upload-alt"></i>
-                                                                                        Upload a file</div>
+                                                                                    <div class="file-btn">
+                                                                                        <i class="icofont-upload-alt"></i>
+                                                                                            Upload a file
+                                                                                    </div>
                                                                                     <input type="file">
                                                                                 </div>
                                                                             </div>
@@ -261,66 +272,27 @@ const MypageGUI = () => {
                                                                                 <input type="text" class="form-control"
                                                                                     id="itemNameInput"
                                                                                     placeholder="Item Name">
-                                                                                <label for="itemNameInput">Item
-                                                                                    Name</label>
+                                                                                <label for="itemNameInput">
+                                                                                    Item Name
+                                                                                </label>
                                                                             </div>
                                                                             <!-- item-description -->
-                                                                            <div
-                                                                                class="form-floating item-desc-field mb-30">
+                                                                            <div class="form-floating item-desc-field mb-30">
                                                                                 <textarea class="form-control"
                                                                                     placeholder="Item Description"
-                                                                                    id="itemDesc"></textarea>
-                                                                                <label for="itemDesc">Item
-                                                                                    Description</label>
+                                                                                    id="itemDesc">
+                                                                                </textarea>
+                                                                                <label for="itemDesc">
+                                                                                    Item Description
+                                                                                </label>
                                                                             </div>
                                                                             <!-- item-category -->
                                                                             <div class="item-category-field mb-30">
                                                                                 <h4>Select Item Catergory</h4>
-                                                                                <ul
-                                                                                    class="item-cat-list d-flex flex-wrap">
-                                                                                    <li class="item-cat-btn active">
-                                                                                        <span><i
-                                                                                                class="icofont-vector-path"></i></span>
-                                                                                        Art
-                                                                                    </li>
-                                                                                    <li class="item-cat-btn">
-                                                                                        <span><i
-                                                                                                class="icofont-penalty-card"></i></span>
-                                                                                        Trading Cards
-                                                                                    </li>
-                                                                                    <li class="item-cat-btn">
-                                                                                        <span><i
-                                                                                                class="icofont-ui-game"></i></span>
-                                                                                        Gaming
-                                                                                    </li>
-                                                                                    <li class="item-cat-btn">
-                                                                                        <span><i
-                                                                                                class="icofont-music-disk"></i></span>
-                                                                                        Music
-                                                                                    </li>
-
-                                                                                    <li class="item-cat-btn">
-                                                                                        <span><i
-                                                                                                class="icofont-twitter"></i></span>
-                                                                                        Tweets
-                                                                                    </li>
-                                                                                    <li class="item-cat-btn">
-                                                                                        <span><i
-                                                                                                class="icofont-bill"></i></span>
-                                                                                        Rare Item
-                                                                                    </li>
-                                                                                    <li class="item-cat-btn">
-                                                                                        <span>
-                                                                                            <i class="icofont-box"></i>
-                                                                                        </span> Collectibles
-                                                                                    </li>
-                                                                                    <li class="item-cat-btn">
-                                                                                        <span><i
-                                                                                                class="icofont-gift"></i></span>
-                                                                                        NFT
-                                                                                        Gifts
-                                                                                    </li>
-                                                                                </ul>
+                                                                                <!--<ul class="item-cat-list d-flex flex-wrap">
+                                                                                    <li class="item-cat-btn active"><span><i class="icofont-vector-path"></i></span> Interior </li>
+                                                                                    <li class="item-cat-btn active"><span><i class="icofont-vector-path"></i></span> Vehicle </li>
+                                                                                </ul>-->
                                                                             </div>
                                                                             <!-- item price -->
                                                                             <div class="item-price-field mb-3">
@@ -330,58 +302,74 @@ const MypageGUI = () => {
                                                                                             <select class="form-select"
                                                                                                 id="selectCrypto"
                                                                                                 aria-label="Floating label select">
-                                                                                                <option selected>
-                                                                                                    Ethereum
-                                                                                                </option>
-                                                                                                <option value="1">
-                                                                                                    BitCoin
-                                                                                                </option>
-                                                                                                <option value="2">Dollar
-                                                                                                </option>
-                                                                                                <option value="3">Pound
-                                                                                                </option>
+                                                                                                <option selected> Building & Architecture </option>
+                                                                                                <option value="1"> Interior </option>
+                                                                                                <option value="2"> Vehicles </option>
+                                                                                                <option value="3"> Electronics </option>
+                                                                                                <option value="4"> Humans & Characters </option>
+                                                                                                <option value="5"> Weapons & Amor </option>
+                                                                                                <option value="6"> Food </option>
+                                                                                                <option value="7"> Clothes & Accessories </option>
+                                                                                                <option value="8"> Mecatronics & Parts </option>
+                                                                                                <option value="9"> Anatomy </option>
+                                                                                                <option value="10"> Sports </option>
+                                                                                                <option value="11"> Animals </option>
+                                                                                                <option value="12"> Fantasy & Fiction </option>
                                                                                             </select>
-                                                                                            <label
-                                                                                                for="selectCrypto">Select
-                                                                                                Currency</label>
+                                                                                            <label for="selectCrypto">Select Currency</label>
                                                                                         </div>
                                                                                     </div>
-                                                                                    <div class="col-md-6">
+                                                                                    <div class="col-md-3">
                                                                                         <div class="form-floating">
-                                                                                            <input type="text"
+                                                                                            <select class="form-select">
+                                                                                                <option selected> yes </option>
+                                                                                                <option value="1"> no </option>
+                                                                                            </select>
+                                                                                            <label for="selectCrypto">Texture included</label>
+                                                                                            <!--<input type="text"
                                                                                                 class="form-control"
                                                                                                 id="itemPriceInput"
                                                                                                 placeholder="Item Price">
                                                                                             <label
                                                                                                 for="itemPriceInput">Item
-                                                                                                Price</label>
+                                                                                                Price
+                                                                                            </label>-->
+                                                                                        </div>
+                                                                                    </div>
+                                                                                    <div class="col-md-3">
+                                                                                        <div class="form-floating">
+                                                                                            <select class="form-select">
+                                                                                                <option selected> yes </option>
+                                                                                                <option value="1"> no </option>
+                                                                                            </select>
+                                                                                            <label for="selectCrypto">Rig included</label>
                                                                                         </div>
                                                                                     </div>
                                                                                 </div>
                                                                             </div>
                                                                             <!-- Royalites, Size & copy -->
                                                                             <div class="item-price-field mb-5">
-                                                                                <div
-                                                                                    class="row g-3 justify-content-center">
+                                                                                <div class="row g-3 justify-content-center">
                                                                                     <div class="col-md-6 col-lg-4">
                                                                                         <div class="form-floating">
-                                                                                            <input type="text"
-                                                                                                class="form-control"
-                                                                                                id="royalityInput"
-                                                                                                placeholder="Royalities">
-                                                                                            <label
-                                                                                                for="royalityInput">Royalities</label>
+                                                                                            <select class="form-select">
+                                                                                                <option selected> blender </option>
+                                                                                                <option value="1"> maya </option>
+                                                                                                <option value="1"> max </option>
+                                                                                                <option value="1"> c4d </option>
+                                                                                                <option value="1"> houdini </option>
+                                                                                                <option value="1"> cad </option>
+                                                                                            </select>
+                                                                                            <label for="selectCrypto">Made by</label>
                                                                                         </div>
                                                                                     </div>
                                                                                     <div class="col-md-6 col-lg-4">
                                                                                         <div class="form-floating">
-                                                                                            <input type="text"
-                                                                                                class="form-control"
-                                                                                                id="sizeInput"
-                                                                                                placeholder="Size">
-                                                                                            <label for="sizeInput">
-                                                                                                Size
-                                                                                            </label>
+                                                                                            <select class="form-select">
+                                                                                                <option selected> yes </option>
+                                                                                                <option value="1"> no </option>
+                                                                                            </select>
+                                                                                            <label for="selectCrypto"> Public </label>
                                                                                         </div>
                                                                                     </div>
                                                                                     <div class="col-md-6 col-lg-4">
@@ -389,9 +377,9 @@ const MypageGUI = () => {
                                                                                             <input type="text"
                                                                                                 class="form-control"
                                                                                                 id="itemNumbersInput"
-                                                                                                placeholder="Number of Copies">
+                                                                                                placeholder="License">
                                                                                             <label for="itemNumbersInput">  
-                                                                                                Number of Copies
+                                                                                                License
                                                                                             </label>
                                                                                         </div>
                                                                                     </div>
