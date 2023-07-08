@@ -5,15 +5,12 @@ import Footer from "../components/footer";
 import MypageGUI from "../components/mypageGUI";
 import { hookSignout } from "./hook_signout";
 
-const createScript = ( urls, ele ) => {
-
-    urls.map( url => {
+const createScript = ( url, ele ) => {
 
         let script01 = document.createElement('script');
         script01.src = url;
 
         ele.appendChild( script01 );
-    })
 
 }
 
@@ -28,7 +25,6 @@ export default class MypageMount extends abstractMount {
 
         let libUrls = [
 
-            'lib/mypage/js/jquery-3.6.0.min.js',
             'lib/mypage/js/bootstrap.bundle.min.js',
             'lib/mypage/js/lightcase.js',
             'lib/mypage/js/swiper-bundle.min.js',
@@ -46,8 +42,12 @@ export default class MypageMount extends abstractMount {
 
         main.appendChild( MypageGUI() );
 
-        
-        createScript( libUrls, main ); 
+        libUrls.map( lib => {
+            createScript( lib, main )
+        });
+
+
+        //createScript( libUrls, main ); 
 
         //main.appendChild( bootstrapCSS );
 
