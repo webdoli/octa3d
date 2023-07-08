@@ -924,9 +924,30 @@ const MypageGUI = () => {
                                                 </ul>
                                             </div>
                                         </div>
-                                        <div class="submit-btn-field text-center">
-                                            <button type="submit" style="padding:10px 25px; margin: 20px 0">Edit</button>
+                                        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#confirmPWModal">
+                                            Edit
+                                        </button>
+
+                                        <!-- Modal -->
+                                        <div class="modal fade" id="confirmPWModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                          <div class="modal-dialog">
+                                            <div class="modal-content">
+                                              <div class="modal-header">
+                                                <h1 class="modal-title fs-5" id="exampleModalLabel" style="color:black;"> Confirm Password </h1>
+                                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                              </div>
+                                              <div class="modal-body">
+                                                <label style="color:black;">insert password</label>
+                                                <input type="text"/>
+                                              </div>
+                                              <div class="modal-footer">
+                                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                                <button type="button" class="btn btn-primary">Save changes</button>
+                                              </div>
+                                            </div>
+                                          </div>
                                         </div>
+
                                     </article>
                                     <article>
                                         <form>
@@ -958,6 +979,19 @@ const MypageGUI = () => {
                                                             Must be 8-20 characters long.
                                                         </span>
                                                     </div>
+                                                </div>
+                                                <div>
+                                                    <div class="col-auto">
+                                                        <label for="inputPassword6" class="col-form-label"> Main s/w</label>
+                                                    </div>
+                                                    <input style="margin-left:15px;" type="checkbox" class="form-check-input" name="options" id="option1" autocomplete="off">
+                                                    <label class="btn btn-secondary" for="option1">Checked</label>
+
+                                                    <input style="margin-left:15px;" type="checkbox" class="form-check-input" name="options" id="option2" autocomplete="off">
+                                                    <label class="btn btn-secondary" for="option2">Radio</label>
+
+                                                    <input style="margin-left:15px;" type="checkbox" class="form-check-input" name="options" id="option4" autocomplete="off">
+                                                    <label class="btn btn-secondary" for="option4">Radio</label>
                                                 </div>
                                             </div>
                                             <div class="submit-btn-field text-center">
