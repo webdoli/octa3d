@@ -2,34 +2,23 @@ import { auth } from '../db/firebaseDB';
 import getData from './../hooks/hook_getData';
 import mypageCSS from "./mypageCSS";
 
-const createLinkTag = ( url ) => {
+const createCSSLib = ( url  ) => {
 
-    var link = document.createElement('link');
-    link.type = 'text/css';
+    let link = document.createElement('link');
     link.rel = 'stylesheet';
+    link.type = 'text/css';
     link.href = url;
 
     document.head.appendChild( link );
-    
-}
-
-const createScripts = ( url ) => {
-
-    let script = document.createElement('script');
-    script.src = url;
-
-    document.head.appendChild( script );
-
 }
 
 const MypageGUI = () => {
 
     let currentUser = auth.currentUser.uid;
 
-    createLinkTag( './lib/mypage/bootstrap.min.css' );
-    createLinkTag( './lib/mypage/icofont.min.css' );
-    createLinkTag( './lib/mypage/swiper-bundle.min.css' );
-    createScripts( 'lib/mypage/js/jquery-3.6.0.min.js' );
+    createCSSLib( './lib/mypage/bootstrap.min.css' );
+    createCSSLib( './lib/mypage/icofont.min.css' );
+    createCSSLib( './lib/mypage/swiper-bundle.min.css' );
 
     let container = document.createElement('section');
     container.className = 'profile-section padding-top padding-bottom';
@@ -47,7 +36,7 @@ const MypageGUI = () => {
         <div class="section-wrapper">
                 <div class="member-profile">
 
-                    <div class="profile-item">
+                    <div class="profile-item" >
                         <div class="profile-cover">
                             <img src=${ user.cover_img } alt="cover-pic">
                             <div class="edit-photo custom-upload">
@@ -186,12 +175,14 @@ const MypageGUI = () => {
 
                             </div>
                         </nav>
-                        <div class="tab-content" id="nav-tabContent">
-                            <!-- All NFT tab -->
-                            <div class="tab-pane activity-page fade show active" id="allNft" role="tabpanel">
-                                <div>
+
+                        <div class="tab-content" id="nav-tabContent" style="display:flex;">
+                            
+                            <!-- My Asset tab -->
+                            <div class="col-xl-9 tab-pane activity-page fade show active" id="allNft" role="tabpanel">
+                                
                                     <div class="row">
-                                        <div class="col-xl-9">
+                                        <div>
                                             <article>
                                                 <div class="activity-tab">
                                                     <ul class="nav nav-pills mb-30 px-2" id="pills-tab" role="tablist">
@@ -749,8 +740,7 @@ const MypageGUI = () => {
                                                                 
                                                             </div>
                                                             <div class="load-btn">
-                                                                <a href="#" class="default-btn move-bottom"><span>Load
-                                                                        More</span> </a>
+                                                                <a href="#" class="default-btn move-bottom"><span>Load More</span> </a>
                                                             </div>
                                                         </div>
 
@@ -871,189 +861,119 @@ const MypageGUI = () => {
                                                 </div>
                                             </article>
                                         </div>
-
-                                        <!-- Aside Part -->
-                                        <div class="col-xl-3">
-                                            <aside class="mt-5 mt-xl-0">
-                                                <div class="profile-widget search-widget">
-                                                    <div class="widget-inner">
-                                                        <div class="widget-title">
-                                                            <h5>Search NFT</h5>
-                                                        </div>
-                                                        <div class="widget-content">
-                                                            <p>Search from best Rarest NFT collections</p>
-                                                            <div class="form-floating nft-search-input">
-                                                                <input type="text" class="form-control"
-                                                                    placeholder="Search NFT">
-                                                                <label>Search NFT</label>
-                                                                <button type="button"> <i
-                                                                        class="icofont-search-1"></i></button>
-                                                            </div>
-
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <div class="widget widget-instagram">
-                                                    <div class="widget-header">
-                                                        <h5 class="title">Featured NFT</h5>
-                                                    </div>
-                                                    <ul class="widget-wrapper d-flex flex-wrap justify-content-center">
-                                                        <li><a data-rel="lightcase"
-                                                                href="assets/images/nft-item/01.jpg">
-                                                                <img loading="lazy"
-                                                                     src="assets/images/nft-item/01.jpg"
-                                                                     alt="nft-img">
-                                                            </a>
-                                                        </li>
-                                                    </ul>
-                                                </div>
-                                            </aside>
-                                        </div>
                                     </div>
-                                </div>
-                            </div>
-
+                                
+                            </div> 
 
                             <!-- about tab -->
-                            <div class="tab-pane fade" id="about" role="tabpanel" aria-labelledby="nav-about-tab">
-                                <div>
-                                    <div class="row">
-                                        <div class="col-xl-9">
-                                            <article>
-
-                                                <div class="info-card mb-3">
-                                                    <div class="info-card-title">
-                                                        <h4>About</h4>
-                                                    </div>
-                                                    <div class="info-card-content">
-                                                        <p>Collaboratively innovate compelling mindshare after
-                                                            prospective partnerships Competently sereiz long-term
-                                                            high-impact internal or "organic" sources via user friendly
-                                                            strategic themesr areas creat Dramatically coordinate
-                                                            premium partnerships rather than standards compliant
-                                                            technologies ernd Dramatically matrix ethical collaboration
-                                                            and idea-sharing through opensource methodologies and
-                                                            Intrinsicly grow collaborative platforms vis-a-vis effective
-                                                            scenarios. Energistically strategize cost effective ideas
-                                                            before the worke unde.</p>
-                                                    </div>
-                                                </div>
-                                                <div class="info-card">
-                                                    <div class="info-card-title">
-                                                        <h4>Other Info</h4>
-                                                    </div>
-                                                    <div class="info-card-content">
-                                                        <ul class="info-list">
-                                                            <li>
-                                                                <p class="info-name">Name</p>
-                                                                <p class="info-details">Alex Joe</p>
-                                                            </li>
-                                                            <li>
-                                                                <p class="info-name">Country</p>
-                                                                <p class="info-details">USA</p>
-                                                            </li>
-                                                            <li>
-                                                                <p class="info-name">Specialize in</p>
-                                                                <p class="info-details">Art</p>
-                                                            </li>
-                                                            <li>
-                                                                <p class="info-name">Wallet Add</p>
-                                                                <p class="info-details">fdffx1xr394k..dfdk23sl</p>
-                                                            </li>
-                                                            <li>
-                                                                <p class="info-name">Age</p>
-                                                                <p class="info-details">36</p>
-                                                            </li>
-                                                            <li>
-                                                                <p class="info-name">Date of Birth</p>
-                                                                <p class="info-details">27-02-1996</p>
-                                                            </li>
-                                                            <li>
-                                                                <p class="info-name">Address</p>
-                                                                <p class="info-details">Streop Rd, Peosur, Inphodux,
-                                                                    USA.</p>
-                                                            </li>
-                                                        </ul>
-
-                                                    </div>
-                                                </div>
-                                            </article>
+                            <div class="col-xl-9 tab-pane fade" id="about" role="tabpanel" aria-labelledby="nav-about-tab">
+                                <div class="row" style="border:1px solid blue">
+                                    <article class="visible">
+                                        <div class="info-card mb-3">
+                                            <div class="info-card-title">
+                                                <h4>About</h4>
+                                            </div>
+                                            <div class="info-card-content">
+                                                <p>Collaboratively innovate compelling mindshare after
+                                                    prospective partnerships Competently sereiz long-term
+                                                    high-impact internal or "organic" sources via user friendly
+                                                    strategic themesr areas creat Dramatically coordinate
+                                                    premium partnerships rather than standards compliant
+                                                    technologies ernd Dramatically matrix ethical collaboration
+                                                    and idea-sharing through opensource methodologies and
+                                                    Intrinsicly grow collaborative platforms vis-a-vis effective
+                                                    scenarios. Energistically strategize cost effective ideas
+                                                    before the worke unde.</p>
+                                            </div>
                                         </div>
-
-                                        <!-- Aside Part -->
-                                        <div class="col-xl-3">
-                                            <aside class="mt-5 mt-xl-0">
-                                                <div class="profile-widget search-widget">
-                                                    <div class="widget-inner">
-                                                        <div class="widget-title">
-                                                            <h5>Search NFT</h5>
-                                                        </div>
-                                                        <div class="widget-content">
-                                                            <p>Search from best Rarest NFT collections</p>
-                                                            <div class="form-floating nft-search-input">
-                                                                <input type="text" class="form-control"
-                                                                    placeholder="Search NFT">
-                                                                <label>Search NFT</label>
-                                                                <button type="button"> <i
-                                                                        class="icofont-search-1"></i></button>
-                                                            </div>
-
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <div class="widget widget-instagram">
-                                                    <div class="widget-header">
-                                                        <h5 class="title">Featured NFT</h5>
-                                                    </div>
-                                                    <ul class="widget-wrapper d-flex flex-wrap justify-content-center">
-                                                        <li><a data-rel="lightcase"
-                                                                href="assets/images/nft-item/01.jpg"><img loading="lazy"
-                                                                    src="assets/images/nft-item/01.jpg"
-                                                                    alt="nft-img"></a></li>
-                                                        <li><a data-rel="lightcase"
-                                                                href="assets/images/nft-item/02.jpg"><img loading="lazy"
-                                                                    src="assets/images/nft-item/02.jpg"
-                                                                    alt="nft-img"></a></li>
-                                                        <li><a data-rel="lightcase"
-                                                                href="assets/images/nft-item/03.jpg"><img loading="lazy"
-                                                                    src="assets/images/nft-item/03.jpg"
-                                                                    alt="nft-img"></a></li>
-                                                        <li><a data-rel="lightcase"
-                                                                href="assets/images/nft-item/04.jpg"><img loading="lazy"
-                                                                    src="assets/images/nft-item/04.jpg"
-                                                                    alt="nft-img"></a></li>
-                                                        <li><a data-rel="lightcase"
-                                                                href="assets/images/nft-item/05.jpg"><img loading="lazy"
-                                                                    src="assets/images/nft-item/05.jpg"
-                                                                    alt="nft-img"></a></li>
-                                                        <li><a data-rel="lightcase"
-                                                                href="assets/images/nft-item/06.jpg"><img loading="lazy"
-                                                                    src="assets/images/nft-item/06.jpg"
-                                                                    alt="nft-img"></a></li>
-                                                        <li><a data-rel="lightcase"
-                                                                href="assets/images/nft-item/07.jp"><img loading="lazy"
-                                                                    src="assets/images/nft-item/07.jpg"
-                                                                    alt="nft-img"></a></li>
-                                                        <li><a data-rel="lightcase"
-                                                                href="assets/images/nft-item/08.jpg"><img loading="lazy"
-                                                                    src="assets/images/nft-item/08.jpg"
-                                                                    alt="nft-img"></a></li>
-                                                        <li><a data-rel="lightcase"
-                                                                href="assets/images/nft-item/09.jpg"><img loading="lazy"
-                                                                    src="assets/images/nft-item/09.jpg"
-                                                                    alt="nft-img"></a></li>
-                                                    </ul>
-                                                </div>
-                                            </aside>
+                                        <div class="info-card">
+                                            <div class="info-card-title">
+                                                <h4>Other Info</h4>
+                                            </div>
+                                            <div class="info-card-content">
+                                                <ul class="info-list">
+                                                    <li>
+                                                        <p class="info-name">Name</p>
+                                                        <p class="info-details">Alex Joe</p>
+                                                    </li>
+                                                    <li>
+                                                        <p class="info-name">Country</p>
+                                                        <p class="info-details">USA</p>
+                                                    </li>
+                                                    <li>
+                                                        <p class="info-name">Specialize in</p>
+                                                        <p class="info-details">Art</p>
+                                                    </li>
+                                                    <li>
+                                                        <p class="info-name">Wallet Add</p>
+                                                        <p class="info-details">fdffx1xr394k..dfdk23sl</p>
+                                                    </li>
+                                                    <li>
+                                                        <p class="info-name">Age</p>
+                                                        <p class="info-details">36</p>
+                                                    </li>
+                                                    <li>
+                                                        <p class="info-name">Date of Birth</p>
+                                                        <p class="info-details">27-02-1996</p>
+                                                    </li>
+                                                    <li>
+                                                        <p class="info-name">Address</p>
+                                                        <p class="info-details">Streop Rd, Peosur, Inphodux,
+                                                            USA.</p>
+                                                    </li>
+                                                </ul>
+                                            </div>
                                         </div>
-                                    </div>
+                                        <div class="submit-btn-field text-center">
+                                            <button type="submit" style="padding:10px 25px; margin: 20px 0">Edit</button>
+                                        </div>
+                                    </article>
+                                    <article>
+                                        <form>
+                                            <div class="input-group">
+                                                <span class="input-group-text">My Intro</span>
+                                                <textarea class="form-control" aria-label="With textarea" rows="6"></textarea>
+                                            </div>
+                                            <div class="mb-3 profile-edit-form-otherinfo" style="font-size:1.2em; padding:30px 0">
+                                                <label class="form-label"> Other Info </label>
+                                                <div class="input-group mb-3">
+                                                    <span class="input-group-text">nick name</span>
+                                                    <input type="text" class="form-control" placeholder="Nickname">
+                                                </div>
+                                                <select class="form-select" aria-label="Default select example">
+                                                    <option selected> Select Country </option>
+                                                    <option value="1">America</option>
+                                                    <option value="2">Japan</option>
+                                                    <option value="3">Korea</option>
+                                                </select>
+                                                <div class="row g-3 align-items-center">
+                                                    <div class="col-auto">
+                                                        <label for="inputPassword6" class="col-form-label">Password</label>
+                                                    </div>
+                                                    <div class="col-auto">
+                                                        <input type="password" id="inputPassword6" class="form-control" aria-labelledby="passwordHelpInline">
+                                                    </div>
+                                                    <div class="col-auto">
+                                                        <span id="passwordHelpInline" class="form-text">
+                                                            Must be 8-20 characters long.
+                                                        </span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="submit-btn-field text-center">
+                                                <button type="submit" style="padding:10px 25px; margin: 20px 0">Edit</button>
+                                            </div>
+                                        </form>
+                                    </article>     
+                                    
                                 </div>
                             </div>
+
                             <!-- activity Tab -->
-                            <div class="tab-pane fade" id="activity" role="tabpanel" aria-labelledby="nav-activity-tab">
+                            <div class="col-xl-9 tab-pane fade" id="activity" role="tabpanel" aria-labelledby="nav-activity-tab">
                                 <div>
                                     <div class="row">
-                                        <div class="col-xl-9">
+                                        <div>
                                             <article>
                                                 <h4 class="h4-title">Author's Activity</h4>
                                                 <div class="row gy-3">
@@ -1084,83 +1004,16 @@ const MypageGUI = () => {
                                                 </div>
                                             </article>
                                         </div>
-
-                                        <!-- Aside Part -->
-                                        <div class="col-xl-3">
-                                            <aside class="mt-5 mt-xl-0">
-                                                <div class="profile-widget search-widget">
-                                                    <div class="widget-inner">
-                                                        <div class="widget-title">
-                                                            <h5>Search NFT</h5>
-                                                        </div>
-                                                        <div class="widget-content">
-                                                            <p>Search from best Rarest NFT collections</p>
-                                                            <div class="form-floating nft-search-input">
-                                                                <input type="text" class="form-control"
-                                                                    placeholder="Search NFT">
-                                                                <label>Search NFT</label>
-                                                                <button type="button"> <i
-                                                                        class="icofont-search-1"></i></button>
-                                                            </div>
-
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <div class="widget widget-instagram">
-                                                    <div class="widget-header">
-                                                        <h5 class="title">Featured NFT</h5>
-                                                    </div>
-                                                    <ul class="widget-wrapper d-flex flex-wrap justify-content-center">
-                                                        <li><a data-rel="lightcase"
-                                                                href="assets/images/nft-item/01.jpg"><img loading="lazy"
-                                                                    src="assets/images/nft-item/01.jpg"
-                                                                    alt="nft-img"></a></li>
-                                                        <li><a data-rel="lightcase"
-                                                                href="assets/images/nft-item/02.jpg"><img loading="lazy"
-                                                                    src="assets/images/nft-item/02.jpg"
-                                                                    alt="nft-img"></a></li>
-                                                        <li><a data-rel="lightcase"
-                                                                href="assets/images/nft-item/03.jpg"><img loading="lazy"
-                                                                    src="assets/images/nft-item/03.jpg"
-                                                                    alt="nft-img"></a></li>
-                                                        <li><a data-rel="lightcase"
-                                                                href="assets/images/nft-item/04.jpg"><img loading="lazy"
-                                                                    src="assets/images/nft-item/04.jpg"
-                                                                    alt="nft-img"></a></li>
-                                                        <li><a data-rel="lightcase"
-                                                                href="assets/images/nft-item/05.jpg"><img loading="lazy"
-                                                                    src="assets/images/nft-item/05.jpg"
-                                                                    alt="nft-img"></a></li>
-                                                        <li><a data-rel="lightcase"
-                                                                href="assets/images/nft-item/06.jpg"><img loading="lazy"
-                                                                    src="assets/images/nft-item/06.jpg"
-                                                                    alt="nft-img"></a></li>
-                                                        <li><a data-rel="lightcase"
-                                                                href="assets/images/nft-item/07.jpg"><img loading="lazy"
-                                                                    src="assets/images/nft-item/07.jpg"
-                                                                    alt="nft-img"></a></li>
-                                                        <li><a data-rel="lightcase"
-                                                                href="assets/images/nft-item/08.jpg"><img loading="lazy"
-                                                                    src="assets/images/nft-item/08.jpg"
-                                                                    alt="nft-img"></a></li>
-                                                        <li><a data-rel="lightcase"
-                                                                href="assets/images/nft-item/09.jpg"><img loading="lazy"
-                                                                    src="assets/images/nft-item/09.jpg"
-                                                                    alt="nft-img"></a></li>
-                                                    </ul>
-                                                </div>
-                                            </aside>
-                                        </div>
                                     </div>
                                 </div>
                             </div>
-                            <!-- follower Tab -->
-                            <div class="tab-pane fade" id="follower" role="tabpanel" aria-labelledby="nav-follower-tab">
+                            <!-- CoWorking Tab -->
+                            <div class="col-xl-9 tab-pane fade" id="follower" role="tabpanel" aria-labelledby="nav-follower-tab">
                                 <div>
                                     <div class="row">
-                                        <div class="col-xl-9">
+                                        <div>
                                             <div class="follow-wrapper">
-                                                <h4 class="h4-title">All Followers</h4>
+                                                <h4 class="h4-title">Coworking</h4>
                                                 <div class="row g-3">
                                                     <div class="col-lg-6">
                                                         <div class="seller-item">
@@ -1199,83 +1052,17 @@ const MypageGUI = () => {
                                                 </div>
                                             </div>
                                         </div>
-
-                                        <!-- Aside Part -->
-                                        <div class="col-xl-3">
-                                            <aside class="mt-5 mt-xl-0">
-                                                <div class="profile-widget search-widget">
-                                                    <div class="widget-inner">
-                                                        <div class="widget-title">
-                                                            <h5>Search NFT</h5>
-                                                        </div>
-                                                        <div class="widget-content">
-                                                            <p>Search from best Rarest NFT collections</p>
-                                                            <div class="form-floating nft-search-input">
-                                                                <input type="text" class="form-control"
-                                                                    placeholder="Search NFT">
-                                                                <label>Search NFT</label>
-                                                                <button type="button"> <i
-                                                                        class="icofont-search-1"></i></button>
-                                                            </div>
-
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <div class="widget widget-instagram">
-                                                    <div class="widget-header">
-                                                        <h5 class="title">Featured NFT</h5>
-                                                    </div>
-                                                    <ul class="widget-wrapper d-flex flex-wrap justify-content-center">
-                                                        <li><a data-rel="lightcase"
-                                                                href="assets/images/nft-item/01.jpg"><img loading="lazy"
-                                                                    src="assets/images/nft-item/01.jpg"
-                                                                    alt="nft-img"></a></li>
-                                                        <li><a data-rel="lightcase"
-                                                                href="assets/images/nft-item/02.jpg"><img loading="lazy"
-                                                                    src="assets/images/nft-item/02.jpg"
-                                                                    alt="nft-img"></a></li>
-                                                        <li><a data-rel="lightcase"
-                                                                href="assets/images/nft-item/03.jpg"><img loading="lazy"
-                                                                    src="assets/images/nft-item/03.jpg"
-                                                                    alt="nft-img"></a></li>
-                                                        <li><a data-rel="lightcase"
-                                                                href="assets/images/nft-item/04.jpg"><img loading="lazy"
-                                                                    src="assets/images/nft-item/04.jpg"
-                                                                    alt="nft-img"></a></li>
-                                                        <li><a data-rel="lightcase"
-                                                                href="assets/images/nft-item/05.jpg"><img loading="lazy"
-                                                                    src="assets/images/nft-item/05.jpg"
-                                                                    alt="nft-img"></a></li>
-                                                        <li><a data-rel="lightcase"
-                                                                href="assets/images/nft-item/06.jpg"><img loading="lazy"
-                                                                    src="assets/images/nft-item/06.jpg"
-                                                                    alt="nft-img"></a></li>
-                                                        <li><a data-rel="lightcase"
-                                                                href="assets/images/nft-item/07.jpg"><img loading="lazy"
-                                                                    src="assets/images/nft-item/07.jpg"
-                                                                    alt="nft-img"></a></li>
-                                                        <li><a data-rel="lightcase"
-                                                                href="assets/images/nft-item/08.jpg"><img loading="lazy"
-                                                                    src="assets/images/nft-item/08.jpg"
-                                                                    alt="nft-img"></a></li>
-                                                        <li><a data-rel="lightcase"
-                                                                href="assets/images/nft-item/09.jpg"><img loading="lazy"
-                                                                    src="assets/images/nft-item/09.jpg"
-                                                                    alt="nft-img"></a></li>
-                                                    </ul>
-                                                </div>
-                                            </aside>
-                                        </div>
                                     </div>
                                 </div>
                             </div>
-                            <!-- following Tab -->
-                            <div class="tab-pane fade" id="following" role="tabpanel"
+
+                            <!-- Talk Tab -->
+                            <div class="col-xl-9 tab-pane fade" id="following" role="tabpanel"
                                 aria-labelledby="nav-following-tab">
                                 <div class="row">
-                                    <div class="col-xl-9">
+                                    <div>
                                         <div class="follow-wrapper">
-                                            <h4 class="h4-title">Following</h4>
+                                            <h4 class="h4-title"> Talk </h4>
                                             <div class="row g-3">
                                                 <div class="col-lg-6">
                                                     <div class="seller-item">
@@ -1313,187 +1100,51 @@ const MypageGUI = () => {
                                             </div>
                                         </div>
                                     </div>
-
-                                    <!-- Aside Part -->
-                                    <div class="col-xl-3">
-                                        <aside class="mt-5 mt-xl-0">
-                                            <div class="profile-widget search-widget">
-                                                <div class="widget-inner">
-                                                    <div class="widget-title">
-                                                        <h5>Search NFT</h5>
-                                                    </div>
-                                                    <div class="widget-content">
-                                                        <p>Search from best Rarest NFT collections</p>
-                                                        <div class="form-floating nft-search-input">
-                                                            <input type="text" class="form-control"
-                                                                placeholder="Search NFT">
-                                                            <label>Search NFT</label>
-                                                            <button type="button"> <i
-                                                                    class="icofont-search-1"></i></button>
-                                                        </div>
-
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="widget widget-instagram">
-                                                <div class="widget-header">
-                                                    <h5 class="title">Featured NFT</h5>
-                                                </div>
-                                                <ul class="widget-wrapper d-flex flex-wrap justify-content-center">
-                                                    <li><a data-rel="lightcase"
-                                                            href="assets/images/nft-item/01.jpg"><img loading="lazy"
-                                                                src="assets/images/nft-item/01.jpg" alt="nft-img"></a>
-                                                    </li>
-                                                    <li><a data-rel="lightcase"
-                                                            href="assets/images/nft-item/02.jpg"><img loading="lazy"
-                                                                src="assets/images/nft-item/02.jpg" alt="nft-img"></a>
-                                                    </li>
-                                                    <li><a data-rel="lightcase"
-                                                            href="assets/images/nft-item/03.jpg"><img loading="lazy"
-                                                                src="assets/images/nft-item/03.jpg" alt="nft-img"></a>
-                                                    </li>
-                                                    <li><a data-rel="lightcase"
-                                                            href="assets/images/nft-item/04.jpg"><img loading="lazy"
-                                                                src="assets/images/nft-item/04.jpg" alt="nft-img"></a>
-                                                    </li>
-                                                    <li><a data-rel="lightcase"
-                                                            href="assets/images/nft-item/05.jpg"><img loading="lazy"
-                                                                src="assets/images/nft-item/05.jpg" alt="nft-img"></a>
-                                                    </li>
-                                                    <li><a data-rel="lightcase"
-                                                            href="assets/images/nft-item/06.jpg"><img loading="lazy"
-                                                                src="assets/images/nft-item/06.jpg" alt="nft-img"></a>
-                                                    </li>
-                                                    <li><a data-rel="lightcase"
-                                                            href="assets/images/nft-item/07.jpg"><img loading="lazy"
-                                                                src="assets/images/nft-item/07.jpg" alt="nft-img"></a>
-                                                    </li>
-                                                    <li><a data-rel="lightcase"
-                                                            href="assets/images/nft-item/08.jpg"><img loading="lazy"
-                                                                src="assets/images/nft-item/08.jpg" alt="nft-img"></a>
-                                                    </li>
-                                                    <li><a data-rel="lightcase"
-                                                            href="assets/images/nft-item/09.jpg"><img loading="lazy"
-                                                                src="assets/images/nft-item/09.jpg" alt="nft-img"></a>
-                                                    </li>
-                                                </ul>
-                                            </div>
-                                        </aside>
-                                    </div>
                                 </div>
                             </div>
-                            <!-- wallet Tab -->
-                            <div class="tab-pane fade" id="wallet" role="tabpanel" aria-labelledby="nav-wallet-tab">
-                                <div>
-                                    <div class="row">
-                                        <div class="col-xl-9">
-                                            <div class="wallet-wrapper">
-                                                <div class="wallet-title">
-                                                    <h4>Connect your wallet</h4>
-                                                    <p>Connect with one of available wallet providers or <a
-                                                            href="signup.html">create a
-                                                            new wallet</a></p>
+                            
+                            <!-- Aside Part -->
+                            <div class="col-xl-3" style="padding-left:15px;">
+                                <aside class="mt-5 mt-xl-0">
+                                    <div class="profile-widget search-widget">
+                                        <div class="widget-inner">
+                                            <div class="widget-title">
+                                                <h5>Search NFT</h5>
+                                            </div>
+                                            <div class="widget-content">
+                                                <p>Search from best Rarest NFT collections</p>
+                                                <div class="form-floating nft-search-input">
+                                                    <input type="text" class="form-control"
+                                                        placeholder="Search NFT">
+                                                    <label>Search NFT</label>
+                                                    <button type="button"> <i
+                                                            class="icofont-search-1"></i></button>
                                                 </div>
-                                                <div class="wallet-section">
-                                                    <div class="wallet-inner">
-                                                        <div class="row g-3">
-                                                            <div class="col-lg-4 col-md-6">
-                                                                <div class="wallet-item">
-                                                                    <div class="wallet-item-inner">
-                                                                        <div class="wallet-thumb">
-                                                                            <a href="signin.html">
-                                                                                <img src="assets/images/wallet/01.png"
-                                                                                    alt="wallet-img">
-                                                                            </a>
-                                                                        </div>
-                                                                        <div class="wallet-content">
-                                                                            <h5><a href="signin.html">MetaMask</a></h5>
-                                                                            <p>Connect with your email and password</p>
-                                                                        </div>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                            
-                                                        </div>
-                                                        <p class="mt-5 wallet-notice"><span class="me-1 theme-color"><i
-                                                                    class="icofont-bulb-alt"></i></span> We
-                                                            do not own your private keys and cannot access your funds
-                                                            without your confirmation.</p>
-                                                    </div>
-                                                </div>
+
                                             </div>
                                         </div>
-                                        <!-- Aside Part -->
-                                        <div class="col-xl-3">
-                                            <aside class="mt-5 mt-xl-0">
-                                                <div class="profile-widget search-widget">
-                                                    <div class="widget-inner">
-                                                        <div class="widget-title">
-                                                            <h5>Search NFT</h5>
-                                                        </div>
-                                                        <div class="widget-content">
-                                                            <p>Search from best Rarest NFT collections</p>
-                                                            <div class="form-floating nft-search-input">
-                                                                <input type="text" class="form-control"
-                                                                    placeholder="Search NFT">
-                                                                <label>Search NFT</label>
-                                                                <button type="button"> <i
-                                                                        class="icofont-search-1"></i></button>
-                                                            </div>
-
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <div class="widget widget-instagram">
-                                                    <div class="widget-header">
-                                                        <h5 class="title">Featured NFT</h5>
-                                                    </div>
-                                                    <ul class="widget-wrapper d-flex flex-wrap justify-content-center">
-                                                        <li><a data-rel="lightcase"
-                                                                href="assets/images/nft-item/01.jpg"><img loading="lazy"
-                                                                    src="assets/images/nft-item/01.jpg"
-                                                                    alt="nft-img"></a></li>
-                                                        <li><a data-rel="lightcase"
-                                                                href="assets/images/nft-item/02.jpg"><img loading="lazy"
-                                                                    src="assets/images/nft-item/02.jpg"
-                                                                    alt="nft-img"></a></li>
-                                                        <li><a data-rel="lightcase"
-                                                                href="assets/images/nft-item/03.jpg"><img loading="lazy"
-                                                                    src="assets/images/nft-item/03.jpg"
-                                                                    alt="nft-img"></a></li>
-                                                        <li><a data-rel="lightcase"
-                                                                href="assets/images/nft-item/04.jpg"><img loading="lazy"
-                                                                    src="assets/images/nft-item/04.jpg"
-                                                                    alt="nft-img"></a></li>
-                                                        <li><a data-rel="lightcase"
-                                                                href="assets/images/nft-item/05.jpg"><img loading="lazy"
-                                                                    src="assets/images/nft-item/05.jpg"
-                                                                    alt="nft-img"></a></li>
-                                                        <li><a data-rel="lightcase"
-                                                                href="assets/images/nft-item/06.jpg"><img loading="lazy"
-                                                                    src="assets/images/nft-item/06.jpg"
-                                                                    alt="nft-img"></a></li>
-                                                        <li><a data-rel="lightcase"
-                                                                href="assets/images/nft-item/07.jpg"><img loading="lazy"
-                                                                    src="assets/images/nft-item/07.jpg"
-                                                                    alt="nft-img"></a></li>
-                                                        <li><a data-rel="lightcase"
-                                                                href="assets/images/nft-item/08.jpg"><img loading="lazy"
-                                                                    src="assets/images/nft-item/08.jpg"
-                                                                    alt="nft-img"></a></li>
-                                                        <li><a data-rel="lightcase"
-                                                                href="assets/images/nft-item/09.jpg"><img loading="lazy"
-                                                                    src="assets/images/nft-item/09.jpg"
-                                                                    alt="nft-img"></a></li>
-                                                    </ul>
-                                                </div>
-                                            </aside>
-                                        </div>
                                     </div>
-                                </div>
+                                    <div class="widget widget-instagram">
+                                        <div class="widget-header">
+                                            <h5 class="title">Featured NFT</h5>
+                                        </div>
+                                        <ul class="widget-wrapper d-flex flex-wrap justify-content-center">
+                                            <li><a data-rel="lightcase"
+                                                    href="assets/images/nft-item/01.jpg">
+                                                    <img loading="lazy"
+                                                         src="assets/images/nft-item/01.jpg"
+                                                         alt="nft-img">
+                                                </a>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </aside>
                             </div>
-                        </div>
-                    </div>
+                            
+                        </div> <!-- tab-content (inner content) -->
+
+                    </div> <!-- profile details -->
+
                 </div>
             </div>
         </div>
