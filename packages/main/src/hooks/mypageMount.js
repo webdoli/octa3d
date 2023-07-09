@@ -1,7 +1,6 @@
 import abstractMount from "./abstractMount";
 import UserHeader from "../components/userHeader";
 import Footer from "../components/footer";
-//import { mount as asset_mount } from 'assets/Assets';
 import MypageGUI from "../components/mypageGUI";
 import { hookSignout } from "./hook_signout";
 
@@ -19,6 +18,12 @@ export default class MypageMount extends abstractMount {
     constructor() {
         console.log('mypage 마운트 class 시작')
         super();
+        
+        let jquery = document.createElement('script');
+            jquery.src = 'lib/mypage/js/jquery-3.6.0.min.js';
+
+        document.head.appendChild( jquery );
+
     }
 
     mount( db ) {
@@ -26,6 +31,7 @@ export default class MypageMount extends abstractMount {
         let libUrls = [
 
             'lib/mypage/js/bootstrap.bundle.min.js',
+            'lib/mypage/js/jquery.counterup.min.js',
             'lib/mypage/js/lightcase.js',
             'lib/mypage/js/swiper-bundle.min.js',
             'lib/mypage/js/isotope.pkgd.min.js',
