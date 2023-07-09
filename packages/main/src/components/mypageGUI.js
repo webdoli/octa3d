@@ -1,6 +1,8 @@
 import { auth } from '../db/firebaseDB';
 import getData from './../hooks/hook_getData';
 import mypageCSS from "./mypageCSS";
+import Strings from './strings';
+import { userPWValidChk } from '../hooks/hookAuth';
 
 const createCSSLib = ( url  ) => {
 
@@ -12,8 +14,19 @@ const createCSSLib = ( url  ) => {
     document.head.appendChild( link );
 }
 
+
 const MypageGUI = () => {
 
+    function pwValidFunc ( ) {
+        
+        console.log('비번검증 실행');
+
+        if( document.querySelector('#profile-valid-pw-input') ) {
+            console.log( document.querySelector('#profile-valid-pw-input').value );
+        }
+        
+    }
+    
     let currentUser = auth.currentUser.uid;
 
     createCSSLib( './lib/mypage/bootstrap.min.css' );
@@ -931,20 +944,29 @@ const MypageGUI = () => {
                                         <!-- Modal -->
                                         <div class="modal fade" id="confirmPWModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
                                           <div class="modal-dialog">
+                                           
                                             <div class="modal-content">
                                               <div class="modal-header">
                                                 <h1 class="modal-title fs-5" id="exampleModalLabel" style="color:black;"> Confirm Password </h1>
-                                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"> </button>
                                               </div>
                                               <div class="modal-body">
                                                 <label style="color:black;">insert password</label>
-                                                <input type="text"/>
+                                                <input type="text" id="profile-valid-pw-input"/>
+                                                <span class="profileForm-pw-valid"></span>
                                               </div>
                                               <div class="modal-footer">
+                                                <button type="submit" 
+                                                    onclick="{ (()=>{ pwValidFunc() })() }" 
+                                                    class="btn btn-primary" 
+                                                    id="profile-pw-valid"
+                                                >
+                                                    Submit
+                                                </button>
                                                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                                                <button type="button" class="btn btn-primary">Save changes</button>
                                               </div>
                                             </div>
+                                            
                                           </div>
                                         </div>
 

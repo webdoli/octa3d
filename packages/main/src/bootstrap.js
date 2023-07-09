@@ -64,7 +64,6 @@ function userMain() {
         if ( mounts[currentUrl ] ) {
 
            mounts[currentUrl].mount();
-
         }
 
     });

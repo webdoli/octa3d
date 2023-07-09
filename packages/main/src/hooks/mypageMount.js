@@ -7,29 +7,25 @@ import { hookSignout } from "./hook_signout";
 const createScript = ( url, ele ) => {
 
         let script01 = document.createElement('script');
+        script01.type = 'module';
         script01.src = url;
 
         ele.appendChild( script01 );
 
 }
 
+
 export default class MypageMount extends abstractMount {
     
     constructor() {
         console.log('mypage 마운트 class 시작')
         super();
-        
-        let jquery = document.createElement('script');
-            jquery.src = 'lib/mypage/js/jquery-3.6.0.min.js';
-
-        document.head.appendChild( jquery );
-
     }
 
     mount( db ) {
 
         let libUrls = [
-
+            'lib/mypage/js/myPageScript.js',
             'lib/mypage/js/bootstrap.bundle.min.js',
             'lib/mypage/js/jquery.counterup.min.js',
             'lib/mypage/js/lightcase.js',
