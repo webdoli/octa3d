@@ -28,6 +28,7 @@ const MypageGUI = () => {
     }
     
     let currentUser = auth.currentUser.uid;
+    let newPW = null;
 
     createCSSLib( './lib/mypage/bootstrap.min.css' );
     createCSSLib( './lib/mypage/icofont.min.css' );
@@ -953,11 +954,19 @@ const MypageGUI = () => {
                                               <div class="modal-body">
                                                 <label style="color:black;">insert password</label>
                                                 <input type="text" id="profile-valid-pw-input"/>
-                                                <span class="profileForm-pw-valid"></span>
+                                                <br/>
+                                                <span id="profileForm-pw-valid" style="color:tomato;font-size:0.7em;"></span>
                                               </div>
                                               <div class="modal-footer">
-                                                <button type="submit" 
-                                                    onclick="{ (()=>{ pwValidFunc() })() }" 
+                                                <button type="submit"
+                                                    onclick="{ (() => {
+                                                        let modalEl = document.querySelector('#confirmPWModal');
+                                                        let errorEl = document.querySelector('#profileForm-pw-valid');
+                                                        let newPW = document.querySelector('#profile-valid-pw-input').value;
+                                                        window.usrNewPW( newPW, modalEl, errorEl );
+                                                        
+                                                        })()
+                                                    }"
                                                     class="btn btn-primary" 
                                                     id="profile-pw-valid"
                                                 >

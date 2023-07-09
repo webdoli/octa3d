@@ -1,8 +1,7 @@
 
-function pwValidFunc( val ) {
+function pwValidFunc() {
 
     let test01 = document.querySelector('#profile-valid-pw-input');
-    let typingPW = val;
 
     //console.log('auth: ', auth )
 

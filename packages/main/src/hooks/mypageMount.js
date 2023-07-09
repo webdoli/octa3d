@@ -3,6 +3,8 @@ import UserHeader from "../components/userHeader";
 import Footer from "../components/footer";
 import MypageGUI from "../components/mypageGUI";
 import { hookSignout } from "./hook_signout";
+import { auth } from "../db/firebaseDB";
+import { EmailAuthProvider, reauthenticateWithCredential } from "firebase/auth";
 
 const createScript = ( url, ele ) => {
 
@@ -24,8 +26,36 @@ export default class MypageMount extends abstractMount {
 
     mount( db ) {
 
+        window.usrNewPW = async ( usrPW, modal, errMsg ) => {
+            
+            let user = auth.currentUser;
+            const credential = EmailAuthProvider.credential(
+                user.email,
+                usrPW
+            );
+
+            try {
+                const result = await reauthenticateWithCredential(
+                    auth.currentUser,
+                    credential
+                )
+
+                $('#'+modal.id ).modal('hide');
+
+                for( let item in result ) {
+                    console.log( `${item}: ${result[item]}`)
+                }
+                
+            } 
+            catch ( err ) {
+                errMsg.innerHTML += `invalid, please correct password`
+                console.log( 'err: ', err );
+                
+            } 
+
+        }
+
         let libUrls = [
-            'lib/mypage/js/myPageScript.js',
             'lib/mypage/js/bootstrap.bundle.min.js',
             'lib/mypage/js/jquery.counterup.min.js',
             'lib/mypage/js/lightcase.js',
@@ -44,9 +74,12 @@ export default class MypageMount extends abstractMount {
 
         main.appendChild( MypageGUI() );
 
+        // createFuncScript( 'lib/mypage/js/myPageScript.js', main) 
+
         libUrls.map( lib => {
             createScript( lib, main )
         });
+
 
 
         //createScript( libUrls, main ); 
@@ -61,6 +94,14 @@ export default class MypageMount extends abstractMount {
     }
 
     setEvent() {
+
+        if( document.querySelector('#profile-pw-valid') ) {
+
+            document.querySelector('#profile-pw-valid').addEventListener('click', (e) => {
+                console.log('pw 확인 클릭');
+            })
+
+        }
             
         if( document.querySelector('.octa3d-logout-btn') ) {
 
