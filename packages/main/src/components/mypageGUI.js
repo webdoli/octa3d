@@ -882,7 +882,8 @@ const MypageGUI = () => {
                             <!-- about tab -->
                             <div class="col-xl-9 tab-pane fade" id="about" role="tabpanel" aria-labelledby="nav-about-tab">
                                 <div class="row" style="border:1px solid blue">
-                                    <article class="visible">
+                                    
+                                <article class="visible" id="profile-intro-article">
                                         <div class="info-card mb-3">
                                             <div class="info-card-title">
                                                 <h4>About</h4>
@@ -962,8 +963,10 @@ const MypageGUI = () => {
                                                     onclick="{ (() => {
                                                         let modalEl = document.querySelector('#confirmPWModal');
                                                         let errorEl = document.querySelector('#profileForm-pw-valid');
+                                                        let editForm = document.querySelector('#intro-article-form');
+                                                        let profile = document.querySelector('#profile-intro-article');
                                                         let newPW = document.querySelector('#profile-valid-pw-input').value;
-                                                        window.usrNewPW( newPW, modalEl, errorEl );
+                                                        window.usrNewPW( newPW, modalEl, errorEl, editForm, profile );
                                                         
                                                         })()
                                                     }"
@@ -980,19 +983,19 @@ const MypageGUI = () => {
                                         </div>
 
                                     </article>
-                                    <article>
-                                        <form>
+                                    <article id="intro-article-form" style="display:none;">
+                                        
                                             <div class="input-group">
                                                 <span class="input-group-text">My Intro</span>
-                                                <textarea class="form-control" aria-label="With textarea" rows="6"></textarea>
+                                                <textarea class="form-control" id="profile-myIntro-edit" aria-label="With textarea" rows="6"></textarea>
                                             </div>
                                             <div class="mb-3 profile-edit-form-otherinfo" style="font-size:1.2em; padding:30px 0">
                                                 <label class="form-label"> Other Info </label>
                                                 <div class="input-group mb-3">
                                                     <span class="input-group-text">nick name</span>
-                                                    <input type="text" class="form-control" placeholder="Nickname">
+                                                    <input type="text" id="profile-nickName-edit" class="form-control" placeholder="Nickname">
                                                 </div>
-                                                <select class="form-select" aria-label="Default select example">
+                                                <select class="form-select" id="profile-nation-edit" aria-label="Default select example">
                                                     <option selected> Select Country </option>
                                                     <option value="1">America</option>
                                                     <option value="2">Japan</option>
@@ -1026,9 +1029,29 @@ const MypageGUI = () => {
                                                 </div>
                                             </div>
                                             <div class="submit-btn-field text-center">
-                                                <button type="submit" style="padding:10px 25px; margin: 20px 0">Edit</button>
+                                                <button type="submit" 
+                                                    id="profile-edit-submitBtn" 
+                                                    onclick="{ (() => {
+                                                        console.log('Edit 제출');
+                                                        let myIntro = document.querySelector('#profile-myIntro-edit').value;
+                                                        let nickName = document.querySelector('#profile-nickName-edit').value;
+                                                        let country = document.querySelector('#profile-nation-edit').value;
+                                                        let password = document.querySelector('#inputPassword6').value;
+                                                        let mainSW = $('.form-check-input:checked').val();
+
+
+                                                        console.log('textarea: ' + myIntro );
+                                                        console.log('nickName: ' + nickName );
+                                                        console.log('country: ' + country );
+                                                        console.log('password: ' + password );
+                                                        console.log('mainSW: ' + mainSW );
+                                                        
+                                                    })() }" 
+                                                    style="padding:10px 25px; margin: 20px 0"
+                                                >   Edit
+                                                </button>
                                             </div>
-                                        </form>
+                                        
                                     </article>     
                                     
                                 </div>

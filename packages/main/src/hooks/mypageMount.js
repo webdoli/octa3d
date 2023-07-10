@@ -26,7 +26,11 @@ export default class MypageMount extends abstractMount {
 
     mount( db ) {
 
-        window.usrNewPW = async ( usrPW, modal, errMsg ) => {
+        window.profileEditFunc = () => {
+            
+        }
+
+        window.usrNewPW = async ( usrPW, modal, errMsg, editForm, profile ) => {
             
             let user = auth.currentUser;
             const credential = EmailAuthProvider.credential(
@@ -42,9 +46,8 @@ export default class MypageMount extends abstractMount {
 
                 $('#'+modal.id ).modal('hide');
 
-                for( let item in result ) {
-                    console.log( `${item}: ${result[item]}`)
-                }
+                profile.style.display = 'none';
+                editForm.style.display = 'block';
                 
             } 
             catch ( err ) {
