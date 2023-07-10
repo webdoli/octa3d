@@ -3,8 +3,9 @@ import UserHeader from "../components/userHeader";
 import Footer from "../components/footer";
 import MypageGUI from "../components/mypageGUI";
 import { hookSignout } from "./hook_signout";
-import { auth } from "../db/firebaseDB";
-import { EmailAuthProvider, reauthenticateWithCredential } from "firebase/auth";
+import { auth, db } from "../db/firebaseDB";
+import { EmailAuthProvider, reauthenticateWithCredential, updatePassword } from "firebase/auth";
+import { setDoc, doc } from 'firebase/firestore';
 
 const createScript = ( url, ele ) => {
 
@@ -24,10 +25,27 @@ export default class MypageMount extends abstractMount {
         super();
     }
 
-    mount( db ) {
+    mount( database ) {
 
-        window.profileEditFunc = () => {
+        window.profileEditFunc = async ( intro, nickName, country, password ) => {
             
+            let user = auth.currentUser;
+
+            
+            updatePassword( user, password ).then(() => {
+                console.log('pw updated!');
+                setDoc( doc( db, 'users', user.uid ), {
+
+                    self_intro: intro,
+                    country: country,
+                    nickName: nickName,
+    
+                });
+                
+            }).catch( err => {
+                console.log('err: ' + err );
+            });
+
         }
 
         window.usrNewPW = async ( usrPW, modal, errMsg, editForm, profile ) => {

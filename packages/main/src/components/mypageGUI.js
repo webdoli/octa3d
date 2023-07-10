@@ -987,64 +987,75 @@ const MypageGUI = () => {
                                         
                                             <div class="input-group">
                                                 <span class="input-group-text">My Intro</span>
-                                                <textarea class="form-control" id="profile-myIntro-edit" aria-label="With textarea" rows="6"></textarea>
+                                                <textarea class="form-control" id="profile-myIntro-edit" aria-label="With textarea" rows="6" required></textarea>
                                             </div>
                                             <div class="mb-3 profile-edit-form-otherinfo" style="font-size:1.2em; padding:30px 0">
                                                 <label class="form-label"> Other Info </label>
                                                 <div class="input-group mb-3">
                                                     <span class="input-group-text">nick name</span>
-                                                    <input type="text" id="profile-nickName-edit" class="form-control" placeholder="Nickname">
+                                                    <input type="text" id="profile-nickName-edit" class="form-control" placeholder="Nickname" required>
                                                 </div>
-                                                <select class="form-select" id="profile-nation-edit" aria-label="Default select example">
+                                                <div id="nickname-alert" style="color:tomato;"></div>
+                                                <select class="form-select" id="profile-nation-edit" aria-label="Default select example" required>
                                                     <option selected> Select Country </option>
-                                                    <option value="1">America</option>
-                                                    <option value="2">Japan</option>
-                                                    <option value="3">Korea</option>
+                                                    <option value="America">America</option>
+                                                    <option value="Japan">Japan</option>
+                                                    <option value="South Korea">Korea</option>
                                                 </select>
+                                                <div id="nation-alert" style="color:tomato;"></div>
+
                                                 <div class="row g-3 align-items-center">
                                                     <div class="col-auto">
-                                                        <label for="inputPassword6" class="col-form-label">Password</label>
+                                                        <label for="inputPassword6" class="col-form-label">new Password</label>
                                                     </div>
                                                     <div class="col-auto">
-                                                        <input type="password" id="inputPassword6" class="form-control" aria-labelledby="passwordHelpInline">
-                                                    </div>
-                                                    <div class="col-auto">
-                                                        <span id="passwordHelpInline" class="form-text">
-                                                            Must be 8-20 characters long.
-                                                        </span>
+                                                        <input type="password" id="newPassword" class="form-control" aria-labelledby="passwordHelpInline" required>
+                                                        
                                                     </div>
                                                 </div>
-                                                <div>
+                                                <div class="row g-3 align-items-center">
                                                     <div class="col-auto">
-                                                        <label for="inputPassword6" class="col-form-label"> Main s/w</label>
+                                                        <label for="inputPassword6" class="col-form-label">confirm Password</label>
                                                     </div>
-                                                    <input style="margin-left:15px;" type="checkbox" class="form-check-input" name="options" id="option1" autocomplete="off">
-                                                    <label class="btn btn-secondary" for="option1">Checked</label>
-
-                                                    <input style="margin-left:15px;" type="checkbox" class="form-check-input" name="options" id="option2" autocomplete="off">
-                                                    <label class="btn btn-secondary" for="option2">Radio</label>
-
-                                                    <input style="margin-left:15px;" type="checkbox" class="form-check-input" name="options" id="option4" autocomplete="off">
-                                                    <label class="btn btn-secondary" for="option4">Radio</label>
+                                                    <div class="col-auto">
+                                                        <input type="password" id="confirmPassword" class="form-control" aria-labelledby="passwordHelpInline" required>
+                                                        <div class="invalid-feedback02" style="color:tomato; font-size:.8em;"> </div>
+                                                    </div>
                                                 </div>
+                                                
                                             </div>
                                             <div class="submit-btn-field text-center">
                                                 <button type="submit" 
                                                     id="profile-edit-submitBtn" 
                                                     onclick="{ (() => {
-                                                        console.log('Edit 제출');
+                                                        
                                                         let myIntro = document.querySelector('#profile-myIntro-edit').value;
                                                         let nickName = document.querySelector('#profile-nickName-edit').value;
                                                         let country = document.querySelector('#profile-nation-edit').value;
-                                                        let password = document.querySelector('#inputPassword6').value;
-                                                        let mainSW = $('.form-check-input:checked').val();
+                                                        let newPW = document.querySelector('#newPassword').value;
+                                                        let confirmPW = document.querySelector('#confirmPassword').value;
 
-
-                                                        console.log('textarea: ' + myIntro );
-                                                        console.log('nickName: ' + nickName );
-                                                        console.log('country: ' + country );
-                                                        console.log('password: ' + password );
-                                                        console.log('mainSW: ' + mainSW );
+                                                        console.log('nation: ' + country );
+                                                        if( nickName === '' ) {
+                                                            $('#nickname-alert').empty();
+                                                            $('#nickname-alert').append('make your nickName');
+                                                        }
+                                                        if( country === 'Select Country' ) {
+                                                            $('#nation-alert').empty();
+                                                            $('#nation-alert').append('select your country');
+                                                        }
+                                                        
+                                                        if( newPW !== confirmPW ) {
+                                                            console.log('비밀번호 불일치');
+                                                            $('.invalid-feedback02').empty();
+                                                            $('.invalid-feedback02').append('<span> password not matched </span>')
+                                                        } else {
+                                                            console.log('Edit 제출');
+                                                            $('#nickname-alert').empty();
+                                                            $('#nation-alert').empty();
+                                                            $('.invalid-feedback02').empty();
+                                                            window.profileEditFunc( myIntro, nickName, country, newPW, newPW )
+                                                        }
                                                         
                                                     })() }" 
                                                     style="padding:10px 25px; margin: 20px 0"
