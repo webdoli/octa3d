@@ -31,7 +31,6 @@ export default class MypageMount extends abstractMount {
             
             let user = auth.currentUser;
 
-            
             updatePassword( user, password ).then( async () => {
 
                 console.log('pw updated!');
@@ -90,7 +89,7 @@ export default class MypageMount extends abstractMount {
             'lib/mypage/js/swiper-bundle.min.js',
             'lib/mypage/js/isotope.pkgd.min.js',
 
-        ]
+        ];
         const header = document.querySelector('.header-one');
         const main = document.querySelector('#main');
         const footer = document.querySelector('.footer1');
@@ -100,21 +99,19 @@ export default class MypageMount extends abstractMount {
 
         main.innerHTML = '';
 
+        // 1) MyPageGUI()상단만 불러오기 => 함수 선언
+        // 2) 구문으로 이후 About 불러오기 => About subPage 불러오기 함수 실행 (해당 함수 상단에서 DB데이터 처리하기) article 삭제 후 불러오기
+        // 3) MyAsset subPage 불러오기 함수 실행
+        // 4) CowWorking SubPage 불러오기 함수 실행 
+        // 5) Activity SubPage 불러오기 함수 실행
+        // 6) Talk SubPage 불러오기 함수 실행
+        // 7) Setting SubPage 불러오기 함수 실행
+        
         main.appendChild( MypageGUI() );
-
-        // createFuncScript( 'lib/mypage/js/myPageScript.js', main) 
 
         libUrls.map( lib => {
             createScript( lib, main )
         });
-
-
-
-        //createScript( libUrls, main ); 
-
-        //main.appendChild( bootstrapCSS );
-
-        //const { res } = asset_mount( main, db );
 
         document.querySelector('.preloader').style.display = 'none';
         this.setEvent();
