@@ -17,7 +17,6 @@ const createScript = ( url, ele ) => {
 
 }
 
-
 export default class MypageMount extends abstractMount {
     
     constructor() {
@@ -88,7 +87,6 @@ export default class MypageMount extends abstractMount {
             'lib/mypage/js/lightcase.js',
             'lib/mypage/js/swiper-bundle.min.js',
             'lib/mypage/js/isotope.pkgd.min.js',
-
         ];
         const header = document.querySelector('.header-one');
         const main = document.querySelector('#main');
@@ -107,6 +105,7 @@ export default class MypageMount extends abstractMount {
         // 6) Talk SubPage 불러오기 함수 실행
         // 7) Setting SubPage 불러오기 함수 실행
         
+        
         main.appendChild( MypageGUI() );
 
         libUrls.map( lib => {
@@ -116,9 +115,22 @@ export default class MypageMount extends abstractMount {
         document.querySelector('.preloader').style.display = 'none';
         this.setEvent();
 
+        document.addEventListener('readystatechange', (e) => {
+
+            switch ( document.readyState ){
+                case 'complete':
+                    alert('로딩 끝');
+                    break;
+            }
+
+        })
+
     }
 
     setEvent() {
+
+        
+            
 
         if( document.querySelector('#profile-pw-valid') ) {
 

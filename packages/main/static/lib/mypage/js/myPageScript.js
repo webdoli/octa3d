@@ -1,4 +1,9 @@
 
+$(document).ready( () => {
+    alert('로딩');
+})
+
+
 function pwValidFunc() {
 
     let test01 = document.querySelector('#profile-valid-pw-input');
