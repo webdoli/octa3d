@@ -27,23 +27,30 @@ export default class MypageMount extends abstractMount {
 
     mount( database ) {
 
-        window.profileEditFunc = async ( intro, nickName, country, password ) => {
+        window.profileEditFunc = async ( intro, nickName, country, password, profile ) => {
             
             let user = auth.currentUser;
 
             
-            updatePassword( user, password ).then(() => {
-                console.log('pw updated!');
-                setDoc( doc( db, 'users', user.uid ), {
+            updatePassword( user, password ).then( async () => {
 
-                    self_intro: intro,
-                    country: country,
-                    nickName: nickName,
-    
-                });
+                console.log('pw updated!');
+                await setDoc( 
+                    doc( db, 'users', user.uid ), 
+                    {
+                        self_intro: intro,
+                        country: country,
+                        nickName: nickName,
+                    }, 
+                    { merge: true }
+                );
+
+                window.location.href="/mypage"
                 
             }).catch( err => {
+
                 console.log('err: ' + err );
+
             });
 
         }

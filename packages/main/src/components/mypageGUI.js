@@ -1,8 +1,10 @@
-import { auth } from '../db/firebaseDB';
+import { auth, db } from '../db/firebaseDB';
 import getData from './../hooks/hook_getData';
+import getRealData from './../hooks/hook_getData';
 import mypageCSS from "./mypageCSS";
 import Strings from './strings';
 import { userPWValidChk } from '../hooks/hookAuth';
+import { doc, onSnapshot } from 'firebase/firestore';
 
 const createCSSLib = ( url  ) => {
 
@@ -28,6 +30,9 @@ const MypageGUI = () => {
     }
     
     let currentUser = auth.currentUser.uid;
+    // const unsub = onSnapshot( doc( db, 'users', currentUser ), (doc) => {
+
+    // })
     let newPW = null;
 
     createCSSLib( './lib/mypage/bootstrap.min.css' );
@@ -38,7 +43,7 @@ const MypageGUI = () => {
     container.className = 'profile-section padding-top padding-bottom';
     container.appendChild( mypageCSS() );
 
-    getData( 'users', currentUser )
+    getRealData( 'users', currentUser )
         .then( res => {
 
             return res.data();
@@ -889,16 +894,7 @@ const MypageGUI = () => {
                                                 <h4>About</h4>
                                             </div>
                                             <div class="info-card-content">
-                                                <p>Collaboratively innovate compelling mindshare after
-                                                    prospective partnerships Competently sereiz long-term
-                                                    high-impact internal or "organic" sources via user friendly
-                                                    strategic themesr areas creat Dramatically coordinate
-                                                    premium partnerships rather than standards compliant
-                                                    technologies ernd Dramatically matrix ethical collaboration
-                                                    and idea-sharing through opensource methodologies and
-                                                    Intrinsicly grow collaborative platforms vis-a-vis effective
-                                                    scenarios. Energistically strategize cost effective ideas
-                                                    before the worke unde.</p>
+                                                <p> ${ user.self_intro } </p>
                                             </div>
                                         </div>
                                         <div class="info-card">
@@ -908,33 +904,12 @@ const MypageGUI = () => {
                                             <div class="info-card-content">
                                                 <ul class="info-list">
                                                     <li>
-                                                        <p class="info-name">Name</p>
-                                                        <p class="info-details">Alex Joe</p>
+                                                        <p class="info-name">Nick Name</p>
+                                                        <p class="info-details"> ${ user.nickName } </p>
                                                     </li>
                                                     <li>
                                                         <p class="info-name">Country</p>
-                                                        <p class="info-details">USA</p>
-                                                    </li>
-                                                    <li>
-                                                        <p class="info-name">Specialize in</p>
-                                                        <p class="info-details">Art</p>
-                                                    </li>
-                                                    <li>
-                                                        <p class="info-name">Wallet Add</p>
-                                                        <p class="info-details">fdffx1xr394k..dfdk23sl</p>
-                                                    </li>
-                                                    <li>
-                                                        <p class="info-name">Age</p>
-                                                        <p class="info-details">36</p>
-                                                    </li>
-                                                    <li>
-                                                        <p class="info-name">Date of Birth</p>
-                                                        <p class="info-details">27-02-1996</p>
-                                                    </li>
-                                                    <li>
-                                                        <p class="info-name">Address</p>
-                                                        <p class="info-details">Streop Rd, Peosur, Inphodux,
-                                                            USA.</p>
+                                                        <p class="info-details"> ${ user.country } </p>
                                                     </li>
                                                 </ul>
                                             </div>
@@ -1034,6 +1009,7 @@ const MypageGUI = () => {
                                                         let country = document.querySelector('#profile-nation-edit').value;
                                                         let newPW = document.querySelector('#newPassword').value;
                                                         let confirmPW = document.querySelector('#confirmPassword').value;
+                                                        let originForm = document.querySelector('#profile-intro-article');
 
                                                         console.log('nation: ' + country );
                                                         if( nickName === '' ) {
@@ -1051,10 +1027,11 @@ const MypageGUI = () => {
                                                             $('.invalid-feedback02').append('<span> password not matched </span>')
                                                         } else {
                                                             console.log('Edit 제출');
+                                                            let editForm = $('#intro-article-form').remove();
                                                             $('#nickname-alert').empty();
                                                             $('#nation-alert').empty();
                                                             $('.invalid-feedback02').empty();
-                                                            window.profileEditFunc( myIntro, nickName, country, newPW, newPW )
+                                                            window.profileEditFunc( myIntro, nickName, country, newPW, originForm )
                                                         }
                                                         
                                                     })() }" 
