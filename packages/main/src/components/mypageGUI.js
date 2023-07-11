@@ -4,7 +4,6 @@ import getRealData from './../hooks/hook_getData';
 import mypageCSS from "./mypageCSS";
 import Strings from './strings';
 import { userPWValidChk } from '../hooks/hookAuth';
-import { doc, onSnapshot } from 'firebase/firestore';
 
 const createCSSLib = ( url  ) => {
 
@@ -30,9 +29,7 @@ const MypageGUI = () => {
     }
     
     let currentUser = auth.currentUser.uid;
-    // const unsub = onSnapshot( doc( db, 'users', currentUser ), (doc) => {
-
-    // })
+    
     let newPW = null;
 
     createCSSLib( './lib/mypage/bootstrap.min.css' );
