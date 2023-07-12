@@ -11,17 +11,21 @@ import { mount as guestAssetMount } from 'assets/Assets';
 import LoginGUI from './components/login';
 import SignupGUI from './components/signup';
 
-import hookAssetMount from './hooks/hook_AssetMount';
-import hookSignupMount from './hooks/hook_SignupMount';
-import hookSigninMount from './hooks/hook_SigninMount';
-
+import hookAssetMount from './hooks/mounts/guest/hook_AssetMount';
+import hookSignupMount from './hooks/mounts/guest/hook_SignupMount';
+import hookSigninMount from './hooks/mounts/guest/hook_SigninMount';
 
 //mount
-import AssetMount from './hooks/assetMount';
-import HomeMount from './hooks/homeMount';
-import MypageMount from './hooks/mypageMount';
+import AssetMount from './hooks/mounts/member/assetMount';
+import HomeMount from './hooks/mounts/member/homeMount';
+import MypageMount from './hooks/mounts/member/mypageMount';
 
 import profileAboutPage from './hooks/myPage/subPage/profile_about';
+import profileAssetPage from './hooks/myPage/subPage/profile_assets';
+import profileCoworkPage from './hooks/myPage/subPage/profile_coworking';
+import profileActivityPage from './hooks/myPage/subPage/profile_activity';
+import profileTalkPage from './hooks/myPage/subPage/profile_talk';
+import profileAside from './hooks/mounts/member/asideMount';
 
 var Signal = require('signals');
 const headerEle = document.querySelector('.header-one');
@@ -30,11 +34,10 @@ const footerEle = document.querySelector('.footer1');
 
 window.signals = {
 
-    setAboutPage: new Signal(),
     profileAboutOpen: new Signal(),
     profileAssetsOpen: new Signal(),
     profileCoworkOpen: new Signal(),
-    profileActivitysOpen: new Signal(),
+    profileActivityOpen: new Signal(),
     profileTalkOpen: new Signal(),
     profileSettingOpen: new Signal(),
 
@@ -43,14 +46,30 @@ window.signals = {
 let signals = window.signals;
 
 signals.profileAboutOpen.add(( ele ) => {
-    // 1) about page 상위 element 받기
-    // 2) about page remove()
-    // 3) db정보 불러오기
-    // 4) about page html과 db결합한 뒤 appendChild()로 붙이기
     $('#'+ele.id).empty();
-    ele.appendChild( profileAboutPage() );
+    ele.append( profileAboutPage(), profileAside() );
 });
 
+signals.profileAssetsOpen.add(( ele ) => {
+    $('#'+ele.id).empty();
+    ele.appendChild( profileAssetPage() );
+    
+});
+
+signals.profileCoworkOpen.add(( ele ) => {
+    $('#'+ele.id).empty();
+    ele.appendChild( profileCoworkPage( ele ) );
+});
+
+signals.profileActivityOpen.add(( ele ) => {
+    $('#'+ele.id).empty();
+    ele.appendChild( profileActivityPage( ele ) );
+});
+
+signals.profileTalkOpen.add(( ele ) => {
+    $('#'+ele.id).empty();
+    ele.appendChild( profileTalkPage( ele ) );
+});
 
 onAuthStateChanged( auth, ( user ) => {
 

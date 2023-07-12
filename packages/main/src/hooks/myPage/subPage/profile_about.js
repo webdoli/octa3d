@@ -1,7 +1,6 @@
 import { auth } from "../../../db/firebaseDB";
 import getData from "../../hook_getData";
 
-
 const profileAboutPage = () => {
 
     let collection = 'users';
@@ -16,9 +15,9 @@ const profileAboutPage = () => {
 
             container.innerHTML += `
     <!-- about tab -->
-    <div class="col-xl-9 tab-pane active" id="about" role="tabpanel" aria-labelledby="nav-about-tab">
-        <div class="row" style="border:1px solid blue">
-            
+    <div class="tab-pane" id="about" role="tabpanel" aria-labelledby="nav-about-tab">
+        <div class="row">
+            <div class="col-xl-9">
         <article class="visible" id="profile-intro-article">
                 <div class="info-card mb-3">
                     <div class="info-card-title">
@@ -45,7 +44,12 @@ const profileAboutPage = () => {
                         </ul>
                     </div>
                 </div>
-                <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#confirmPWModal">
+                <button type="button" 
+                    class="btn btn-primary" 
+                    data-bs-toggle="modal" 
+                    data-bs-target="#confirmPWModal"
+                    style="margin-top:20px; margin-left:41%; padding:10px 30px"
+                >
                     Edit
                 </button>
 
@@ -89,6 +93,45 @@ const profileAboutPage = () => {
                 </div>
 
             </article>
+            </div>
+            <div class="col-xl-3">
+            <!-- Aside Part -->
+            <aside class="mt-5 mt-xl-0" style="padding-left:15px;">
+                <div class="profile-widget search-widget">
+                    <div class="widget-inner">
+                        <div class="widget-title">
+                            <h5>Search NFT</h5>
+                        </div>
+                        <div class="widget-content">
+                            <p>Search from best Rarest NFT collections</p>
+                            <div class="form-floating nft-search-input">
+                                <input type="text" class="form-control"
+                                    placeholder="Search NFT">
+                                <label>Search NFT</label>
+                                <button type="button">
+                                    <i class="icofont-search-1"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="widget widget-instagram">
+                    <div class="widget-header">
+                        <h5 class="title">Featured NFT</h5>
+                    </div>
+                    <ul class="widget-wrapper d-flex flex-wrap justify-content-center">
+                        <li><a data-rel="lightcase"
+                                href="assets/images/nft-item/01.jpg">
+                                <img loading="lazy"
+                                     src="assets/images/nft-item/01.jpg"
+                                     alt="nft-img">
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </aside>
+            </div>
+
             <article id="intro-article-form" style="display:none;">
                 
                     <div class="input-group">
@@ -109,26 +152,26 @@ const profileAboutPage = () => {
                             <option value="South Korea">Korea</option>
                         </select>
                         <div id="nation-alert" style="color:tomato;"></div>
+                        <div style="margin-top:35px;">
+                            <div class="row g-3 align-items-center">
+                                <div class="col-auto">
+                                    <label for="inputPassword6" class="col-form-label">new Password</label>
+                                </div>
+                                <div class="col-auto">
+                                    <input type="password" id="newPassword" class="form-control" aria-labelledby="passwordHelpInline" required>
 
-                        <div class="row g-3 align-items-center">
-                            <div class="col-auto">
-                                <label for="inputPassword6" class="col-form-label">new Password</label>
+                                </div>
                             </div>
-                            <div class="col-auto">
-                                <input type="password" id="newPassword" class="form-control" aria-labelledby="passwordHelpInline" required>
-                                
-                            </div>
-                        </div>
-                        <div class="row g-3 align-items-center">
-                            <div class="col-auto">
-                                <label for="inputPassword6" class="col-form-label">confirm Password</label>
-                            </div>
-                            <div class="col-auto">
-                                <input type="password" id="confirmPassword" class="form-control" aria-labelledby="passwordHelpInline" required>
-                                <div class="invalid-feedback02" style="color:tomato; font-size:.8em;"> </div>
+                            <div class="row g-3 align-items-center" style="margin-top:10px;">
+                                <div class="col-auto">
+                                    <label for="inputPassword6" class="col-form-label">confirm Password</label>
+                                </div>
+                                <div class="col-auto">
+                                    <input type="password" id="confirmPassword" class="form-control" aria-labelledby="passwordHelpInline" required>
+                                    <div class="invalid-feedback02" style="color:tomato; font-size:.8em;"> </div>
+                                </div>
                             </div>
                         </div>
-                        
                     </div>
                     <div class="submit-btn-field text-center">
                         <button type="submit" 
@@ -177,7 +220,6 @@ const profileAboutPage = () => {
         </div>
     </div>
     `
-
         });
 
     return container;

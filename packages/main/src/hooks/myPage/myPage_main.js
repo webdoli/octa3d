@@ -11,10 +11,6 @@ const createCSSLib = ( url  ) => {
     document.head.appendChild( link );
 }
 
-const testFunc01 = () => {
-    alert('testFunc01');
-}
-
 const myPageMain = () => {
 
     let currentUser = auth.currentUser.uid;
@@ -84,31 +80,31 @@ const myPageMain = () => {
                         <div class="profile-details">
                             <nav class="profile-nav">
                                 <div class="nav nav-tabs" id="nav-tab" role="tablist">
-                                    <button id="myprofile-about" class="nav-link" id="nav-about-tab" data-bs-toggle="tab" data-bs-target="#about"
+                                    <button class="nav-link profile-sub-btn" id="nav-about-tab" data-pageBtn="about" data-bs-toggle="tab" data-bs-target="#about"
                                         type="button" role="tab" aria-controls="about" aria-selected="false">About
                                     </button>
-                                    <button class="nav-link active" id="nav-allNft-tab" data-bs-toggle="tab"
-                                        data-bs-target="#allNft" type="button" role="tab" aria-controls="allNft"
+                                    <button class="nav-link active profile-sub-btn" id="nav-assets-tab" data-pageBtn="assets" data-bs-toggle="tab"
+                                        data-bs-target="#assets-page" type="button" role="tab" aria-controls="assets-page"
                                         aria-selected="true">My Assets
                                     </button>
-                                    <button class="nav-link" id="nav-follower-tab" data-bs-toggle="tab"
-                                        data-bs-target="#follower" type="button" role="tab" aria-controls="follower"
+                                    <button class="nav-link profile-sub-btn" id="nav-coworking-tab" data-pageBtn="coworking" data-bs-toggle="tab"
+                                        data-bs-target="#coworking" type="button" role="tab" aria-controls="coworking"
                                         aria-selected="false">CoWorking <span class="item-number">231</span>
                                     </button>
-                                    <button class="nav-link" id="nav-activity-tab" data-bs-toggle="tab"
+                                    <button class="nav-link profile-sub-btn" id="nav-activity-tab" data-pageBtn="activity" data-bs-toggle="tab"
                                         data-bs-target="#activity" type="button" role="tab" aria-controls="activity"
                                         aria-selected="false">
                                         Activity
                                     </button>
-                                    <button class="nav-link" id="nav-following-tab" data-bs-toggle="tab"
-                                        data-bs-target="#following" type="button" role="tab" aria-controls="following"
+                                    <button class="nav-link profile-sub-btn" id="nav-talk-tab" data-pageBtn="talk" data-bs-toggle="tab"
+                                        data-bs-target="#talk" type="button" role="tab" aria-controls="following"
                                         aria-selected="false"> Talk <span class="item-number">145</span>
                                     </button>
                                     <!--<button class="nav-link" id="nav-wallet-tab" data-bs-toggle="tab"
                                         data-bs-target="#wallet" type="button" role="tab" aria-controls="wallet"
                                         aria-selected="false">My Wallet
                                     </button>-->
-                                    <div class="dropdown">
+                                    <!--<div class="dropdown"> 
                                         <a class="btn dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
                                             aria-expanded="false">
                                             Setting
@@ -118,11 +114,13 @@ const myPageMain = () => {
                                             <li><a class="dropdown-item" href="#">Editor</a></li>
                                             <li><a class="dropdown-item" href="#">Block user</a></li>
                                         </ul>
-                                    </div>
+                                    </div>-->
                                 </div>
                             </nav>
-                            <div class="tab-content" id="nav-tabContent">
+                            <div class="tab-content" id="nav-tabContent" style="">
+                            
                             </div>
+                            
                         </div>
                     </div>
                 </div>
@@ -133,12 +131,31 @@ const myPageMain = () => {
             let script01 = document.createElement('script');
             // about 페이지 html script넣는 함수 생성 = window.signals에 등록
             script01.innerHTML += `
-                let aboutBtn = document.querySelector('#myprofile-about');
-                let parent = document.querySelector('#nav-tabContent')
 
-                aboutBtn.addEventListener('click', (e) => {
-                    window.signals.profileAboutOpen.dispatch( parent )
-                })
+                let parent = document.querySelector('#nav-tabContent');
+                let aboutBtn = document.querySelector('#myprofile-about');
+
+                window.signals.profileAssetsOpen.dispatch( parent );
+
+                document.querySelector('#nav-about-tab').addEventListener('click', (e) => {
+                    window.signals.profileAboutOpen.dispatch( parent );
+                });
+
+                document.querySelector('#nav-assets-tab').addEventListener('click', (e) => {
+                    window.signals.profileAssetsOpen.dispatch( parent );
+                });
+
+                document.querySelector('#nav-coworking-tab').addEventListener('click', (e) => {
+                    window.signals.profileCoworkOpen.dispatch( parent );
+                });
+
+                document.querySelector('#nav-activity-tab').addEventListener('click', (e) => {
+                    window.signals.profileActivityOpen.dispatch( parent );
+                });
+
+                document.querySelector('#nav-talk-tab').addEventListener('click', (e) => {
+                    window.signals.profileTalkOpen.dispatch( parent );
+                });
             `
             container.appendChild( script01 );
         })

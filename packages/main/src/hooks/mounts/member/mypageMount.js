@@ -1,9 +1,9 @@
 import abstractMount from "./abstractMount";
-import UserHeader from "../components/userHeader";
-import Footer from "../components/footer";
-import MypageGUI from "../components/mypageGUI";
-import { hookSignout } from "./hook_signout";
-import { auth, db } from "../db/firebaseDB";
+import UserHeader from "../../../components/userHeader";
+import Footer from "../../../components/footer";
+import MypageGUI from "../../../components/mypageGUI";
+import { hookSignout } from "../../auth/hook_signout";
+import { auth, db } from "../../../db/firebaseDB";
 import { EmailAuthProvider, reauthenticateWithCredential, updatePassword } from "firebase/auth";
 import { setDoc, doc } from 'firebase/firestore';
 

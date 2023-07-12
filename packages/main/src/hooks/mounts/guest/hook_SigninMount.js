@@ -1,4 +1,4 @@
-import { hookSignin } from "./hook_signin";
+import { hookSignin } from "../../auth/hook_signin";
 
 const hookSigninMount = ( main, footer, mount, loader ) => {
 
