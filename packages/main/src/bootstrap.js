@@ -1,3 +1,4 @@
+
 import { onAuthStateChanged } from 'firebase/auth';
 import { auth } from './db/firebaseDB';
 import detectUrlChange from 'detect-url-change';
@@ -20,16 +21,43 @@ import AssetMount from './hooks/assetMount';
 import HomeMount from './hooks/homeMount';
 import MypageMount from './hooks/mypageMount';
 
+import profileAboutPage from './hooks/myPage/subPage/profile_about';
+
+var Signal = require('signals');
 const headerEle = document.querySelector('.header-one');
 const mainEle = document.querySelector('#main');
 const footerEle = document.querySelector('.footer1');
+
+window.signals = {
+
+    setAboutPage: new Signal(),
+    profileAboutOpen: new Signal(),
+    profileAssetsOpen: new Signal(),
+    profileCoworkOpen: new Signal(),
+    profileActivitysOpen: new Signal(),
+    profileTalkOpen: new Signal(),
+    profileSettingOpen: new Signal(),
+
+}
+
+let signals = window.signals;
+
+signals.profileAboutOpen.add(( ele ) => {
+    // 1) about page 상위 element 받기
+    // 2) about page remove()
+    // 3) db정보 불러오기
+    // 4) about page html과 db결합한 뒤 appendChild()로 붙이기
+    $('#'+ele.id).empty();
+    ele.appendChild( profileAboutPage() );
+});
+
 
 onAuthStateChanged( auth, ( user ) => {
 
     if( user ) {
 
         console.log('유저 로그인')
-        userMain( headerEle, mainEle, footerEle, user );
+        userMain( headerEle, mainEle, footerEle, user )
       
     } else {
 
@@ -48,6 +76,7 @@ onAuthStateChanged( auth, ( user ) => {
 // Loading Login Page
 function userMain() {
 
+    
     let mountUrls = [
         { 'http://localhost:8080/': new HomeMount },
         { 'https://octa3d-439a2.firebaseapp.com/': new HomeMount },
@@ -56,19 +85,20 @@ function userMain() {
         { 'http://localhost:8080/mypage': new MypageMount },
         { 'https://octa3d-439a2.firebaseapp.com/mypage': new MypageMount }
     ];
-
+    
     let currentUrl = window.location.href;
-
+    
     mountUrls.map( mounts => {
-
+    
         if ( mounts[currentUrl ] ) {
-
-           mounts[currentUrl].mount();
+    
+            mounts[currentUrl].mount();
         }
-
+    
     });
-
+    
     mobileExe( mainEle, footerEle );
+   
     
 }
 

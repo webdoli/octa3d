@@ -121,7 +121,7 @@ const myPageMain = () => {
                                     </div>
                                 </div>
                             </nav>
-                            <div class="tab-content" id="nav-tabContent" style="display:flex;">
+                            <div class="tab-content" id="nav-tabContent">
                             </div>
                         </div>
                     </div>
@@ -131,10 +131,13 @@ const myPageMain = () => {
         .then(() => {
             
             let script01 = document.createElement('script');
+            // about 페이지 html script넣는 함수 생성 = window.signals에 등록
             script01.innerHTML += `
                 let aboutBtn = document.querySelector('#myprofile-about');
+                let parent = document.querySelector('#nav-tabContent')
+
                 aboutBtn.addEventListener('click', (e) => {
-                    
+                    window.signals.profileAboutOpen.dispatch( parent )
                 })
             `
             container.appendChild( script01 );

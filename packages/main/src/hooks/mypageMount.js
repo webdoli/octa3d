@@ -26,7 +26,7 @@ export default class MypageMount extends abstractMount {
 
     mount( database ) {
 
-        window.profileEditFunc = async ( intro, nickName, country, password, profile ) => {
+        window.profileEditFunc = async ( intro, nickName, country, password, profile, parent ) => {
             
             let user = auth.currentUser;
 
@@ -43,7 +43,7 @@ export default class MypageMount extends abstractMount {
                     { merge: true }
                 );
 
-                window.location.href="/mypage"
+                window.signals.profileAboutOpen.dispatch( parent )
                 
             }).catch( err => {
 
@@ -96,16 +96,6 @@ export default class MypageMount extends abstractMount {
         footer.appendChild( Footer().footer02 );
 
         main.innerHTML = '';
-
-        // 1) MyPageGUI()상단만 불러오기 => 함수 선언
-        // 2) 구문으로 이후 About 불러오기 => About subPage 불러오기 함수 실행 (해당 함수 상단에서 DB데이터 처리하기) article 삭제 후 불러오기
-        // 3) MyAsset subPage 불러오기 함수 실행
-        // 4) CowWorking SubPage 불러오기 함수 실행 
-        // 5) Activity SubPage 불러오기 함수 실행
-        // 6) Talk SubPage 불러오기 함수 실행
-        // 7) Setting SubPage 불러오기 함수 실행
-        
-        
         main.appendChild( MypageGUI() );
 
         libUrls.map( lib => {
@@ -115,22 +105,9 @@ export default class MypageMount extends abstractMount {
         document.querySelector('.preloader').style.display = 'none';
         this.setEvent();
 
-        document.addEventListener('readystatechange', (e) => {
-
-            switch ( document.readyState ){
-                case 'complete':
-                    alert('로딩 끝');
-                    break;
-            }
-
-        })
-
     }
 
     setEvent() {
-
-        
-            
 
         if( document.querySelector('#profile-pw-valid') ) {
 

@@ -9,26 +9,19 @@ import { userPWValidChk } from '../hooks/hookAuth';
 import myPageMain from '../hooks/myPage/myPage_main';
 import profileHeader from '../hooks/myPage/subPage/profile_header';
 
-// const createCSSLib = ( url  ) => {
-
-//     let link = document.createElement('link');
-//     link.rel = 'stylesheet';
-//     link.type = 'text/css';
-//     link.href = url;
-
-//     document.head.appendChild( link );
-// }
 
 function createGUI ( parentGUI, childGUI ) {
     console.log('createGUI 실행');
     return new Promise( ( resolve, reject ) => {
 
         parentGUI.appendChild( childGUI );
-        resolve('1) createGUI 실행 끝')
+        resolve()
     
     });  
 }
 
+
+// module
 
 const MypageGUI = () => {
 
@@ -43,16 +36,9 @@ const MypageGUI = () => {
     container.appendChild( mypageCSS() );
    
     createGUI( container, myPageMain() )
-        .then( ( res ) => {
+        .then( () => {
             
-            console.log( res );
             console.log('2) mainPage Header 추가완료');
-            
-
-        })
-        .then(() => {
-            
-            console.log('리턴 끝');
             
         })
 

@@ -22,6 +22,7 @@
     "html-webpack-plugin": "^5.5.3",
     "path": "^0.12.7",
     "postcss-loader": "^7.3.3",
+    "signals": "^1.0.0",
     "style-loader": "^3.3.3",
     "webpack": "^5.87.0",
     "webpack-cli": "^5.1.4",
