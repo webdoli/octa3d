@@ -43,45 +43,30 @@ window.signals = {
     profileTalkOpen: new Signal(),
     profileSettingOpen: new Signal(),
     profileCoverEdit: new Signal(),
-    profileAvatarEdit: new Signal()
+    profileAvatarEdit: new Signal(),
+    myAssetUpload: new Signal()
 }
 
 let signals = window.signals;
 
-signals.profileAboutOpen.add(( ele ) => {
-    $('#'+ele.id).empty();
-    ele.append( profileAboutPage() );
-});
-
-signals.profileAssetsOpen.add(( ele ) => {
-    $('#'+ele.id).empty();
-    ele.appendChild( profileAssetPage() );
-    
-});
-
-signals.profileCoworkOpen.add(( ele ) => {
-    $('#'+ele.id).empty();
-    ele.appendChild( profileCoworkPage( ele ) );
-});
-
-signals.profileActivityOpen.add(( ele ) => {
-    $('#'+ele.id).empty();
-    ele.appendChild( profileActivityPage( ele ) );
-});
-
-signals.profileTalkOpen.add(( ele ) => {
-    $('#'+ele.id).empty();
-    ele.appendChild( profileTalkPage( ele ) );
-});
+signals.profileAboutOpen.add( ele => createGUI( ele, profileAboutPage ) );
+signals.profileAssetsOpen.add( ele => createGUI( ele, profileAssetPage ) );
+signals.profileCoworkOpen.add( ele => createGUI( ele, profileCoworkPage ) );
+signals.profileActivityOpen.add( ele => createGUI( ele, profileActivityPage ) );
+signals.profileTalkOpen.add( ele => createGUI( ele, profileTalkPage ) );
 
 signals.profileCoverEdit.add(( img ) => {
-    let currentUserID = auth.currentUser.uid;
-    coverUpload( img, currentUserID, 'cover' );
-})
+    const uid = auth.currentUser.uid; 
+    coverUpload( img, uid, 'cover' ) 
+});
 
 signals.profileAvatarEdit.add( ( img ) => {
-    let currentUserID = auth.currentUser.uid;
-    avatarUpload( img, currentUserID, 'avatar' );
+    const uid = auth.currentUser.uid;
+    avatarUpload( img, uid, 'avatar' ) 
+});
+
+signals.myAssetUpload.add( () => {
+    console.log('3D Asset upload start');
 })
 
 onAuthStateChanged( auth, ( user ) => {
@@ -104,6 +89,23 @@ onAuthStateChanged( auth, ( user ) => {
 /*******************/
 /*    Function     */
 /*******************/
+
+// Creating GUI
+function createGUI( parent, child ) {
+    
+    removeAllChildNodes( parent );
+    parent.appendChild( child(parent) )
+
+}
+
+// Remove all child nodes
+function removeAllChildNodes (parent) {
+
+    while (parent.firstChild) {
+        parent.removeChild(parent.firstChild);
+    }
+
+}
 
 // Loading Login Page
 function userMain() {

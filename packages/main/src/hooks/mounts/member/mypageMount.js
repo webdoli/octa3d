@@ -17,6 +17,14 @@ const createScript = ( url, ele ) => {
 
 }
 
+const removeAllChildNodes = (parent) => {
+
+    while (parent.firstChild) {
+        parent.removeChild(parent.firstChild);
+    }
+
+}
+
 export default class MypageMount extends abstractMount {
     
     constructor() {
@@ -96,7 +104,8 @@ export default class MypageMount extends abstractMount {
         header.appendChild( UserHeader() );
         footer.appendChild( Footer().footer02 );
 
-        main.innerHTML = '';
+        removeAllChildNodes( main )
+        //main.innerHTML = '';
         main.appendChild( MypageGUI() );
 
         libUrls.map( lib => {

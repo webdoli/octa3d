@@ -166,7 +166,7 @@ const myPageMain = () => {
                 </div>
             `
         })
-        .then(() => {
+        .then(( uid ) => {
             
             let script01 = document.createElement('script');
             // about 페이지 html script넣는 함수 생성 = window.signals에 등록
