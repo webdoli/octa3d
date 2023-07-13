@@ -37,7 +37,7 @@ const myPageMain = () => {
                                     <div class="file-btn"><i class="icofont-camera"></i>
                                         Edit Photo
                                     </div>
-                                    <input type="file">
+                                    <input type="file" id="profile-cover-pic">
                                 </div>
                             </div>
                             <div class="profile-information">
@@ -78,6 +78,7 @@ const myPageMain = () => {
                             </div>
                         </div>
                         <div class="profile-details">
+                            
                             <nav class="profile-nav">
                                 <div class="nav nav-tabs" id="nav-tab" role="tablist">
                                     <button class="nav-link profile-sub-btn" id="nav-about-tab" data-pageBtn="about" data-bs-toggle="tab" data-bs-target="#about"
@@ -117,11 +118,50 @@ const myPageMain = () => {
                                     </div>-->
                                 </div>
                             </nav>
-                            <div class="tab-content" id="nav-tabContent" style="">
-                            
+                            <div class="container" style="display:flex;">
+                            <div class="tab-content" id="nav-tabContent" style="width:100%;">
                             </div>
                             
-                        </div>
+                            <div class="col-xl-3">
+                                <!-- Aside Part -->
+                                <aside class="mt-5 mt-xl-0" style="padding-left:15px;">
+                                    <div class="profile-widget search-widget">
+                                        <div class="widget-inner">
+                                            <div class="widget-title">
+                                                <h5>Search NFT</h5>
+                                            </div>
+                                            <div class="widget-content">
+                                                <p>Search from best Rarest NFT collections</p>
+                                                <div class="form-floating nft-search-input">
+                                                    <input type="text" class="form-control"
+                                                        placeholder="Search Assets">
+                                                    <label>Search Assets</label>
+                                                    <button type="button">
+                                                        <i class="icofont-search-1"></i>
+                                                    </button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="widget widget-instagram">
+                                        <div class="widget-header">
+                                            <h5 class="title">Featured NFT</h5>
+                                        </div>
+                                        <ul class="widget-wrapper d-flex flex-wrap justify-content-center">
+                                            <li><a data-rel="lightcase"
+                                                    href="assets/images/nft-item/01.jpg">
+                                                    <img loading="lazy"
+                                                         src="assets/images/nft-item/01.jpg"
+                                                         alt="nft-img">
+                                                </a>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </aside>
+                            </div>
+                            </div>
+                        </div>  
+
                     </div>
                 </div>
             `
@@ -134,9 +174,20 @@ const myPageMain = () => {
 
                 let parent = document.querySelector('#nav-tabContent');
                 let aboutBtn = document.querySelector('#myprofile-about');
+                let coverImgEdit = document.querySelector('#profile-cover-pic');
 
                 window.signals.profileAssetsOpen.dispatch( parent );
 
+                coverImgEdit.addEventListener('change', (e) => {
+                    
+                    let selected = e.target.files[0];
+                    if( !selected ) return;
+                    if( !selected.type.includes('image') ) return;
+                    if( selected.size > 1000000 ) return;
+                    console.log('커버 이미지 사이즈: ', selected.size );
+                    //window.signals.profileCoverEdit.dispatch( selected );
+                })
+                
                 document.querySelector('#nav-about-tab').addEventListener('click', (e) => {
                     window.signals.profileAboutOpen.dispatch( parent );
                 });

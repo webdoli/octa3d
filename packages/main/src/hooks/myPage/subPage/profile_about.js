@@ -17,7 +17,6 @@ const profileAboutPage = () => {
     <!-- about tab -->
     <div class="tab-pane" id="about" role="tabpanel" aria-labelledby="nav-about-tab">
         <div class="row">
-            <div class="col-xl-9">
         <article class="visible" id="profile-intro-article">
                 <div class="info-card mb-3">
                     <div class="info-card-title">
@@ -93,44 +92,6 @@ const profileAboutPage = () => {
                 </div>
 
             </article>
-            </div>
-            <div class="col-xl-3">
-            <!-- Aside Part -->
-            <aside class="mt-5 mt-xl-0" style="padding-left:15px;">
-                <div class="profile-widget search-widget">
-                    <div class="widget-inner">
-                        <div class="widget-title">
-                            <h5>Search NFT</h5>
-                        </div>
-                        <div class="widget-content">
-                            <p>Search from best Rarest NFT collections</p>
-                            <div class="form-floating nft-search-input">
-                                <input type="text" class="form-control"
-                                    placeholder="Search NFT">
-                                <label>Search NFT</label>
-                                <button type="button">
-                                    <i class="icofont-search-1"></i>
-                                </button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="widget widget-instagram">
-                    <div class="widget-header">
-                        <h5 class="title">Featured NFT</h5>
-                    </div>
-                    <ul class="widget-wrapper d-flex flex-wrap justify-content-center">
-                        <li><a data-rel="lightcase"
-                                href="assets/images/nft-item/01.jpg">
-                                <img loading="lazy"
-                                     src="assets/images/nft-item/01.jpg"
-                                     alt="nft-img">
-                            </a>
-                        </li>
-                    </ul>
-                </div>
-            </aside>
-            </div>
 
             <article id="intro-article-form" style="display:none;">
                 

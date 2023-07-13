@@ -20,8 +20,9 @@ const createScript = ( url, ele ) => {
 export default class MypageMount extends abstractMount {
     
     constructor() {
-        console.log('mypage 마운트 class 시작')
+       
         super();
+        
     }
 
     mount( database ) {

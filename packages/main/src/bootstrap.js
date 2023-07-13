@@ -15,6 +15,8 @@ import hookAssetMount from './hooks/mounts/guest/hook_AssetMount';
 import hookSignupMount from './hooks/mounts/guest/hook_SignupMount';
 import hookSigninMount from './hooks/mounts/guest/hook_SigninMount';
 
+import { imgUpload } from './hooks/hook_upload';
+
 //mount
 import AssetMount from './hooks/mounts/member/assetMount';
 import HomeMount from './hooks/mounts/member/homeMount';
@@ -25,7 +27,6 @@ import profileAssetPage from './hooks/myPage/subPage/profile_assets';
 import profileCoworkPage from './hooks/myPage/subPage/profile_coworking';
 import profileActivityPage from './hooks/myPage/subPage/profile_activity';
 import profileTalkPage from './hooks/myPage/subPage/profile_talk';
-import profileAside from './hooks/mounts/member/asideMount';
 
 var Signal = require('signals');
 const headerEle = document.querySelector('.header-one');
@@ -40,6 +41,7 @@ window.signals = {
     profileActivityOpen: new Signal(),
     profileTalkOpen: new Signal(),
     profileSettingOpen: new Signal(),
+    profileCoverEdit: new Signal()
 
 }
 
@@ -47,7 +49,7 @@ let signals = window.signals;
 
 signals.profileAboutOpen.add(( ele ) => {
     $('#'+ele.id).empty();
-    ele.append( profileAboutPage(), profileAside() );
+    ele.append( profileAboutPage() );
 });
 
 signals.profileAssetsOpen.add(( ele ) => {
@@ -70,6 +72,14 @@ signals.profileTalkOpen.add(( ele ) => {
     $('#'+ele.id).empty();
     ele.appendChild( profileTalkPage( ele ) );
 });
+
+signals.profileCoverEdit.add(( coverImg ) => {
+    alert('커버 이미지 시그널');
+    console.log('coverImg: ' + coverImg );
+    let currentUserID = auth.currentUser.uid;
+    imgUpload( coverImg, currentUserID );
+    
+})
 
 onAuthStateChanged( auth, ( user ) => {
 
@@ -94,15 +104,14 @@ onAuthStateChanged( auth, ( user ) => {
 
 // Loading Login Page
 function userMain() {
-
     
     let mountUrls = [
         { 'http://localhost:8080/': new HomeMount },
         { 'https://octa3d-439a2.firebaseapp.com/': new HomeMount },
         { 'http://localhost:8080/assets': new AssetMount },
         { 'https://octa3d-439a2.firebaseapp.com/assets': new AssetMount },
-        { 'http://localhost:8080/mypage': new MypageMount },
-        { 'https://octa3d-439a2.firebaseapp.com/mypage': new MypageMount }
+        { 'http://localhost:8080/mypage': new MypageMount() },
+        { 'https://octa3d-439a2.firebaseapp.com/mypage': new MypageMount() }
     ];
     
     let currentUrl = window.location.href;
