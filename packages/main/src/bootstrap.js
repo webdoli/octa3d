@@ -15,7 +15,7 @@ import hookAssetMount from './hooks/mounts/guest/hook_AssetMount';
 import hookSignupMount from './hooks/mounts/guest/hook_SignupMount';
 import hookSigninMount from './hooks/mounts/guest/hook_SigninMount';
 
-import { imgUpload } from './hooks/hook_upload';
+import { coverUpload, avatarUpload } from './hooks/hook_upload';
 
 //mount
 import AssetMount from './hooks/mounts/member/assetMount';
@@ -33,6 +33,7 @@ const headerEle = document.querySelector('.header-one');
 const mainEle = document.querySelector('#main');
 const footerEle = document.querySelector('.footer1');
 
+
 window.signals = {
 
     profileAboutOpen: new Signal(),
@@ -41,8 +42,8 @@ window.signals = {
     profileActivityOpen: new Signal(),
     profileTalkOpen: new Signal(),
     profileSettingOpen: new Signal(),
-    profileCoverEdit: new Signal()
-
+    profileCoverEdit: new Signal(),
+    profileAvatarEdit: new Signal()
 }
 
 let signals = window.signals;
@@ -73,12 +74,14 @@ signals.profileTalkOpen.add(( ele ) => {
     ele.appendChild( profileTalkPage( ele ) );
 });
 
-signals.profileCoverEdit.add(( coverImg ) => {
-    alert('커버 이미지 시그널');
-    console.log('coverImg: ' + coverImg );
+signals.profileCoverEdit.add(( img ) => {
     let currentUserID = auth.currentUser.uid;
-    imgUpload( coverImg, currentUserID );
-    
+    coverUpload( img, currentUserID, 'cover' );
+})
+
+signals.profileAvatarEdit.add( ( img ) => {
+    let currentUserID = auth.currentUser.uid;
+    avatarUpload( img, currentUserID, 'avatar' );
 })
 
 onAuthStateChanged( auth, ( user ) => {

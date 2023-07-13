@@ -50,7 +50,7 @@ const myPageMain = () => {
                                             </span>
                                             <span class="d-lg-none mr-0"><i class="icofont-plus"></i></span>
                                         </div>
-                                        <input type="file">
+                                        <input type="file" id="profile-avatar">
                                     </div>
                                 </div>
                                 <div class="profile-name">
@@ -175,6 +175,7 @@ const myPageMain = () => {
                 let parent = document.querySelector('#nav-tabContent');
                 let aboutBtn = document.querySelector('#myprofile-about');
                 let coverImgEdit = document.querySelector('#profile-cover-pic');
+                let avatarImgEdit = document.querySelector('#profile-avatar');
 
                 window.signals.profileAssetsOpen.dispatch( parent );
 
@@ -185,7 +186,15 @@ const myPageMain = () => {
                     if( !selected.type.includes('image') ) return;
                     if( selected.size > 1000000 ) return;
                     console.log('커버 이미지 사이즈: ', selected.size );
-                    //window.signals.profileCoverEdit.dispatch( selected );
+                    window.signals.profileCoverEdit.dispatch( selected );
+                });
+
+                avatarImgEdit.addEventListener('change', (e) => {
+                    let selected = e.target.files[0];
+                    if( !selected ) return;
+                    if( !selected.type.includes('image') ) return;
+                    if( selected.size > 100000 ) return;
+                    window.signals.profileAvatarEdit.dispatch( selected );
                 })
                 
                 document.querySelector('#nav-about-tab').addEventListener('click', (e) => {
