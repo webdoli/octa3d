@@ -210,6 +210,9 @@ const profileAssetPage = () => {
             script.innerHTML += `
                 let assetUploadBtn = document.querySelector('#myAssetUpload');
                 assetUploadBtn.addEventListener('change', (e) => {
+                    for(let item in e.target.files[0]) {
+                        console.log('item: '+item+' , '+e.target.files[0][item])
+                    }
                     console.log('e.target: ', e.target.files[0] )
                     window.signals.myAssetUpload.dispatch()
                 })
