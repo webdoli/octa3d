@@ -57,7 +57,7 @@ signals.profileTalkOpen.add( ele => createGUI( ele, profileTalkPage ) );
 
 signals.profileCoverEdit.add(( img ) => {
     const uid = auth.currentUser.uid; 
-    coverUpload( img, uid, 'cover' ) 
+    coverUpload( img, uid, 'cover' )
 });
 
 signals.profileAvatarEdit.add( ( img ) => {
@@ -67,7 +67,7 @@ signals.profileAvatarEdit.add( ( img ) => {
 
 signals.myAssetUpload.add( () => {
     console.log('3D Asset upload start');
-})
+});
 
 onAuthStateChanged( auth, ( user ) => {
 
@@ -84,7 +84,7 @@ onAuthStateChanged( auth, ( user ) => {
 
     }
 
-})
+});
 
 /*******************/
 /*    Function     */
@@ -132,7 +132,6 @@ function userMain() {
     
     mobileExe( mainEle, footerEle );
    
-    
 }
 
 // Loading Guest Page

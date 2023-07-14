@@ -1,231 +1,292 @@
 
+function createEle ( ele, props ) {
+
+    let tag = document.createElement( ele );
+    
+    if( props ) {
+        Object.entries( props )
+        .forEach( ([key, value]) => { 
+            tag.setAttribute( key, value ) 
+        });
+    }
+
+    return tag;
+
+}
+
+function createTextNode( text ) {
+
+    let tag = document.createTextNode( text );
+    return tag;
+
+}
+
+function addElement () {
+    
+    for( let i=0; i<arguments.length; i++ ) {
+        arguments[i].appendChild( arguments[i+1] );
+    }
+}
 
 const profileAssetPage = () => {
 
-    let container = document.createElement('div');
+    
+    let container = createEle( 'div' ,{ 
+        class: 'tab-pane activity-page active',
+        id: 'assets-page',
+        role: 'tabpanel'
+    });
 
-    async function run() {
+    async function making() {
 
-        try {
-            container.innerHTML += `
-            <div class="tab-pane activity-page active" id="assets-page" role="tabpanel">                        
-            <div class="row">
-                <article>
-                    <div class="activity-tab">
-                        <ul class="nav nav-pills mb-30 px-2" id="pills-tab" role="tablist">
-                            <li class="nav-item" role="presentation">
-                                <button class="nav-link" id="pills-personal-tab"
-                                    data-bs-toggle="pill" data-bs-target="#upload-assets"
-                                    type="button" role="tab" aria-controls="upload-assets"
-                                    aria-selected="false">
-                                    <i class="icofont-flask"></i>
-                                    Upload Asset
-                                </button>
-                            </li>
-                            <li class="nav-item" role="presentation">
-                                <button class="nav-link active" id="pills-groups-tab"
-                                    data-bs-toggle="pill" data-bs-target="#created-assets"
-                                    type="button" role="tab" aria-controls="created-assets"
-                                    aria-selected="false"><i class="icofont-puzzle"></i>
-                                    Created
-                                </button>
-                            </li>
-                            <li class="nav-item" role="presentation">
-                                <button class="nav-link" id="pills-friends-tab"
-                                    data-bs-toggle="pill" data-bs-target="#picked-assets"
-                                    type="button" role="tab" aria-controls="picked-assets"
-                                    aria-selected="false"><i class="icofont-library"></i>
-                                    Picked
-                                </button>
-                            </li>
-                            <!--<li class="custom-select">
-                                <select>
-                                    <option value="1">All</option>
-                                    <option value="2">Recent</option>
-                                    <option value="3">Relevant</option>
-                                    <option value="4">Popular</option>
-                                </select>
-                            </li>-->
-                        </ul>
-                        <div class="tab-content activity-content" id="pills-tabContent">
-                            <div class="tab-pane" id="upload-assets" role="tabpanel"
-                                aria-labelledby="pills-personal-tab">
-                                <div class="row">
-                                    <div class="col">
-                                        <!-- Upload Assets -->
-                                        <div class="create-nft py-5 px-4">
-                                            <form class="create-nft-form">
-                                            <!-- upload field -->
-                                                <div class="upload-item mb-30">
-                                                    <p>FBX,OBJ,GLTF (Max-30mb)</p>
-                                                    <div class="custom-upload">
-                                                        <div class="file-btn">
-                                                            <i class="icofont-upload-alt"></i>
-                                                                Upload a file
-                                                        </div>
-                                                        <input type="file" id="myAssetUpload">
-                                                    </div>
-                                                </div>
-                                                <!-- item name input -->
-                                                <div class="form-floating item-name-field mb-3">
-                                                    <input type="text" class="form-control"
-                                                        id="itemNameInput"
-                                                        placeholder="Item Name">
-                                                    <label for="itemNameInput">
-                                                        Item Name
-                                                    </label>
-                                                </div>
-                                                <!-- item-description -->
-                                                <div class="form-floating item-desc-field mb-30">
-                                                    <textarea class="form-control"
-                                                        placeholder="Item Description"
-                                                        id="itemDesc">
-                                                    </textarea>
-                                                    <label for="itemDesc">
-                                                        Item Description
-                                                    </label>
-                                                </div>
-                                                <!-- item-category -->
-                                                <div class="item-category-field mb-30">
-                                                    <h4>Select Item Catergory</h4>
-                                                    <!--<ul class="item-cat-list d-flex flex-wrap">
-                                                        <li class="item-cat-btn active"><span><i class="icofont-vector-path"></i></span> Interior </li>
-                                                        <li class="item-cat-btn active"><span><i class="icofont-vector-path"></i></span> Vehicle </li>
-                                                    </ul>-->
-                                                </div>
-                                                <!-- item price -->
-                                                <div class="item-price-field mb-3">
-                                                    <div class="row g-3">
-                                                        <div class="col-md-6">
-                                                            <div class="form-floating">
-                                                                <select class="form-select"
-                                                                    id="selectCrypto"
-                                                                    aria-label="Floating label select">
-                                                                    <option selected> Building & Architecture </option>
-                                                                    <option value="1"> Interior </option>
-                                                                    <option value="2"> Vehicles </option>
-                                                                    <option value="3"> Electronics </option>
-                                                                    <option value="4"> Humans & Characters </option>
-                                                                    <option value="5"> Weapons & Amor </option>
-                                                                    <option value="6"> Food </option>
-                                                                    <option value="7"> Clothes & Accessories </option>
-                                                                    <option value="8"> Mecatronics & Parts </option>
-                                                                    <option value="9"> Anatomy </option>
-                                                                    <option value="10"> Sports </option>
-                                                                    <option value="11"> Animals </option>
-                                                                    <option value="12"> Fantasy & Fiction </option>
-                                                                </select>
-                                                                <label for="selectCrypto">Select Currency</label>
-                                                            </div>
-                                                        </div>
-                                                        <div class="col-md-3">
-                                                            <div class="form-floating">
-                                                                <select class="form-select">
-                                                                    <option selected> yes </option>
-                                                                    <option value="1"> no </option>
-                                                                </select>
-                                                                <label for="selectCrypto">Texture included</label>
-                                                                <!--<input type="text"
-                                                                    class="form-control"
-                                                                    id="itemPriceInput"
-                                                                    placeholder="Item Price">
-                                                                <label for="itemPriceInput">
-                                                                    Item Price
-                                                                </label>-->
-                                                            </div>
-                                                        </div>
-                                                        <div class="col-md-3">
-                                                            <div class="form-floating">
-                                                                <select class="form-select">
-                                                                    <option selected> yes </option>
-                                                                    <option value="1"> no </option>
-                                                                </select>
-                                                                <label for="selectCrypto">Rig included</label>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <!-- Royalites, Size & copy -->
-                                                <div class="item-price-field mb-5">
-                                                    <div class="row g-3 justify-content-center">
-                                                        <div class="col-md-6 col-lg-4">
-                                                            <div class="form-floating">
-                                                                <select class="form-select">
-                                                                    <option selected> blender </option>
-                                                                    <option value="1"> maya </option>
-                                                                    <option value="1"> max </option>
-                                                                    <option value="1"> c4d </option>
-                                                                    <option value="1"> houdini </option>
-                                                                    <option value="1"> cad </option>
-                                                                </select>
-                                                                <label for="selectCrypto">Made by</label>
-                                                            </div>
-                                                        </div>
-                                                        <div class="col-md-6 col-lg-4">
-                                                            <div class="form-floating">
-                                                                <select class="form-select">
-                                                                    <option selected> yes </option>
-                                                                    <option value="1"> no </option>
-                                                                </select>
-                                                                <label for="selectCrypto"> Public </label>
-                                                            </div>
-                                                        </div>
-                                                        <div class="col-md-6 col-lg-4">
-                                                            <div class="form-floating">
-                                                                <input type="text"
-                                                                    class="form-control"
-                                                                    id="itemNumbersInput"
-                                                                    placeholder="License">
-                                                                <label for="itemNumbersInput">  
-                                                                    License
-                                                                </label>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <!-- submit button -->
-                                                <div class="submit-btn-field text-center">
-                                                    <button type="submit">Create Item</button>
-                                                </div>
-                                            </form>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                    
-                        </div>
-                    </div>
-                </article>   
-            </div>
-        </div>
-            `
-        
-        } catch (e) {
-        
-            console.error(e); // handle your error here
-        
+        try{
+
+            let row = await createEle( 'div', { class: 'row' });
+            let article01 = await createEle( 'article' );
+            let div01 = await createEle( 'div', { class: 'activity-tab'});
+            let ul01 = await createEle( 'ul', { class: 'nav nav-pills mb-30 px-2', id: 'pills-tab', role: 'tablist'});
+            
+            let li01 = await createEle( 'li', { class: 'nav-item', role: 'presentation' });
+            let btn01 = await createEle( 'button', 
+                { class: 'nav-link', id: 'pills-personal-tab', 'data-bs-toggle': 'pill', 'data-bs-target':'#upload-assets', type:'button', 
+                        role:'tab', 'aria-controls':'upload-assets', 'aria-selected':'false' 
+                }
+            );
+            let i01 = await createEle( 'i', { class: 'icofont-flask'} );
+            let test01 = await createTextNode( 'Upload Asset' );
+
+            addElement( container, row, article01, div01, ul01, li01, btn01 );
+
+        } catch ( err ) {
+
         } finally {
 
-            let script = document.createElement('script');
-            script.innerHTML += `
-                let assetUploadBtn = document.querySelector('#myAssetUpload');
-                assetUploadBtn.addEventListener('change', (e) => {
-                    for(let item in e.target.files[0]) {
-                        console.log('item: '+item+' , '+e.target.files[0][item])
-                    }
-                    console.log('e.target: ', e.target.files[0] )
-                    window.signals.myAssetUpload.dispatch()
-                })
-            `
-            container.appendChild( script );
-        
-            console.log('Cleanup here'); // cleanup, always executed
-            
         }
-
     }
 
-    run();
+    making();
+
+
+    // async function run() {
+
+    //     try {
+
+    //         container.innerHTML += `
+    //             <article>
+    //                 <div class="activity-tab">
+    //                     <ul class="nav nav-pills mb-30 px-2" id="pills-tab" role="tablist">
+    //                         <li class="nav-item" role="presentation">
+    //                             <button class="nav-link" id="pills-personal-tab"
+    //                                 data-bs-toggle="pill" data-bs-target="#upload-assets"
+    //                                 type="button" role="tab" aria-controls="upload-assets"
+    //                                 aria-selected="false">
+    //                                 <i class="icofont-flask"></i>
+    //                                 Upload Asset
+    //                             </button>
+    //                         </li>
+    //                         <li class="nav-item" role="presentation">
+    //                             <button class="nav-link active" id="pills-groups-tab"
+    //                                 data-bs-toggle="pill" data-bs-target="#created-assets"
+    //                                 type="button" role="tab" aria-controls="created-assets"
+    //                                 aria-selected="false"><i class="icofont-puzzle"></i>
+    //                                 Created
+    //                             </button>
+    //                         </li>
+    //                         <li class="nav-item" role="presentation">
+    //                             <button class="nav-link" id="pills-friends-tab"
+    //                                 data-bs-toggle="pill" data-bs-target="#picked-assets"
+    //                                 type="button" role="tab" aria-controls="picked-assets"
+    //                                 aria-selected="false"><i class="icofont-library"></i>
+    //                                 Picked
+    //                             </button>
+    //                         </li>
+    //                         <!--<li class="custom-select">
+    //                             <select>
+    //                                 <option value="1">All</option>
+    //                                 <option value="2">Recent</option>
+    //                                 <option value="3">Relevant</option>
+    //                                 <option value="4">Popular</option>
+    //                             </select>
+    //                         </li>-->
+    //                     </ul>
+    //                     <div class="tab-content activity-content" id="pills-tabContent">
+    //                         <div class="tab-pane" id="upload-assets" role="tabpanel"
+    //                             aria-labelledby="pills-personal-tab">
+    //                             <div class="row">
+    //                                 <div class="col">
+    //                                     <!-- Upload Assets -->
+    //                                     <div class="create-nft py-5 px-4">
+    //                                         <form class="create-nft-form">
+    //                                         <!-- upload field -->
+    //                                             <div class="upload-item mb-30">
+    //                                                 <p>FBX,OBJ,GLTF (Max-30mb)</p>
+    //                                                 <div class="custom-upload">
+    //                                                     <div class="file-btn">
+    //                                                         <i class="icofont-upload-alt"></i>
+    //                                                             Upload a file
+    //                                                     </div>
+    //                                                     <input type="file" id="myAssetUpload">
+    //                                                 </div>
+    //                                             </div>
+    //                                             <!-- item name input -->
+    //                                             <div class="form-floating item-name-field mb-3">
+    //                                                 <input type="text" class="form-control"
+    //                                                     id="itemNameInput"
+    //                                                     placeholder="Item Name">
+    //                                                 <label for="itemNameInput">
+    //                                                     Item Name
+    //                                                 </label>
+    //                                             </div>
+    //                                             <!-- item-description -->
+    //                                             <div class="form-floating item-desc-field mb-30">
+    //                                                 <textarea class="form-control"
+    //                                                     placeholder="Item Description"
+    //                                                     id="itemDesc">
+    //                                                 </textarea>
+    //                                                 <label for="itemDesc">
+    //                                                     Item Description
+    //                                                 </label>
+    //                                             </div>
+    //                                             <!-- item-category -->
+    //                                             <div class="item-category-field mb-30">
+    //                                                 <h4>Select Item Catergory</h4>
+    //                                                 <!--<ul class="item-cat-list d-flex flex-wrap">
+    //                                                     <li class="item-cat-btn active"><span><i class="icofont-vector-path"></i></span> Interior </li>
+    //                                                     <li class="item-cat-btn active"><span><i class="icofont-vector-path"></i></span> Vehicle </li>
+    //                                                 </ul>-->
+    //                                             </div>
+    //                                             <!-- item price -->
+    //                                             <div class="item-price-field mb-3">
+    //                                                 <div class="row g-3">
+    //                                                     <div class="col-md-6">
+    //                                                         <div class="form-floating">
+    //                                                             <select class="form-select"
+    //                                                                 id="selectCrypto"
+    //                                                                 aria-label="Floating label select">
+    //                                                                 <option selected> Building & Architecture </option>
+    //                                                                 <option value="1"> Interior </option>
+    //                                                                 <option value="2"> Vehicles </option>
+    //                                                                 <option value="3"> Electronics </option>
+    //                                                                 <option value="4"> Humans & Characters </option>
+    //                                                                 <option value="5"> Weapons & Amor </option>
+    //                                                                 <option value="6"> Food </option>
+    //                                                                 <option value="7"> Clothes & Accessories </option>
+    //                                                                 <option value="8"> Mecatronics & Parts </option>
+    //                                                                 <option value="9"> Anatomy </option>
+    //                                                                 <option value="10"> Sports </option>
+    //                                                                 <option value="11"> Animals </option>
+    //                                                                 <option value="12"> Fantasy & Fiction </option>
+    //                                                             </select>
+    //                                                             <label for="selectCrypto">Select Currency</label>
+    //                                                         </div>
+    //                                                     </div>
+    //                                                     <div class="col-md-3">
+    //                                                         <div class="form-floating">
+    //                                                             <select class="form-select">
+    //                                                                 <option selected> yes </option>
+    //                                                                 <option value="1"> no </option>
+    //                                                             </select>
+    //                                                             <label for="selectCrypto">Texture included</label>
+    //                                                             <!--<input type="text"
+    //                                                                 class="form-control"
+    //                                                                 id="itemPriceInput"
+    //                                                                 placeholder="Item Price">
+    //                                                             <label for="itemPriceInput">
+    //                                                                 Item Price
+    //                                                             </label>-->
+    //                                                         </div>
+    //                                                     </div>
+    //                                                     <div class="col-md-3">
+    //                                                         <div class="form-floating">
+    //                                                             <select class="form-select">
+    //                                                                 <option selected> yes </option>
+    //                                                                 <option value="1"> no </option>
+    //                                                             </select>
+    //                                                             <label for="selectCrypto">Rig included</label>
+    //                                                         </div>
+    //                                                     </div>
+    //                                                 </div>
+    //                                             </div>
+    //                                             <!-- Royalites, Size & copy -->
+    //                                             <div class="item-price-field mb-5">
+    //                                                 <div class="row g-3 justify-content-center">
+    //                                                     <div class="col-md-6 col-lg-4">
+    //                                                         <div class="form-floating">
+    //                                                             <select class="form-select">
+    //                                                                 <option selected> blender </option>
+    //                                                                 <option value="1"> maya </option>
+    //                                                                 <option value="1"> max </option>
+    //                                                                 <option value="1"> c4d </option>
+    //                                                                 <option value="1"> houdini </option>
+    //                                                                 <option value="1"> cad </option>
+    //                                                             </select>
+    //                                                             <label for="selectCrypto">Made by</label>
+    //                                                         </div>
+    //                                                     </div>
+    //                                                     <div class="col-md-6 col-lg-4">
+    //                                                         <div class="form-floating">
+    //                                                             <select class="form-select">
+    //                                                                 <option selected> yes </option>
+    //                                                                 <option value="1"> no </option>
+    //                                                             </select>
+    //                                                             <label for="selectCrypto"> Public </label>
+    //                                                         </div>
+    //                                                     </div>
+    //                                                     <div class="col-md-6 col-lg-4">
+    //                                                         <div class="form-floating">
+    //                                                             <input type="text"
+    //                                                                 class="form-control"
+    //                                                                 id="itemNumbersInput"
+    //                                                                 placeholder="License">
+    //                                                             <label for="itemNumbersInput">  
+    //                                                                 License
+    //                                                             </label>
+    //                                                         </div>
+    //                                                     </div>
+    //                                                 </div>
+    //                                             </div>
+    //                                             <!-- submit button -->
+    //                                             <div class="submit-btn-field text-center">
+    //                                                 <button type="submit">Create Item</button>
+    //                                             </div>
+    //                                         </form>
+    //                                     </div>
+    //                                 </div>
+    //                             </div>
+    //                         </div>
+                    
+    //                     </div>
+    //                 </div>
+    //             </article>   
+        
+    //         `
+        
+    //     } catch (e) {
+        
+    //         console.error(e); // handle your error here
+        
+    //     } finally {
+
+    //         let script = document.createElement('script');
+    //         script.innerHTML += `
+    //             let assetUploadBtn = document.querySelector('#myAssetUpload');
+    //             assetUploadBtn.addEventListener('change', (e) => {
+    //                 for(let item in e.target.files[0]) {
+    //                     console.log('item: '+item+' , '+e.target.files[0][item])
+    //                 }
+    //                 console.log('e.target: ', e.target.files[0] )
+    //                 window.signals.myAssetUpload.dispatch()
+    //             })
+    //         `
+    //         container.appendChild( script );
+        
+    //         console.log('Cleanup here'); // cleanup, always executed
+            
+    //     }
+
+    // }
+
+    // run();
 
     return container;
 
