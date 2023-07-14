@@ -1,70 +1,238 @@
-
-function createEle ( ele, props ) {
-
-    let tag = document.createElement( ele );
-    
-    if( props ) {
-        Object.entries( props )
-        .forEach( ([key, value]) => { 
-            tag.setAttribute( key, value ) 
-        });
-    }
-
-    return tag;
-
-}
-
-function createTextNode( text ) {
-
-    let tag = document.createTextNode( text );
-    return tag;
-
-}
-
-function addElement () {
-    
-    for( let i=0; i<arguments.length; i++ ) {
-        arguments[i].appendChild( arguments[i+1] );
-    }
-}
+import { OctaUI, UIButton, UIDiv, UIRow, UIP, UIInput, UITextArea } from "../../../libs/octaUI";
 
 const profileAssetPage = () => {
 
+    let container = new UIDiv();
+        container.setAttr({ 'class': 'tab-pane activity-page active', 'id': 'assets-page', 'role': 'tabpanel' });
+
+    let row = new UIRow();
+    let article = new OctaUI( document.createElement('article') );
+    let activeTab = new UIDiv().setAttr({'class': 'activity-tab'});
+    let topUL = new OctaUI( document.createElement('ul') );
+        topUL.setAttr({'class':'nav nav-pills mb-30 px-2', 'id':'pills-tab', 'role':'tablist' });
+
+    let tabContent = new UIDiv().setAttr({'class':'tab-content activity-content', 'id':'pills-tabContent'});
+    let tabPane = new UIDiv().setAttr({'class':'tab-pane', 'id':'upload-assets', 'role':'tabpanel', 'aria-labelledby':'pills-personal-tab'});
+    let row02 = new UIRow();
+    let col01 = new UIDiv().setAttr({'class':'col'});
+    let uploadWrap = new UIDiv().setAttr({'class':'create-nft py-5 px-4'});
+    let formEle = new OctaUI( document.createElement('form')).setAttr({'class':'create-nft-form'});
+
+    // form inner01
+    let formWrap01 = new UIDiv().setAttr({'class':'upload-item mb-30'});
+    let formP01 = new UIP('FBX,OBJ,GLTF (Max-30mb)');
+    let formDiv02 = new UIDiv().setAttr({'class':'custom-upload'});
+    let file01 = new UIDiv().setAttr({'class':'file-btn'}).setTextContent('Upload a file');
+    let icon04 = new OctaUI(document.createElement('i')).setAttr({'class':'icofont-upload-alt'})
+    let input01 = new UIInput().setAttr({'type':'file', 'id':'myAssetUpload'});
     
-    let container = createEle( 'div' ,{ 
-        class: 'tab-pane activity-page active',
-        id: 'assets-page',
-        role: 'tabpanel'
+    file01.add( icon04 );
+    formDiv02.add( file01, input01 );
+    formWrap01.add( formP01, formDiv02 );
+    
+    // form inner02:: item name input
+    let formWrap02 = new UIDiv().setAttr({'class':'form-floating item-name-field mb-3'});
+    let formWrap02Input = new UIInput('Item Name').setAttr({'type':'text', 'class':'form-control','id':'itemNameInput', 'placeholder':'Item Name'});
+    let formWrap02Label = new OctaUI(document.createElement('label')).setAttr({'for':'itemNameInput'}).setTextContent('Item Name');
+    formWrap02.add( formWrap02Input, formWrap02Label );
+
+    // form inner03:: item description
+    let formWrap03 = new UIDiv().setAttr({'class':'form-floating item-desc-field mb-30'});
+    let formWrap03Textarea = new UITextArea().setAttr({'class':'form-control', 'placeholder':'Item Description', 'id':'itemDesc'});
+    let formWrap03Label = new OctaUI(document.createElement('label')).setAttr({'for':'itemDesc'}).setTextContent('Item Description');
+
+    formWrap03.add( formWrap03Textarea, formWrap03Label );
+
+    // form inner04:: item category
+    let formWrap04 = new UIDiv().setAttr({'class':'item-category-field mb-30'});
+    let formWrapH01 = new OctaUI(document.createElement('h4')).setTextContent('Select Item Category');
+    formWrap04.add( formWrapH01 );
+
+    // form inner05: form item option select
+    let formWrap05 = new UIDiv().setAttr({'class':'item-price-field mb-3'});
+    let formWrap05Row = new UIRow().setAttr({'class':'row g-3'});
+    let formWrap05Col01 = new UIDiv().setAttr({'class':'col-md-6'});
+    let formWrap05Col02 = new UIDiv().setAttr({'class':'col-md-3'});
+    let formWrap05Col03 = new UIDiv().setAttr({'class':'col-md-3'});
+
+    let formWrap05Float = new UIDiv().setAttr({'class':'form-floating'});
+    let formWrap05Slc = new OctaUI(document.createElement('select')).setAttr({'class':'form-select','id':'selectCrypto', 'aria-label':'Floating label select'});
+    let option01 = new OctaUI(document.createElement('option')).setAttr({'selected':''}).setTextContent('Building & Architecture');
+    let option02 = new OctaUI(document.createElement('option')).setAttr({'selected':'1'}).setTextContent('Interior');
+    let option03 = new OctaUI(document.createElement('option')).setAttr({'selected':'2'}).setTextContent('Vehicles');
+    let option04 = new OctaUI(document.createElement('option')).setAttr({'selected':'3'}).setTextContent('Electronics');
+    let option05 = new OctaUI(document.createElement('option')).setAttr({'selected':'4'}).setTextContent('Humans & Characters');
+    let option06 = new OctaUI(document.createElement('option')).setAttr({'selected':'5'}).setTextContent('Weapons & Amor ');
+    let option07 = new OctaUI(document.createElement('option')).setAttr({'selected':'6'}).setTextContent('Food');
+    let option08 = new OctaUI(document.createElement('option')).setAttr({'selected':'7'}).setTextContent('Clothes & Accessories');
+    let option09 = new OctaUI(document.createElement('option')).setAttr({'selected':'8'}).setTextContent('Mecatronics & Parts');
+    let option10 = new OctaUI(document.createElement('option')).setAttr({'selected':'9'}).setTextContent('Anatomy');
+    let option11 = new OctaUI(document.createElement('option')).setAttr({'selected':'10'}).setTextContent('Sports');
+    let option12 = new OctaUI(document.createElement('option')).setAttr({'selected':'11'}).setTextContent('Animals');
+    let option13 = new OctaUI(document.createElement('option')).setAttr({'selected':'12'}).setTextContent('Fantasy & Fiction');
+
+    let formWrap05Label = new OctaUI(document.createElement('label')).setAttr({'for':'selectCrypto'}).setTextContent('Select Currency');
+
+    formWrap05Slc.add( option01, option02, option03, option04, option05, option06, option07, option08, option09, option10, option11, option12, option13 );
+    formWrap05Float.add( formWrap05Slc, formWrap05Label );
+    formWrap05Col01.add( formWrap05Float );
+
+    let formWrap05Col02Float = new UIDiv().setAttr({'class':'form-floating'});
+    let formWrapCol02Slc = new OctaUI(document.createElement('select')).setAttr({'class':'form-select'});
+    let formWRapCol02Option01 = new OctaUI(document.createElement('option')).setAttr({'selected':''}).setTextContent('yes');
+    let formWRapCol02Option02 = new OctaUI(document.createElement('option')).setAttr({'selected':'1'}).setTextContent('no');
+    let formWrapCol02Label = new OctaUI(document.createElement('label')).setAttr({'for':'selectCrypto'}).setTextContent('Texture included');
+    formWrapCol02Slc.add( formWRapCol02Option01, formWRapCol02Option02);
+    formWrap05Col02Float.add( formWrapCol02Slc, formWrapCol02Label );
+
+    formWrap05Col02.add( formWrap05Col02Float );
+
+    let formWrap05Col03Float = new UIDiv().setAttr({'class':'form-floating'});
+    let formWrap05Col03Slc = new OctaUI(document.createElement('select')).setAttr({'class':'form-select'});
+    let formWRapCol03Option01 = new OctaUI(document.createElement('option')).setAttr({'selected':''}).setTextContent('yes');
+    let formWRapCol03Option02 = new OctaUI(document.createElement('option')).setAttr({'selected':'1'}).setTextContent('no');
+    let formWrapCol03Label = new OctaUI(document.createElement('label')).setAttr({'for':'selectCrypto'}).setTextContent('Rig Included');
+
+    formWrap05Col03Slc.add(formWRapCol03Option01, formWRapCol03Option02);
+    formWrap05Col03Float.add(formWrap05Col03Slc, formWrapCol03Label );
+    formWrap05Col03.add(formWrap05Col03Float);
+
+    formWrap05Row.add( formWrap05Col01, formWrap05Col02, formWrap05Col03 );
+    formWrap05.add( formWrap05Row );
+
+
+    //formWrap06:: select field
+    let formWrap06 = new UIDiv().setAttr({'class':'item-price-field mb-5'});
+    let form06Row = new UIDiv().setAttr({'class':'row g-3 justify-content-center'});
+    let form06Col01 = new UIDiv().setAttr({'class':'col-md-6 col-lg-4'});
+    let form06Col01Float = new UIDiv().setAttr({'class': 'form-floating'});
+    let form06Slc = new OctaUI(document.createElement('select')).setAttr({'class':'form-select'});
+    let form06Opt01 = new OctaUI(document.createElement('option')).setAttr({'selected':''}).setTextContent('select your major s/w');
+    let form06Opt02 = new OctaUI(document.createElement('option')).setAttr({'selected':'1'}).setTextContent('blender');
+    let form06Opt03 = new OctaUI(document.createElement('option')).setAttr({'selected':'2'}).setTextContent('maya');
+    let form06Opt04 = new OctaUI(document.createElement('option')).setAttr({'selected':'3'}).setTextContent('max');
+    let form06Opt05 = new OctaUI(document.createElement('option')).setAttr({'selected':'4'}).setTextContent('c4d');
+    let form06Opt06 = new OctaUI(document.createElement('option')).setAttr({'selected':'5'}).setTextContent('houdini');
+    let form06Opt07 = new OctaUI(document.createElement('option')).setAttr({'selected':'6'}).setTextContent('cad');
+    let form06Label = new OctaUI(document.createElement('label')).setAttr({'for':'selectCrypto'}).setTextContent('Made by');
+
+    form06Slc.add(form06Opt01, form06Opt02, form06Opt03, form06Opt04, form06Opt05, form06Opt06, form06Opt07);
+    form06Col01Float.add(form06Slc, form06Label);
+    form06Col01.add( form06Col01Float );
+
+    let form06Col02 = new UIDiv().setAttr({'class':'col-md-6 col-lg-4'});
+    let form06Col02Float = new UIDiv().setAttr({'class': 'form-floating'});
+    let form06Slc02 = new OctaUI(document.createElement('select')).setAttr({'class':'form-select'});
+    let form06Slc02Opt01 = new OctaUI(document.createElement('option')).setAttr({'selected':''}).setTextContent('yes');
+    let form06Slc02Opt02 = new OctaUI(document.createElement('option')).setAttr({'selected':'1'}).setTextContent('no');
+    let form06Label02 = new OctaUI(document.createElement('label')).setAttr({'for':'selectCrypto'}).setTextContent('Public');
+
+    form06Slc02.add(form06Slc02Opt01, form06Slc02Opt02 );
+    form06Col02Float.add( form06Slc02, form06Label02 );
+    form06Col02.add( form06Col02Float );
+
+    let form06Col03 = new UIDiv().setAttr({'class':'col-md-6 col-lg-4'});
+    let form06Col03Float = new UIDiv().setAttr({'class': 'form-floating'});
+    let form06Input = new UIInput().setAttr({'type':'text', 'id':'itemNumbersInput', 'placeholder':'License'});
+    let form06Label03 = new OctaUI(document.createElement('label')).setAttr({'for':'itemNumbersInput'}).setTextContent('License');
+
+    form06Col03Float.add(form06Input, form06Label03);
+    form06Col03.add( form06Col03Float );
+
+    form06Row.add(form06Col01, form06Col02, form06Col03 );
+    formWrap06.add( form06Row );
+
+    //formWrap last:: submit btn
+    let submitDiv = new UIDiv().setAttr({'class':'submit-btn-field text-center'});
+    let submitBtn = new UIButton('Create Item').setAttr({'type':'submit'});
+    submitDiv.add( submitBtn );
+
+    // form inner06:: 
+
+    formEle.add( formWrap01, formWrap02, formWrap03, formWrap04, formWrap05, submitDiv );
+    //insert form inners
+    tabContent.addSeq( tabPane, row02, col01, uploadWrap, formEle );
+
+
+    let li01 = new OctaUI( document.createElement('li') ).setAttr({'class':'nav-item', 'role':'presentation'});
+    let btn01 = new UIButton( 'Upload Asset' ).setAttr({
+        'class':'nav-link', 
+        'id':'pills-personal-tab',
+        'data-bs-toggle': 'pill', 
+        'data-bs-target':'#upload-assets', 
+        'type':'button', 
+        'role':'tab', 
+        'aria-controls':'upload-assets', 
+        'aria-selected':'false'
     });
+    let icon01 = new OctaUI( document.createElement('i') ).setAttr({'class': 'icofont-flask'});
 
-    async function making() {
+    let li02 = new OctaUI( document.createElement('li') ).setAttr({'class': 'nav-item', 'role':'presentation'});
+    let btn02 = new UIButton( 'Created' ).setAttr({
+        'class':'nav-link active', 
+        'id':'pills-groups-tab',
+        'data-bs-toggle': 'pill', 
+        'data-bs-target':'#created-assets', 
+        'type':'button', 
+        'role':'tab', 
+        'aria-controls':'created-assets', 
+        'aria-selected':'false'
+    });
+    let icon02 = new OctaUI( document.createElement('i') ).setAttr({'class': 'icofont-puzzle'});
 
-        try{
+    let li03 = new OctaUI( document.createElement('li') ).setAttr({'class': 'nav-item', 'role':'presentation'});
+    let btn03 = new UIButton( 'Picked' ).setAttr({
+        'class':'nav-link', 
+        'id':'pills-friends-tab',
+        'data-bs-toggle': 'pill', 
+        'data-bs-target':'#picked-assets', 
+        'type':'button', 
+        'role':'tab', 
+        'aria-controls':'picked-assets', 
+        'aria-selected':'false'
+    });
+    let icon03 = new OctaUI( document.createElement('i') ).setAttr({'class': 'icofont-library'});
 
-            let row = await createEle( 'div', { class: 'row' });
-            let article01 = await createEle( 'article' );
-            let div01 = await createEle( 'div', { class: 'activity-tab'});
-            let ul01 = await createEle( 'ul', { class: 'nav nav-pills mb-30 px-2', id: 'pills-tab', role: 'tablist'});
+    li01.addSeq( btn01, icon01 );
+    li02.addSeq( btn02, icon02 );
+    li03.addSeq( btn03, icon03 );
+    topUL.addSeq( li01, li02, li03 );
+
+    //tap start
+
+    activeTab.add( topUL, tabContent )
+    container.addSeq( row, article, activeTab );
+
+    return container.dom;
+
+    // async function making() {
+
+    //     try{
+
+    //         let row = await createEle( 'div', { class: 'row' });
+    //         let article01 = await createEle( 'article' );
+    //         let div01 = await createEle( 'div', { class: 'activity-tab'});
+    //         let ul01 = await createEle( 'ul', { class: 'nav nav-pills mb-30 px-2', id: 'pills-tab', role: 'tablist'});
             
-            let li01 = await createEle( 'li', { class: 'nav-item', role: 'presentation' });
-            let btn01 = await createEle( 'button', 
-                { class: 'nav-link', id: 'pills-personal-tab', 'data-bs-toggle': 'pill', 'data-bs-target':'#upload-assets', type:'button', 
-                        role:'tab', 'aria-controls':'upload-assets', 'aria-selected':'false' 
-                }
-            );
-            let i01 = await createEle( 'i', { class: 'icofont-flask'} );
-            let test01 = await createTextNode( 'Upload Asset' );
+    //         let li01 = await createEle( 'li', { class: 'nav-item', role: 'presentation' });
+    //         let btn01 = await createEle( 'button', 
+    //             { class: 'nav-link', id: 'pills-personal-tab', 'data-bs-toggle': 'pill', 'data-bs-target':'#upload-assets', type:'button', 
+    //                     role:'tab', 'aria-controls':'upload-assets', 'aria-selected':'false' 
+    //             }
+    //         );
+    //         let i01 = await createEle( 'i', { class: 'icofont-flask'} );
+    //         let test01 = await createTextNode( 'Upload Asset' );
 
-            addElement( container, row, article01, div01, ul01, li01, btn01 );
+    //         addElement( container, row, article01, div01, ul01, li01, btn01 );
 
-        } catch ( err ) {
+    //     } catch ( err ) {
 
-        } finally {
+    //     } finally {
 
-        }
-    }
+    //     }
+    // }
 
-    making();
+    // making();
 
 
     // async function run() {
@@ -288,7 +456,7 @@ const profileAssetPage = () => {
 
     // run();
 
-    return container;
+    //return container.dom;
 
     // let container = document.createElement('div');
     // container.innerHTML += `
