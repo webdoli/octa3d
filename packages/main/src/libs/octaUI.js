@@ -16,18 +16,8 @@ class OctaUI {
 
     }
 
-    setId( id ) {
-        this.dom.id = id;
-        return this;
-    }
-
     getId() {
         return this.dom.id;
-    }
-
-    setClass( name ) {
-        this.dom.className = name;
-        return this;
     }
 
     addClass( name ) {
@@ -40,10 +30,13 @@ class OctaUI {
         return this;
     }
 
-    setStyle( style, arr ) {
-        for( let i = 0; i < arr.length; i ++ ) {
-            this.dom.style[ style ] = arr[ i ];
-        }
+    setAttr( props ) {
+        
+        Object.entries( props )
+        .forEach( ([key, value]) => { 
+            this.dom.setAttribute( key, value ) 
+        });
+        
         return this;
     }
 
