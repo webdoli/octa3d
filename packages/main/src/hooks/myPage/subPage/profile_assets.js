@@ -196,7 +196,7 @@ const profileAssetPage = () => {
     li01.addSeq( btn01, icon01 );
     li02.addSeq( btn02, icon02 );
     li03.addSeq( btn03, icon03 );
-    topUL.addSeq( li01, li02, li03 );
+    topUL.add( li01, li02, li03 );
 
     //tap start
 
