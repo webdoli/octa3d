@@ -1,5 +1,17 @@
 import { OctaUI, UIButton, UIDiv, UIRow, UIP, UIInput, UITextArea } from "../../../libs/octaUI";
 
+function makeSlcOpt ( slc, opts ) {
+    let slcTag = new OctaUI( document.createElement('select') ).setAttr( slc );
+    opts.map( opt => {
+
+        let option = new OctaUI( document.createElement('option')).setAttr( opt.attr ).setTextContent( opt.val );
+        slcTag.add( option );
+    });
+
+    return slcTag
+
+}
+
 const profileAssetPage = () => {
 
     let container = new UIDiv();
@@ -56,24 +68,26 @@ const profileAssetPage = () => {
     let formWrap05Col03 = new UIDiv().setAttr({'class':'col-md-3'});
 
     let formWrap05Float = new UIDiv().setAttr({'class':'form-floating'});
-    let formWrap05Slc = new OctaUI(document.createElement('select')).setAttr({'class':'form-select','id':'selectCrypto', 'aria-label':'Floating label select'});
-    let option01 = new OctaUI(document.createElement('option')).setAttr({'selected':''}).setTextContent('Building & Architecture');
-    let option02 = new OctaUI(document.createElement('option')).setAttr({'selected':'1'}).setTextContent('Interior');
-    let option03 = new OctaUI(document.createElement('option')).setAttr({'selected':'2'}).setTextContent('Vehicles');
-    let option04 = new OctaUI(document.createElement('option')).setAttr({'selected':'3'}).setTextContent('Electronics');
-    let option05 = new OctaUI(document.createElement('option')).setAttr({'selected':'4'}).setTextContent('Humans & Characters');
-    let option06 = new OctaUI(document.createElement('option')).setAttr({'selected':'5'}).setTextContent('Weapons & Amor ');
-    let option07 = new OctaUI(document.createElement('option')).setAttr({'selected':'6'}).setTextContent('Food');
-    let option08 = new OctaUI(document.createElement('option')).setAttr({'selected':'7'}).setTextContent('Clothes & Accessories');
-    let option09 = new OctaUI(document.createElement('option')).setAttr({'selected':'8'}).setTextContent('Mecatronics & Parts');
-    let option10 = new OctaUI(document.createElement('option')).setAttr({'selected':'9'}).setTextContent('Anatomy');
-    let option11 = new OctaUI(document.createElement('option')).setAttr({'selected':'10'}).setTextContent('Sports');
-    let option12 = new OctaUI(document.createElement('option')).setAttr({'selected':'11'}).setTextContent('Animals');
-    let option13 = new OctaUI(document.createElement('option')).setAttr({'selected':'12'}).setTextContent('Fantasy & Fiction');
+    let formWrap05Slc = makeSlcOpt( 
+        {'class':'form-select','id':'selectCrypto', 'aria-label':'Floating label select'},
+        [
+            { attr: {'selected': ''}, val: 'Building & Architecture' },
+            { attr: {'selected': '1'}, val: 'Interior' },
+            { attr: {'selected': '2'}, val: 'Vehicles' },
+            { attr: {'selected': '3'}, val: 'Electronics' },
+            { attr: {'selected': '4'}, val: 'Humans & Characters' },
+            { attr: {'selected': '5'}, val: 'Weapons & Amor' },
+            { attr: {'selected': '6'}, val: 'Food' },
+            { attr: {'selected': '7'}, val: 'Clothes & Accessories' },
+            { attr: {'selected': '8'}, val: 'Mecatronics & Parts' },
+            { attr: {'selected': '9'}, val: 'Anatomy' },
+            { attr: {'selected': '10'}, val: 'Sports' },
+            { attr: {'selected': '11'}, val: 'Animals' },
+            { attr: {'selected': '12'}, val: 'Fantasy & Fiction' },
+        ]
+    );
 
-    let formWrap05Label = new OctaUI(document.createElement('label')).setAttr({'for':'selectCrypto'}).setTextContent('Select Currency');
-
-    formWrap05Slc.add( option01, option02, option03, option04, option05, option06, option07, option08, option09, option10, option11, option12, option13 );
+    let formWrap05Label = new OctaUI(document.createElement('label')).setAttr({'for':'selectCrypto'}).setTextContent('Select Fields');
     formWrap05Float.add( formWrap05Slc, formWrap05Label );
     formWrap05Col01.add( formWrap05Float );
 
@@ -106,18 +120,20 @@ const profileAssetPage = () => {
     let form06Row = new UIDiv().setAttr({'class':'row g-3 justify-content-center'});
     let form06Col01 = new UIDiv().setAttr({'class':'col-md-6 col-lg-4'});
     let form06Col01Float = new UIDiv().setAttr({'class': 'form-floating'});
-    let form06Slc = new OctaUI(document.createElement('select')).setAttr({'class':'form-select'});
-    let form06Opt01 = new OctaUI(document.createElement('option')).setAttr({'selected':''}).setTextContent('select your major s/w');
-    let form06Opt02 = new OctaUI(document.createElement('option')).setAttr({'selected':'1'}).setTextContent('blender');
-    let form06Opt03 = new OctaUI(document.createElement('option')).setAttr({'selected':'2'}).setTextContent('maya');
-    let form06Opt04 = new OctaUI(document.createElement('option')).setAttr({'selected':'3'}).setTextContent('max');
-    let form06Opt05 = new OctaUI(document.createElement('option')).setAttr({'selected':'4'}).setTextContent('c4d');
-    let form06Opt06 = new OctaUI(document.createElement('option')).setAttr({'selected':'5'}).setTextContent('houdini');
-    let form06Opt07 = new OctaUI(document.createElement('option')).setAttr({'selected':'6'}).setTextContent('cad');
+
+    let form06Slc = makeSlcOpt( {'class':'form-select'}, [
+        { attr: {'selected':''}, val: 'select your major s/w' },
+        { attr: {'selected':'1'}, val: 'blender' },
+        { attr: {'selected':'2'}, val: 'maya' },
+        { attr: {'selected':'3'}, val: 'max' },
+        { attr: {'selected':'4'}, val: 'c4d' },
+        { attr: {'selected':'5'}, val: 'houdini' },
+        { attr: {'selected':'6'}, val: 'cad' }
+    ]);
+
     let form06Label = new OctaUI(document.createElement('label')).setAttr({'for':'selectCrypto'}).setTextContent('Made by');
 
-    form06Slc.add(form06Opt01, form06Opt02, form06Opt03, form06Opt04, form06Opt05, form06Opt06, form06Opt07);
-    form06Col01Float.add(form06Slc, form06Label);
+    form06Col01Float.add( form06Slc, form06Label );
     form06Col01.add( form06Col01Float );
 
     let form06Col02 = new UIDiv().setAttr({'class':'col-md-6 col-lg-4'});
@@ -136,7 +152,7 @@ const profileAssetPage = () => {
     let form06Input = new UIInput().setAttr({'type':'text', 'id':'itemNumbersInput', 'placeholder':'License'});
     let form06Label03 = new OctaUI(document.createElement('label')).setAttr({'for':'itemNumbersInput'}).setTextContent('License');
 
-    form06Col03Float.add(form06Input, form06Label03);
+    form06Col03Float.add( form06Label03, form06Input );
     form06Col03.add( form06Col03Float );
 
     form06Row.add(form06Col01, form06Col02, form06Col03 );
@@ -149,7 +165,7 @@ const profileAssetPage = () => {
 
     // form inner06:: 
 
-    formEle.add( formWrap01, formWrap02, formWrap03, formWrap04, formWrap05, submitDiv );
+    formEle.add( formWrap01, formWrap02, formWrap03, formWrap04, formWrap05, formWrap06, submitDiv );
     //insert form inners
     tabContent.addSeq( tabPane, row02, col01, uploadWrap, formEle );
 
