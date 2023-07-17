@@ -13,7 +13,12 @@ function makeSlcOpt ( slc, opts ) {
 
 }
 
-const profileAssetUpload = () => {
+const profileAssetUpload = ( signals ) => {
+
+    //signals
+    signals.myAssetUpload.add( ( assets ) => {
+        console.log('3D Asset upload start: ', assets );
+    });
 
     let tabPane = new UIDiv().setAttr({'class':'tab-pane', 'id':'upload-assets', 'role':'tabpanel', 'aria-labelledby':'pills-personal-tab'});
     let row02 = new UIRow();
@@ -28,6 +33,14 @@ const profileAssetUpload = () => {
     let file01 = new UIDiv().setAttr({'class':'file-btn'}).setTextContent('Upload a file');
     let icon04 = new OctaUI(document.createElement('i')).setAttr({'class':'icofont-upload-alt'})
     let input01 = new UIInput().setAttr({'type':'file', 'id':'myAssetUpload'});
+        input01.dom.addEventListener('change', (e) => {
+            
+            // for(let item in e.target.files[0]) {
+            //     console.log('item: '+item+' , '+e.target.files[0][item])
+            // }
+            signals.myAssetUpload.dispatch( e.target.files[0] );
+            
+        })
     
     file01.add( icon04 );
     formDiv02.add( file01, input01 );
@@ -159,6 +172,8 @@ const profileAssetUpload = () => {
     formEle.add( formWrap01, formWrap02, formWrap03, formWrap04, formWrap05, formWrap06, submitDiv );
     //insert form inners
     tabPane.addSeq( row02, col01, uploadWrap, formEle );
+
+
 
     return tabPane;
 

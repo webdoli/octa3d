@@ -33,7 +33,6 @@ const headerEle = document.querySelector('.header-one');
 const mainEle = document.querySelector('#main');
 const footerEle = document.querySelector('.footer1');
 
-
 window.signals = {
 
     profileAboutOpen: new Signal(),
@@ -44,11 +43,13 @@ window.signals = {
     profileSettingOpen: new Signal(),
     profileCoverEdit: new Signal(),
     profileAvatarEdit: new Signal(),
-    myAssetUpload: new Signal()
+    myAssetUpload: new Signal(),
+    testAlert: new Signal(),
 }
 
 let signals = window.signals;
 
+signals.testAlert.add( () => { alert('signal operation!' ) });
 signals.profileAboutOpen.add( ele => createGUI( ele, profileAboutPage ) );
 signals.profileAssetsOpen.add( ele => createGUI( ele, profileAssetPage ) );
 signals.profileCoworkOpen.add( ele => createGUI( ele, profileCoworkPage ) );
@@ -65,9 +66,10 @@ signals.profileAvatarEdit.add( ( img ) => {
     avatarUpload( img, uid, 'avatar' ) 
 });
 
-signals.myAssetUpload.add( () => {
-    console.log('3D Asset upload start');
-});
+
+// signals.myAssetUpload.add( () => {
+//     console.log('3D Asset upload start');
+// });
 
 onAuthStateChanged( auth, ( user ) => {
 
@@ -94,7 +96,7 @@ onAuthStateChanged( auth, ( user ) => {
 function createGUI( parent, child ) {
     
     removeAllChildNodes( parent );
-    parent.appendChild( child(parent) )
+    parent.appendChild( child( window.signals ) )
 
 }
 

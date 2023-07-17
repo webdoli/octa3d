@@ -54,6 +54,7 @@ export default class MypageMount extends abstractMount {
 
                 window.signals.profileAboutOpen.dispatch( parent )
                 
+                
             }).catch( err => {
 
                 console.log('err: ' + err );
@@ -106,7 +107,7 @@ export default class MypageMount extends abstractMount {
 
         removeAllChildNodes( main )
         //main.innerHTML = '';
-        main.appendChild( MypageGUI() );
+        main.appendChild( MypageGUI( this.signals ) );
 
         libUrls.map( lib => {
             createScript( lib, main )
