@@ -148,5 +148,43 @@ class UIP extends OctaUI {
     }
 }
 
+class UIH extends OctaUI {
+    constructor( value, num ) {
+        super( document.createElement(`h${num}`));
+        this.dom.textContent = value;
+    }
+}
 
-export {  OctaUI, UIDiv, UISpan, UIRow, UIInput, UITextArea, UIButton, UIP }
+class UIUL extends OctaUI {
+    constructor() {
+        super( document.createElement('ul'));
+    }
+}
+
+class UILI extends OctaUI {
+    constructor() {
+        super( document.createElement('li'));
+    }
+}
+
+class UIA extends OctaUI {
+    constructor( url ) {
+        super( document.createElement('a'));
+        this.dom.href = url;
+    }
+}
+
+class UIImg extends OctaUI {
+    constructor() {
+        super( document.createElement('img'));
+    }
+}
+
+class UIIcon extends OctaUI {
+    constructor() {
+        super( document.createElement('i'));
+    }
+}
+
+
+export {  OctaUI, UIDiv, UISpan, UIRow, UIInput, UITextArea, UIButton, UIP, UIH, UIUL, UILI, UIA, UIImg, UIIcon }
