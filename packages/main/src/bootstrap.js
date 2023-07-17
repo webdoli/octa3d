@@ -15,61 +15,27 @@ import hookAssetMount from './hooks/mounts/guest/hook_AssetMount';
 import hookSignupMount from './hooks/mounts/guest/hook_SignupMount';
 import hookSigninMount from './hooks/mounts/guest/hook_SigninMount';
 
-import { coverUpload, avatarUpload } from './hooks/hook_upload';
-
 //mount
 import AssetMount from './hooks/mounts/member/assetMount';
 import HomeMount from './hooks/mounts/member/homeMount';
 import MypageMount from './hooks/mounts/member/mypageMount';
-
-import profileAboutPage from './hooks/myPage/subPage/profile_about';
-import profileAssetPage from './hooks/myPage/subPage/profile_assets';
-import profileCoworkPage from './hooks/myPage/subPage/profile_coworking';
-import profileActivityPage from './hooks/myPage/subPage/profile_activity';
-import profileTalkPage from './hooks/myPage/subPage/profile_talk';
 
 var Signal = require('signals');
 const headerEle = document.querySelector('.header-one');
 const mainEle = document.querySelector('#main');
 const footerEle = document.querySelector('.footer1');
 
-window.signals = {
-
+const signals = {
     profileAboutOpen: new Signal(),
     profileAssetsOpen: new Signal(),
     profileCoworkOpen: new Signal(),
     profileActivityOpen: new Signal(),
     profileTalkOpen: new Signal(),
     profileSettingOpen: new Signal(),
-    profileCoverEdit: new Signal(),
-    profileAvatarEdit: new Signal(),
     myAssetUpload: new Signal(),
+    profileSubpageReset: new Signal(),
     testAlert: new Signal(),
-}
-
-let signals = window.signals;
-
-signals.testAlert.add( () => { alert('signal operation!' ) });
-signals.profileAboutOpen.add( ele => createGUI( ele, profileAboutPage ) );
-signals.profileAssetsOpen.add( ele => createGUI( ele, profileAssetPage ) );
-signals.profileCoworkOpen.add( ele => createGUI( ele, profileCoworkPage ) );
-signals.profileActivityOpen.add( ele => createGUI( ele, profileActivityPage ) );
-signals.profileTalkOpen.add( ele => createGUI( ele, profileTalkPage ) );
-
-signals.profileCoverEdit.add(( img ) => {
-    const uid = auth.currentUser.uid; 
-    coverUpload( img, uid, 'cover' )
-});
-
-signals.profileAvatarEdit.add( ( img ) => {
-    const uid = auth.currentUser.uid;
-    avatarUpload( img, uid, 'avatar' ) 
-});
-
-
-// signals.myAssetUpload.add( () => {
-//     console.log('3D Asset upload start');
-// });
+};
 
 onAuthStateChanged( auth, ( user ) => {
 
@@ -92,23 +58,6 @@ onAuthStateChanged( auth, ( user ) => {
 /*    Function     */
 /*******************/
 
-// Creating GUI
-function createGUI( parent, child ) {
-    
-    removeAllChildNodes( parent );
-    parent.appendChild( child( window.signals ) )
-
-}
-
-// Remove all child nodes
-function removeAllChildNodes (parent) {
-
-    while (parent.firstChild) {
-        parent.removeChild(parent.firstChild);
-    }
-
-}
-
 // Loading Login Page
 function userMain() {
     
@@ -117,7 +66,7 @@ function userMain() {
         { 'https://octa3d-439a2.firebaseapp.com/': new HomeMount },
         { 'http://localhost:8080/assets': new AssetMount },
         { 'https://octa3d-439a2.firebaseapp.com/assets': new AssetMount },
-        { 'http://localhost:8080/mypage': new MypageMount() },
+        { 'http://localhost:8080/mypage': new MypageMount( signals ) },
         { 'https://octa3d-439a2.firebaseapp.com/mypage': new MypageMount() }
     ];
     

@@ -21,7 +21,7 @@ class OctaUI {
             console.log('argument size under 2');
             this.add();
         } else {
-            console.log('addSeq conduct');
+            
             for( let i = 0; i < arguments.length; i++ ) {
                 if( arguments[i] instanceof OctaUI ) {
                     if( arguments[i+1] ) arguments[i].dom.appendChild( arguments[i+1].dom );

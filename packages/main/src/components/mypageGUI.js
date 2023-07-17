@@ -16,13 +16,13 @@ function createGUI ( parentGUI, childGUI ) {
 
 // module
 
-const MypageGUI = () => {
+const MypageGUI = ( signals ) => {
 
     let container = document.createElement('section');
     container.className = 'profile-section padding-top padding-bottom';
     container.appendChild( mypageCSS() );
    
-    createGUI( container, myPageMain() )
+    createGUI( container, myPageMain( signals ) )
         .then( () => {
             
             console.log('2) mainPage Header 추가완료');

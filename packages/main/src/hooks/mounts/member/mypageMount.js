@@ -27,9 +27,10 @@ const removeAllChildNodes = (parent) => {
 
 export default class MypageMount extends abstractMount {
     
-    constructor() {
-       
+    constructor( signals ) {
+        
         super();
+        this.signals = signals;
         
     }
 
@@ -52,7 +53,10 @@ export default class MypageMount extends abstractMount {
                     { merge: true }
                 );
 
+                this.signals.profileAboutOpen.dispatch( parent )
+                /*
                 window.signals.profileAboutOpen.dispatch( parent )
+                */
                 
                 
             }).catch( err => {

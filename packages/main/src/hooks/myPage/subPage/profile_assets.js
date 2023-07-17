@@ -61,7 +61,7 @@ const profileAssetPage = ( signals ) => {
     topUL.add( li01, li02, li03 );
 
     //tap start
-    tabContent.add( profileAssetUpload( signals ), profileAssetCreated(), profileAssetPicked() );
+    tabContent.add( profileAssetUpload( signals ), profileAssetCreated( signals ), profileAssetPicked( signals ) );
     activeTab.add( topUL, tabContent )
     container.addSeq( row, article, activeTab );
 
