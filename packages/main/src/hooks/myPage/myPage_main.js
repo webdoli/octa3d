@@ -261,6 +261,10 @@ const myPageMain = ( signals ) => {
                     pfConTab.dom.removeChild( pfConTab.dom.firstChild );
                 }
 
+            });
+
+            signals.resetAboutPage.add(() => {
+                subPageExe( profileAboutPage );
             })
 
         })

@@ -34,6 +34,7 @@ const signals = {
     profileSettingOpen: new Signal(),
     myAssetUpload: new Signal(),
     profileSubpageReset: new Signal(),
+    resetAboutPage: new Signal(),
     testAlert: new Signal(),
 };
 
