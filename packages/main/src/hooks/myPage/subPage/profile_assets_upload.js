@@ -70,34 +70,64 @@ const profileAssetUpload = ( signals ) => {
         });
     });
 
+    //func
+    function makeFileList( parent, lists ) {
+        for( let file of lists ) {
+            
+            let listWrap = new UIDiv().setAttr({ 'class':`uploadList-${file.name}` });
+            let removeBtn = new UIIcon().setAttr({ 'class':'bi bi-x-square', 'id':`${file.name}` });
+
+            let listItem = new UISpan().setTextContent(` ${ file.name } uploaded.`);
+            listWrap.add( listItem, removeBtn );
+            parent.add( listWrap );
+
+            removeBtn.dom.addEventListener('click', e => {
+                let removeNode = e.target.parentNode;
+                
+                for( let [idx, list] of [...lists].entries() ) {
+                    if( list.name === e.target.id ) {
+                        const dt = new DataTransfer();
+                        //console.log(`${list.name}: ${idx}`)
+                        const { files } = fileIpt.dom;
+                        for( let i=0; i<files.length; i++ ) {
+                            const file = files[i];
+                            if( idx !== i ) {
+                                dt.items.add( file )
+                            }
+                        }
+                        fileIpt.dom.files = dt.files;
+                        // 리스트 삭제
+                        fileTable.dom.removeChild( removeNode );
+                    }
+                }
+                
+                console.log( fileIpt.dom.files );
+
+            })
+
+        }
+    }
+
+    // function removeFileList( file_name, lists ) {
+    //         console.log('lists: ', lists );
+        
+    // }
+
     formWrap01.dom.addEventListener( 'drop', e => {
 
         file01.dom.innerHTML = 'Upload a file';
         let files = e.dataTransfer.files;
         fileIpt.dom.files = files;
-
-        for( let file of files ) {
-            console.log('file name: ', file.name );
-            let listWrap = new UIDiv().setAttr({ 'class':`uploadList-${file.name}` });
-            removeBtn.setAttr({ 'id':`${file.name}` })
-            let listItem = new UISpan().setTextContent(` ${ file.name } uploaded.`);
-            listWrap.add( listItem, removeBtn );
-            fileTable.add( listWrap );
-
-            removeBtn.dom.addEventListener('click', e => {
-
-            })
-
-        }
+        makeFileList( fileTable, files );
         
         fileTable.dom.style.cssText = 'display:flex;flex-direction:column;';
 
     });
 
-    removeBtn.dom.addEventListener('click',  e => {
-        console.log('삭제: ', e.target.id );
+    // removeBtn.dom.addEventListener('click',  e => {
+    //     console.log('삭제: ', e.target.id );
         
-    })
+    // })
     
     // form inner02:: item name input
     let formWrap02 = new UIDiv().setAttr({'class':'form-floating item-name-field mb-3'});
