@@ -2,11 +2,13 @@
 import { onAuthStateChanged } from 'firebase/auth';
 import { auth } from './db/firebaseDB';
 import detectUrlChange from 'detect-url-change';
+var Signal = require('signals');
 
 import GuestHeader from './components/guestHeader';
 import Main from './components/main';
 import Footer from './components/footer';
 
+//mount
 import { mount as guestAssetMount } from 'assets/Assets';
 import LoginGUI from './components/login';
 import SignupGUI from './components/signup';
@@ -15,12 +17,11 @@ import hookAssetMount from './hooks/mounts/guest/hook_AssetMount';
 import hookSignupMount from './hooks/mounts/guest/hook_SignupMount';
 import hookSigninMount from './hooks/mounts/guest/hook_SigninMount';
 
-//mount
 import AssetMount from './hooks/mounts/member/assetMount';
 import HomeMount from './hooks/mounts/member/homeMount';
 import MypageMount from './hooks/mounts/member/mypageMount';
 
-var Signal = require('signals');
+//SPA
 const headerEle = document.querySelector('.header-one');
 const mainEle = document.querySelector('#main');
 const footerEle = document.querySelector('.footer1');
@@ -63,12 +64,12 @@ onAuthStateChanged( auth, ( user ) => {
 function userMain() {
     
     let mountUrls = [
-        { 'http://localhost:8080/': new HomeMount },
-        { 'https://octa3d-439a2.firebaseapp.com/': new HomeMount },
-        { 'http://localhost:8080/assets': new AssetMount },
-        { 'https://octa3d-439a2.firebaseapp.com/assets': new AssetMount },
+        { 'http://localhost:8080/': new HomeMount( signals ) },
+        { 'https://octa3d-439a2.firebaseapp.com/': new HomeMount( signals ) },
+        { 'http://localhost:8080/assets': new AssetMount( signals ) },
+        { 'https://octa3d-439a2.firebaseapp.com/assets': new AssetMount( signals ) },
         { 'http://localhost:8080/mypage': new MypageMount( signals ) },
-        { 'https://octa3d-439a2.firebaseapp.com/mypage': new MypageMount() }
+        { 'https://octa3d-439a2.firebaseapp.com/mypage': new MypageMount( signals ) }
     ];
     
     let currentUrl = window.location.href;
@@ -144,8 +145,6 @@ function routeGuestPage( mainEle, footerEle ) {
 function mobileExe( mainEle, footerEle ) {
 
     console.log('모바일 버튼 실행');
-    
-    
     let iconHamburger = document.querySelector('#icon-mobile-ham');
     let iconExit = document.querySelector('#icon-mobile-exit');
     let mobileMenu = document.querySelector('.octa3d-mobile');
