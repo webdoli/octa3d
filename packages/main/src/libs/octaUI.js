@@ -34,6 +34,19 @@ class OctaUI {
         return this;
     }
 
+    // after() {
+    //     console.log('arguments length: ', arguments.length );
+
+    //     if( arguments[0] instanceof OctaUI ) {
+    //         this.dom.after( arguments[0].dom );
+    //     }else {
+    //         console.error('add UIElement Error: ', arguments[0], 'is not an instance of OctaUI');
+    //     }
+        
+    //     return this;
+
+    // }
+
 
     remove() {
         for( let i = 0; i < arguments.length; i++ ) {
@@ -70,6 +83,11 @@ class OctaUI {
     setTextContent( value ) {
         this.dom.textContent = value;
         return this;
+    }
+
+    inner( value ) {
+        this.dom.innerHTML = value;
+        return this; 
     }
 
     setAttr( props ) {

@@ -1,5 +1,5 @@
-import { UIDiv, UIRow, OctaUI, UIInput, UITextArea, UIP, UIButton } from "../../../libs/octaUI";
-
+import { UIDiv, UIRow, OctaUI, UIInput, UITextArea, UIP, UIButton, UISpan, UIIcon } from "../../../libs/octaUI";
+import "bootstrap-icons/font/bootstrap-icons.css";
 
 function makeSlcOpt ( slc, opts ) {
     let slcTag = new OctaUI( document.createElement('select') ).setAttr( slc );
@@ -20,6 +20,8 @@ const profileAssetUpload = ( signals ) => {
         console.log('3D Asset upload start: ', assets );
     });
 
+    let UsrAssetFiles = null;
+
     let tabPane = new UIDiv().setAttr({'class':'tab-pane', 'id':'upload-assets', 'role':'tabpanel', 'aria-labelledby':'pills-personal-tab'});
     let row02 = new UIRow();
     let col01 = new UIDiv().setAttr({'class':'col'});
@@ -27,24 +29,75 @@ const profileAssetUpload = ( signals ) => {
     let formEle = new OctaUI( document.createElement('form')).setAttr({'class':'create-nft-form'});
 
     // form inner01
-    let formWrap01 = new UIDiv().setAttr({'class':'upload-item mb-30'});
+    let formWrap01 = new UIDiv().setAttr({'class':'upload-item mb-30' });
     let formP01 = new UIP('FBX,OBJ,GLTF (Max-30mb)');
-    let formDiv02 = new UIDiv().setAttr({'class':'custom-upload'});
+    let formDiv02 = new UIDiv().setAttr({'class':'custom-upload' });
     let file01 = new UIDiv().setAttr({'class':'file-btn'}).setTextContent('Upload a file');
     let icon04 = new OctaUI(document.createElement('i')).setAttr({'class':'icofont-upload-alt'})
-    let input01 = new UIInput().setAttr({'type':'file', 'id':'myAssetUpload'});
-        input01.dom.addEventListener('change', (e) => {
-            
-            // for(let item in e.target.files[0]) {
-            //     console.log('item: '+item+' , '+e.target.files[0][item])
-            // }
-            signals.myAssetUpload.dispatch( e.target.files[0] );
-            
-        })
+    let fileIpt = new UIInput().setAttr({'type':'file', 'id':'myAssetUpload', 'class':'form-control' });
+    //let dropText = new UISpan().setAttr({ 'class':'dropdownText' })
+    let fileTable = new UIDiv().setAttr({ 'id':'uploadedFileList', 'style':'display:none;' });
+    let removeBtn = new UIIcon().setAttr({ 'class':'bi bi-x-square' });
     
     file01.add( icon04 );
-    formDiv02.add( file01, input01 );
+    formDiv02.add( file01, fileIpt );
     formWrap01.add( formP01, formDiv02 );
+
+    // Drop & Drag Evt
+    fileIpt.dom.addEventListener( 'click', () => {
+        fileIpt.value = '';
+        console.log( fileIpt.value );
+    });
+    fileIpt.dom.addEventListener('change', e => {
+        console.log( ' > ' + fileIpt.value );
+        fileTable.dom.innerHTML += `<p class="uploadFile-list">added: ${e.target.files[0].name } </p>`;
+        fileTable.dom.cssText = 'display:flex;'
+    });
+
+    ["drag", "dragstart", "dragend", "dragover", "dragenter", "dragleave", "drop"].forEach( evt => {
+        formWrap01.dom.addEventListener( evt, e => {
+            e.preventDefault();
+            e.stopPropagation();
+        })
+    });
+
+    ["dragover", "dragenter"].forEach( evt => { 
+        formWrap01.dom.addEventListener( evt, e => {
+            e.preventDefault();
+            e.stopPropagation();
+            //dropText.dom.innerHTML = 'Drop your file here!';
+            file01.dom.innerHTML = 'Drop your file here!';
+        });
+    });
+
+    formWrap01.dom.addEventListener( 'drop', e => {
+
+        file01.dom.innerHTML = 'Upload a file';
+        let files = e.dataTransfer.files;
+        fileIpt.dom.files = files;
+
+        for( let file of files ) {
+            console.log('file name: ', file.name );
+            let listWrap = new UIDiv().setAttr({ 'class':`uploadList-${file.name}` });
+            removeBtn.setAttr({ 'id':`${file.name}` })
+            let listItem = new UISpan().setTextContent(` ${ file.name } uploaded.`);
+            listWrap.add( listItem, removeBtn );
+            fileTable.add( listWrap );
+
+            removeBtn.dom.addEventListener('click', e => {
+
+            })
+
+        }
+        
+        fileTable.dom.style.cssText = 'display:flex;flex-direction:column;';
+
+    });
+
+    removeBtn.dom.addEventListener('click',  e => {
+        console.log('삭제: ', e.target.id );
+        
+    })
     
     // form inner02:: item name input
     let formWrap02 = new UIDiv().setAttr({'class':'form-floating item-name-field mb-3'});
@@ -164,15 +217,23 @@ const profileAssetUpload = ( signals ) => {
 
     //formWrap last:: submit btn
     let submitDiv = new UIDiv().setAttr({'class':'submit-btn-field text-center'});
-    let submitBtn = new UIButton('Create Item').setAttr({'type':'submit'});
+    let submitBtn = new UIButton('Create Item').setAttr({ 'type':'button' });
     submitDiv.add( submitBtn );
 
     // form inner06:: 
-
-    formEle.add( formWrap01, formWrap02, formWrap03, formWrap04, formWrap05, formWrap06, submitDiv );
-    //insert form inners
+    formEle.add( formWrap01, fileTable, formWrap02, formWrap03, formWrap04, formWrap05, formWrap06, submitDiv );
+    
+    // insert form inners
     tabPane.addSeq( row02, col01, uploadWrap, formEle );
 
+    // Evt
+    submitBtn.dom.addEventListener( 'click', e => {
+        
+        for( let file of fileIpt.dom.files ) {
+            console.log('usr 3d Files: ', file.name );
+        }
+
+    })
 
 
     return tabPane;
