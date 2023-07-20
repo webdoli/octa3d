@@ -44,12 +44,14 @@ const profileAssetUpload = ( signals ) => {
     formWrap01.add( formP01, formDiv02 );
 
     // Drop & Drag Evt
+    let dt = new DataTransfer();
+
     fileIpt.dom.addEventListener( 'click', () => {
         fileIpt.value = '';
         console.log( fileIpt.value );
     });
     fileIpt.dom.addEventListener('change', e => {
-        console.log( ' > ' + fileIpt.value );
+        
         fileTable.dom.innerHTML += `<p class="uploadFile-list">added: ${e.target.files[0].name } </p>`;
         fileTable.dom.cssText = 'display:flex;'
     });
@@ -70,64 +72,65 @@ const profileAssetUpload = ( signals ) => {
         });
     });
 
+    
+    
+
     //func
-    function makeFileList( parent, lists ) {
-        for( let file of lists ) {
+    function makeFileList( parent, file ) {
+        //for( let file of lists ) {
             
             let listWrap = new UIDiv().setAttr({ 'class':`uploadList-${file.name}` });
             let removeBtn = new UIIcon().setAttr({ 'class':'bi bi-x-square', 'id':`${file.name}` });
 
-            let listItem = new UISpan().setTextContent(` ${ file.name } uploaded.`);
+            let listItem = new UISpan().setTextContent(` ${ file.name }  `);
             listWrap.add( listItem, removeBtn );
             parent.add( listWrap );
 
+            fileIpt.dom.files = dt.files;
+
             removeBtn.dom.addEventListener('click', e => {
+                e.preventDefault();
+                dt = null;
+                dt = new DataTransfer();
                 let removeNode = e.target.parentNode;
+                const { files } = fileIpt.dom;
                 
-                for( let [idx, list] of [...lists].entries() ) {
-                    if( list.name === e.target.id ) {
-                        const dt = new DataTransfer();
-                        //console.log(`${list.name}: ${idx}`)
-                        const { files } = fileIpt.dom;
-                        for( let i=0; i<files.length; i++ ) {
-                            const file = files[i];
-                            if( idx !== i ) {
-                                dt.items.add( file )
-                            }
-                        }
-                        fileIpt.dom.files = dt.files;
-                        // 리스트 삭제
+                for( let i = 0; i < files.length; i ++ ) {
+                    
+                    if( e.target.id !== files[i].name ) {
+                        dt.items.add( files[i] );
+                    } else {
                         fileTable.dom.removeChild( removeNode );
                     }
+
                 }
-                
-                console.log( fileIpt.dom.files );
+
+                fileIpt.dom.files = dt.files;
+                // console.log( fileIpt.dom.files );
 
             })
-
-        }
+        //}
     }
-
-    // function removeFileList( file_name, lists ) {
-    //         console.log('lists: ', lists );
-        
-    // }
 
     formWrap01.dom.addEventListener( 'drop', e => {
 
         file01.dom.innerHTML = 'Upload a file';
-        let files = e.dataTransfer.files;
-        fileIpt.dom.files = files;
-        makeFileList( fileTable, files );
+        let fileAll = e.dataTransfer.files;
+        
+        for( let i=0; i< fileAll.length; i++ ) {
+            dt.items.add( fileAll[i] );
+            makeFileList( fileTable, fileAll[i] );
+        }
+        // let files = e.dataTransfer.files;
+        // fileIpt.dom.files.items = files;
+        // fileIpt.dom.files = dt;
+        //console.log('dt: ', dt.files );
+        // makeFileList( fileTable, files );
+        //makeFileList( fileTable, dt.files );
         
         fileTable.dom.style.cssText = 'display:flex;flex-direction:column;';
 
     });
-
-    // removeBtn.dom.addEventListener('click',  e => {
-    //     console.log('삭제: ', e.target.id );
-        
-    // })
     
     // form inner02:: item name input
     let formWrap02 = new UIDiv().setAttr({'class':'form-floating item-name-field mb-3'});
@@ -259,11 +262,68 @@ const profileAssetUpload = ( signals ) => {
     // Evt
     submitBtn.dom.addEventListener( 'click', e => {
         
-        for( let file of fileIpt.dom.files ) {
-            console.log('usr 3d Files: ', file.name );
+        const { files } = fileIpt.dom;
+        classifyFiles( files );
+
+        //1] firebase 넘기기
+        //2] 로딩페이지 띄우기
+        //3] created 페이지 실행 및 파일 받아오기
+        //4] 완료 후 created 띄우기
+
+        // for( let file of files ) {
+        //     console.log( file );
+        // }
+
+    });
+
+    function sumAssets( assets ) {
+
+        let tmpObj = { 
+            assetFiles:[],
+            assetTex:[],
+        };
+
+        return new Promise( ( resolve, reject ) => {
+            for( let asset of assets ) {
+
+                let fileExt = asset.name.split('.').pop();
+    
+                if ( fileExt === 'fbx' || 'obj' || 'gltf' ) { 
+                    tmpObj.assetFiles.push( asset ); 
+                } else if ( fileExt === 'jpg' || 'jpeg' || 'png' || 'gif' || 'tif' || 'exr' ) {
+                    tmpObj.assetTex.push(asset);
+                } 
+            }
+
+            resolve( tmpObj )
+            
+        })
+        
+    }
+
+    function classifyFiles( assets ) {
+
+        // console.log( 'asset name: ', asset.name.split('.').shift() );
+
+        let conversion = async () => {
+
+            try {
+                let files = await sumAssets( assets );
+                console.log('files: ', files );
+            }
+            catch(err) {
+
+            } 
+            finally {
+
+            }
+        
         }
 
-    })
+        conversion();
+        
+
+    }
 
 
     return tabPane;
