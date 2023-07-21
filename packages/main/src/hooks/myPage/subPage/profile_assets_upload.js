@@ -73,43 +73,37 @@ const profileAssetUpload = ( signals ) => {
     });
 
     
-    
 
     //func
     function makeFileList( parent, file ) {
-        //for( let file of lists ) {
-            
-            let listWrap = new UIDiv().setAttr({ 'class':`uploadList-${file.name}` });
-            let removeBtn = new UIIcon().setAttr({ 'class':'bi bi-x-square', 'id':`${file.name}` });
+        
+        let listWrap = new UIDiv().setAttr({ 'class':`uploadList-${file.name}` });
+        let removeBtn = new UIIcon().setAttr({ 'class':'bi bi-x-square', 'id':`${file.name}` });
 
-            let listItem = new UISpan().setTextContent(` ${ file.name }  `);
-            listWrap.add( listItem, removeBtn );
-            parent.add( listWrap );
+        let listItem = new UISpan().setTextContent(` ${ file.name }  `);
+        listWrap.add( listItem, removeBtn );
+        parent.add( listWrap );
+
+        fileIpt.dom.files = dt.files;
+
+        removeBtn.dom.addEventListener('click', e => {
+
+            e.preventDefault();
+            dt = null;
+            dt = new DataTransfer();
+            let removeNode = e.target.parentNode;
+            const { files } = fileIpt.dom;
+                
+            for( let i = 0; i < files.length; i ++ ) {
+
+                ( e.target.id === files[i].name ) ? fileTable.dom.removeChild( removeNode ) : dt.items.add( files[i] );
+
+            }
 
             fileIpt.dom.files = dt.files;
 
-            removeBtn.dom.addEventListener('click', e => {
-                e.preventDefault();
-                dt = null;
-                dt = new DataTransfer();
-                let removeNode = e.target.parentNode;
-                const { files } = fileIpt.dom;
-                
-                for( let i = 0; i < files.length; i ++ ) {
-                    
-                    if( e.target.id !== files[i].name ) {
-                        dt.items.add( files[i] );
-                    } else {
-                        fileTable.dom.removeChild( removeNode );
-                    }
-
-                }
-
-                fileIpt.dom.files = dt.files;
-                // console.log( fileIpt.dom.files );
-
-            })
-        //}
+        })
+        
     }
 
     formWrap01.dom.addEventListener( 'drop', e => {
@@ -121,13 +115,7 @@ const profileAssetUpload = ( signals ) => {
             dt.items.add( fileAll[i] );
             makeFileList( fileTable, fileAll[i] );
         }
-        // let files = e.dataTransfer.files;
-        // fileIpt.dom.files.items = files;
-        // fileIpt.dom.files = dt;
-        //console.log('dt: ', dt.files );
-        // makeFileList( fileTable, files );
-        //makeFileList( fileTable, dt.files );
-        
+
         fileTable.dom.style.cssText = 'display:flex;flex-direction:column;';
 
     });
@@ -265,35 +253,31 @@ const profileAssetUpload = ( signals ) => {
         const { files } = fileIpt.dom;
         classifyFiles( files );
 
-        //1] firebase 넘기기
-        //2] 로딩페이지 띄우기
-        //3] created 페이지 실행 및 파일 받아오기
-        //4] 완료 후 created 띄우기
-
-        // for( let file of files ) {
-        //     console.log( file );
-        // }
-
     });
 
     function sumAssets( assets ) {
 
-        let tmpObj = { 
-            assetFiles:[],
-            assetTex:[],
-        };
+        let tmpObj = { assetFiles:[], assetTex:[] };
 
         return new Promise( ( resolve, reject ) => {
+
             for( let asset of assets ) {
 
                 let fileExt = asset.name.split('.').pop();
+
+                switch ( fileExt ) {
+
+                    case 'fbx' || 'obj' || 'gltf' :
+                        tmpObj.assetFiles.push( asset ); 
+                        break;
+                        
+                    case 'jpg' || 'jpeg' || 'png' || 'gif' || 'tif' || 'exr' :
+                        tmpObj.assetTex.push(asset);
+                        break;
+
+                }
     
-                if ( fileExt === 'fbx' || 'obj' || 'gltf' ) { 
-                    tmpObj.assetFiles.push( asset ); 
-                } else if ( fileExt === 'jpg' || 'jpeg' || 'png' || 'gif' || 'tif' || 'exr' ) {
-                    tmpObj.assetTex.push(asset);
-                } 
-            }
+            } //for End
 
             resolve( tmpObj )
             
@@ -309,7 +293,13 @@ const profileAssetUpload = ( signals ) => {
 
             try {
                 let files = await sumAssets( assets );
-                console.log('files: ', files );
+                
+                if( files.assetFiles.length ) {
+                    files.assetFiles.map( file => {
+                        console.log('file: ', file )
+                    })
+                }
+
             }
             catch(err) {
 
@@ -321,10 +311,8 @@ const profileAssetUpload = ( signals ) => {
         }
 
         conversion();
-        
 
     }
-
 
     return tabPane;
 
