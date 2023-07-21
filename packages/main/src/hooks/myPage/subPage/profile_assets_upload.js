@@ -1,5 +1,7 @@
 import { UIDiv, UIRow, OctaUI, UIInput, UITextArea, UIP, UIButton, UISpan, UIIcon } from "../../../libs/octaUI";
 import "bootstrap-icons/font/bootstrap-icons.css";
+import { assetPublicUpload } from "../../hook_upload";
+import { auth } from "../../../db/firebaseDB";
 
 function makeSlcOpt ( slc, opts ) {
     let slcTag = new OctaUI( document.createElement('select') ).setAttr( slc );
@@ -35,9 +37,8 @@ const profileAssetUpload = ( signals ) => {
     let file01 = new UIDiv().setAttr({'class':'file-btn'}).setTextContent('Upload a file');
     let icon04 = new OctaUI(document.createElement('i')).setAttr({'class':'icofont-upload-alt'})
     let fileIpt = new UIInput().setAttr({'type':'file', 'id':'myAssetUpload', 'class':'form-control' });
-    //let dropText = new UISpan().setAttr({ 'class':'dropdownText' })
     let fileTable = new UIDiv().setAttr({ 'id':'uploadedFileList', 'style':'display:none;' });
-    let removeBtn = new UIIcon().setAttr({ 'class':'bi bi-x-square' });
+    //let removeBtn = new UIIcon().setAttr({ 'class':'bi bi-x-square' });
     
     file01.add( icon04 );
     formDiv02.add( file01, fileIpt );
@@ -53,13 +54,18 @@ const profileAssetUpload = ( signals ) => {
     fileIpt.dom.addEventListener('change', e => {
         
         fileTable.dom.innerHTML += `<p class="uploadFile-list">added: ${e.target.files[0].name } </p>`;
-        fileTable.dom.cssText = 'display:flex;'
+        fileTable.dom.style.cssText = 'display:flex;'
+        
     });
 
     ["drag", "dragstart", "dragend", "dragover", "dragenter", "dragleave", "drop"].forEach( evt => {
         formWrap01.dom.addEventListener( evt, e => {
             e.preventDefault();
             e.stopPropagation();
+            if( e.target.style.border === '2px solid tomato') {
+                e.target.style.cssText = 'border:2px dashed rgba(81,56,238,.5);padding:30px 15px;border-radius:15px;background:rgba(4,11,41,.15);transition:all .3s ease';
+            }
+            
         })
     });
 
@@ -71,8 +77,6 @@ const profileAssetUpload = ( signals ) => {
             file01.dom.innerHTML = 'Drop your file here!';
         });
     });
-
-    
 
     //func
     function makeFileList( parent, file ) {
@@ -122,7 +126,7 @@ const profileAssetUpload = ( signals ) => {
     
     // form inner02:: item name input
     let formWrap02 = new UIDiv().setAttr({'class':'form-floating item-name-field mb-3'});
-    let formWrap02Input = new UIInput('Item Name').setAttr({'type':'text', 'class':'form-control','id':'itemNameInput', 'placeholder':'Item Name'});
+    let formWrap02Input = new UIInput('Item Name').setAttr({'type':'text', 'class':'form-control','id':'itemNameInput', 'placeholder':'Item Name', 'required':''});
     let formWrap02Label = new OctaUI(document.createElement('label')).setAttr({'for':'itemNameInput'}).setTextContent('Item Name');
     formWrap02.add( formWrap02Input, formWrap02Label );
 
@@ -149,19 +153,21 @@ const profileAssetUpload = ( signals ) => {
     let formWrap05Slc = makeSlcOpt( 
         {'class':'form-select','id':'selectCrypto', 'aria-label':'Floating label select'},
         [
-            { attr: {'selected': ''}, val: 'Building & Architecture' },
-            { attr: {'selected': '1'}, val: 'Interior' },
-            { attr: {'selected': '2'}, val: 'Vehicles' },
-            { attr: {'selected': '3'}, val: 'Electronics' },
-            { attr: {'selected': '4'}, val: 'Humans & Characters' },
-            { attr: {'selected': '5'}, val: 'Weapons & Amor' },
-            { attr: {'selected': '6'}, val: 'Food' },
-            { attr: {'selected': '7'}, val: 'Clothes & Accessories' },
-            { attr: {'selected': '8'}, val: 'Mecatronics & Parts' },
-            { attr: {'selected': '9'}, val: 'Anatomy' },
-            { attr: {'selected': '10'}, val: 'Sports' },
-            { attr: {'selected': '11'}, val: 'Animals' },
-            { attr: {'selected': '12'}, val: 'Fantasy & Fiction' },
+            
+            { attr: {'selected': '1'}, val: 'Building & Architecture' },
+            { attr: {'selected': '2'}, val: 'Interior' },
+            { attr: {'selected': '3'}, val: 'Vehicles' },
+            { attr: {'selected': '4'}, val: 'Electronics' },
+            { attr: {'selected': '5'}, val: 'Humans & Characters' },
+            { attr: {'selected': '6'}, val: 'Weapons & Amor' },
+            { attr: {'selected': '7'}, val: 'Food' },
+            { attr: {'selected': '8'}, val: 'Clothes & Accessories' },
+            { attr: {'selected': '9'}, val: 'Mecatronics & Parts' },
+            { attr: {'selected': '10'}, val: 'Anatomy' },
+            { attr: {'selected': '11'}, val: 'Sports' },
+            { attr: {'selected': '12'}, val: 'Animals' },
+            { attr: {'selected': '13'}, val: 'Fantasy & Fiction' },
+            { attr: {'selected': ''}, val: 'Select Asset Fields' },
         ]
     );
 
@@ -173,7 +179,7 @@ const profileAssetUpload = ( signals ) => {
     let formWrapCol02Slc = new OctaUI(document.createElement('select')).setAttr({'class':'form-select'});
     let formWRapCol02Option01 = new OctaUI(document.createElement('option')).setAttr({'selected':''}).setTextContent('yes');
     let formWRapCol02Option02 = new OctaUI(document.createElement('option')).setAttr({'selected':'1'}).setTextContent('no');
-    let formWrapCol02Label = new OctaUI(document.createElement('label')).setAttr({'for':'selectCrypto'}).setTextContent('Texture included');
+    let formWrapCol02Label = new OctaUI(document.createElement('label')).setAttr({'for':'selectCrypto'}).setTextContent('Texture Exist');
     formWrapCol02Slc.add( formWRapCol02Option01, formWRapCol02Option02);
     formWrap05Col02Float.add( formWrapCol02Slc, formWrapCol02Label );
 
@@ -196,17 +202,17 @@ const profileAssetUpload = ( signals ) => {
     //formWrap06:: select field
     let formWrap06 = new UIDiv().setAttr({'class':'item-price-field mb-5'});
     let form06Row = new UIDiv().setAttr({'class':'row g-3 justify-content-center'});
-    let form06Col01 = new UIDiv().setAttr({'class':'col-md-6 col-lg-4'});
+    let form06Col01 = new UIDiv().setAttr({'class':'col-md-6 col-lg-8'});
     let form06Col01Float = new UIDiv().setAttr({'class': 'form-floating'});
 
     let form06Slc = makeSlcOpt( {'class':'form-select'}, [
-        { attr: {'selected':''}, val: 'select your major s/w' },
         { attr: {'selected':'1'}, val: 'blender' },
         { attr: {'selected':'2'}, val: 'maya' },
         { attr: {'selected':'3'}, val: 'max' },
         { attr: {'selected':'4'}, val: 'c4d' },
         { attr: {'selected':'5'}, val: 'houdini' },
-        { attr: {'selected':'6'}, val: 'cad' }
+        { attr: {'selected':'6'}, val: 'cad' },
+        { attr: {'selected':''}, val: 'select your major s/w' }
     ]);
 
     let form06Label = new OctaUI(document.createElement('label')).setAttr({'for':'selectCrypto'}).setTextContent('Made by');
@@ -217,23 +223,17 @@ const profileAssetUpload = ( signals ) => {
     let form06Col02 = new UIDiv().setAttr({'class':'col-md-6 col-lg-4'});
     let form06Col02Float = new UIDiv().setAttr({'class': 'form-floating'});
     let form06Slc02 = new OctaUI(document.createElement('select')).setAttr({'class':'form-select'});
-    let form06Slc02Opt01 = new OctaUI(document.createElement('option')).setAttr({'selected':''}).setTextContent('yes');
-    let form06Slc02Opt02 = new OctaUI(document.createElement('option')).setAttr({'selected':'1'}).setTextContent('no');
-    let form06Label02 = new OctaUI(document.createElement('label')).setAttr({'for':'selectCrypto'}).setTextContent('Public');
+    let form06Slc02Opt01 = new OctaUI(document.createElement('option')).setAttr({'selected':'2'}).setTextContent('publish');
+    let form06Slc02Opt02 = new OctaUI(document.createElement('option')).setAttr({'selected':'1'}).setTextContent('private');
+    let form06Slc02Opt03 = new OctaUI(document.createElement('option')).setAttr({'selected':''}).setTextContent('-');
+    
+    let form06Label02 = new OctaUI(document.createElement('label')).setAttr({'for':'selectCrypto'}).setTextContent('Public & private');
 
-    form06Slc02.add(form06Slc02Opt01, form06Slc02Opt02 );
+    form06Slc02.add(form06Slc02Opt01, form06Slc02Opt02, form06Slc02Opt03 );
     form06Col02Float.add( form06Slc02, form06Label02 );
     form06Col02.add( form06Col02Float );
 
-    let form06Col03 = new UIDiv().setAttr({'class':'col-md-6 col-lg-4'});
-    let form06Col03Float = new UIDiv().setAttr({'class': 'form-floating'});
-    let form06Input = new UIInput().setAttr({'type':'text', 'id':'itemNumbersInput', 'placeholder':'License'});
-    let form06Label03 = new OctaUI(document.createElement('label')).setAttr({'for':'itemNumbersInput'}).setTextContent('License');
-
-    form06Col03Float.add( form06Label03, form06Input );
-    form06Col03.add( form06Col03Float );
-
-    form06Row.add(form06Col01, form06Col02, form06Col03 );
+    form06Row.add(form06Col01, form06Col02 );
     formWrap06.add( form06Row );
 
     //formWrap last:: submit btn
@@ -248,12 +248,65 @@ const profileAssetUpload = ( signals ) => {
     tabPane.addSeq( row02, col01, uploadWrap, formEle );
 
     // Evt
+    let focusEvtEle = [
+        formWrap02Input, formWrap03Textarea,
+        formWrap05Slc, form06Slc, form06Slc02
+    ];
+
+    focusEvtEle.map( ele => {
+        ele.dom.addEventListener( 'focus', e => {
+            ele.dom.style.cssText = 'border:none;'
+        })
+    });
+
     submitBtn.dom.addEventListener( 'click', e => {
+
+        let uploadedFiles, nameForm, descriptionForm, filedsForm, majorForm, publicForm = false;
         
-        const { files } = fileIpt.dom;
-        classifyFiles( files );
+        ( !fileIpt.dom.files.length ) ? uploadedFiles = false : uploadedFiles = true;
+        ( !formWrap02Input.dom.value ) ? nameForm = false : nameForm = true;
+        ( !formWrap03Textarea.dom.value ) ? descriptionForm = false : descriptionForm = true;
+        ( formWrap05Slc.dom.value === 'Select Asset Fields' ) ? filedsForm = false : filedsForm = true;
+        ( form06Slc.dom.value === 'select your major s/w' ) ? majorForm = false : majorForm = true;
+        ( form06Slc02.dom.value === '-' ) ? publicForm = false : publicForm = true;
+
+        if( !uploadedFiles ) {
+            alertOutline( formWrap01, 'insert 3d Assets' );
+        } else if( !nameForm ) {
+            alertOutline( formWrap02Input, 'insert asset`s name' );
+        } else if( !descriptionForm) {
+            alertOutline( formWrap03Textarea, 'insert asset`s description' );
+        } else if( !filedsForm ) {
+            alertOutline( formWrap05Slc, 'select asset`s fields' );
+        } else if( !majorForm ) {
+            alertOutline( form06Slc, 'select artist`s major sw' );
+        } else if( !publicForm ) {
+            alertOutline( form06Slc02, 'decide publish & private ' );
+        } else {
+            const { files } = fileIpt.dom;
+            // let classifyObj = classifyFiles( files );
+            classifyFiles( files ).then( file => {
+                
+                assetPublicUpload( file, auth.currentUser.uid )
+            })
+
+            // assetPublicUpload( classifyObj, auth.currentUser.uid )
+        
+        }
 
     });
+
+    function dbUpload( data ) {
+        console.log('data upload: ', data );
+        assetPublicUpload( data, auth.currentUser.uid, )
+    }
+
+    function alertOutline( ele, text ) {
+
+        ele.dom.style.cssText = 'border:2px solid tomato;';
+        alert( text );
+
+    }
 
     function sumAssets( assets ) {
 
@@ -266,7 +319,6 @@ const profileAssetUpload = ( signals ) => {
                 let fileExt = asset.name.split('.').pop();
 
                 switch ( fileExt ) {
-
                     case 'fbx' || 'obj' || 'gltf' :
                         tmpObj.assetFiles.push( asset ); 
                         break;
@@ -274,7 +326,6 @@ const profileAssetUpload = ( signals ) => {
                     case 'jpg' || 'jpeg' || 'png' || 'gif' || 'tif' || 'exr' :
                         tmpObj.assetTex.push(asset);
                         break;
-
                 }
     
             } //for End
@@ -285,32 +336,101 @@ const profileAssetUpload = ( signals ) => {
         
     }
 
-    function classifyFiles( assets ) {
+    function classifyFiles ( assets ) {
 
-        // console.log( 'asset name: ', asset.name.split('.').shift() );
 
-        let conversion = async () => {
+        let uploadAssets = [];
 
-            try {
-                let files = await sumAssets( assets );
+        return new Promise( (resolve, reject) => {
+
+            let resObj = {};
                 
-                if( files.assetFiles.length ) {
-                    files.assetFiles.map( file => {
-                        console.log('file: ', file )
+                sumAssets( assets )
+                    .then( files => {
+                        if( files.assetFiles.length ) {
+
+                            files.assetFiles.map( file => {
+                            
+                                let fileName = file.name.split('.').shift();
+                                resObj.title = fileName;
+                                resObj.obj = file;
+                                resObj.tex = new Set();
+                            
+                                files.assetTex.map( tex => {
+                                    let texName = tex.name.split('.').shift();
+                                    if( texName.includes( fileName ) ) {
+                                        resObj.tex.add( tex );
+                                    }
+                                });
+                            
+                                uploadAssets.push( resObj );
+                            });
+                        }
+
+                        resolve( uploadAssets );
+                        
                     })
-                }
 
-            }
-            catch(err) {
+        })
+        // let conversion = async () => {
+        //     try {
+                let resObj = {};
+                // let files = await sumAssets( assets );
+                sumAssets( assets )
+                    .then( files => {
+                        if( files.assetFiles.length ) {
 
-            } 
-            finally {
+                            files.assetFiles.map( file => {
+                            
+                                let fileName = file.name.split('.').shift();
+                                resObj.title = fileName;
+                                resObj.obj = file;
+                                resObj.tex = new Set();
+                            
+                                files.assetTex.map( tex => {
+                                    let texName = tex.name.split('.').shift();
+                                    if( texName.includes( fileName ) ) {
+                                        //console.log('텍스처 있음: ', texName );
+                                        resObj.tex.add( tex );
+                                    }
+                                });
+                            
+                                uploadAssets.push( resObj );
+                            });
+                        }
+                    })
+                // if( files.assetFiles.length ) {
 
-            }
-        
-        }
+                //     files.assetFiles.map( file => {
 
-        conversion();
+                //         let fileName = file.name.split('.').shift();
+                //         resObj.title = fileName;
+                //         resObj.obj = file;
+                //         resObj.tex = new Set();
+
+                //         files.assetTex.map( tex => {
+                //             let texName = tex.name.split('.').shift();
+                //             if( texName.includes( fileName ) ) {
+                //                 //console.log('텍스처 있음: ', texName );
+                //                 resObj.tex.add( tex );
+                //             }
+                //         });
+
+                //         uploadAssets.push( resObj );
+                //     });
+                // }
+            // }
+            // catch(err) {
+            //     console.log('making asset err: ', err );
+            // } 
+            // finally {
+            //     //After Conduct another things.
+            //     //console.log( ' finally uploadAssets: ', uploadAssets )
+            // }
+        // }
+
+        // conversion();
+        return uploadAssets
 
     }
 
