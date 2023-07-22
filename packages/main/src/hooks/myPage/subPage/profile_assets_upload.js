@@ -145,9 +145,9 @@ const profileAssetUpload = ( signals ) => {
     // form inner05: form item option select
     let formWrap05 = new UIDiv().setAttr({'class':'item-price-field mb-3'});
     let formWrap05Row = new UIRow().setAttr({'class':'row g-3'});
-    let formWrap05Col01 = new UIDiv().setAttr({'class':'col-md-6'});
-    let formWrap05Col02 = new UIDiv().setAttr({'class':'col-md-3'});
-    let formWrap05Col03 = new UIDiv().setAttr({'class':'col-md-3'});
+    let formWrap05Col01 = new UIDiv().setAttr({'class':'col-md-6 col-lg-4'});
+    let formWrap05Col02 = new UIDiv().setAttr({'class':'col-md-3 col-lg-4'});
+    let formWrap05Col03 = new UIDiv().setAttr({'class':'col-md-3 col-lg-4'});
 
     let formWrap05Float = new UIDiv().setAttr({'class':'form-floating'});
     let formWrap05Slc = makeSlcOpt( 
@@ -177,23 +177,25 @@ const profileAssetUpload = ( signals ) => {
 
     let formWrap05Col02Float = new UIDiv().setAttr({'class':'form-floating'});
     let formWrapCol02Slc = new OctaUI(document.createElement('select')).setAttr({'class':'form-select'});
+    let formWRapCol02Option03 = new OctaUI(document.createElement('option')).setAttr({'selected':''}).setTextContent('-');
     let formWRapCol02Option01 = new OctaUI(document.createElement('option')).setAttr({'selected':''}).setTextContent('yes');
     let formWRapCol02Option02 = new OctaUI(document.createElement('option')).setAttr({'selected':'1'}).setTextContent('no');
     let formWrapCol02Label = new OctaUI(document.createElement('label')).setAttr({'for':'selectCrypto'}).setTextContent('Texture Exist');
-    formWrapCol02Slc.add( formWRapCol02Option01, formWRapCol02Option02);
+    formWrapCol02Slc.add( formWRapCol02Option01, formWRapCol02Option02, formWRapCol02Option03 );
     formWrap05Col02Float.add( formWrapCol02Slc, formWrapCol02Label );
 
     formWrap05Col02.add( formWrap05Col02Float );
 
     let formWrap05Col03Float = new UIDiv().setAttr({'class':'form-floating'});
     let formWrap05Col03Slc = new OctaUI(document.createElement('select')).setAttr({'class':'form-select'});
-    let formWRapCol03Option01 = new OctaUI(document.createElement('option')).setAttr({'selected':''}).setTextContent('yes');
-    let formWRapCol03Option02 = new OctaUI(document.createElement('option')).setAttr({'selected':'1'}).setTextContent('no');
+    let formWRapCol03Option03 = new OctaUI(document.createElement('option')).setAttr({'selected':''}).setTextContent('-');
+    let formWRapCol03Option01 = new OctaUI(document.createElement('option')).setAttr({'selected':'1'}).setTextContent('yes');
+    let formWRapCol03Option02 = new OctaUI(document.createElement('option')).setAttr({'selected':'2'}).setTextContent('no');
     let formWrapCol03Label = new OctaUI(document.createElement('label')).setAttr({'for':'selectCrypto'}).setTextContent('Rig Included');
 
-    formWrap05Col03Slc.add(formWRapCol03Option01, formWRapCol03Option02);
-    formWrap05Col03Float.add(formWrap05Col03Slc, formWrapCol03Label );
-    formWrap05Col03.add(formWrap05Col03Float);
+    formWrap05Col03Slc.add( formWRapCol03Option01, formWRapCol03Option02, formWRapCol03Option03 );
+    formWrap05Col03Float.add( formWrap05Col03Slc, formWrapCol03Label );
+    formWrap05Col03.add( formWrap05Col03Float );
 
     formWrap05Row.add( formWrap05Col01, formWrap05Col02, formWrap05Col03 );
     formWrap05.add( formWrap05Row );
@@ -249,8 +251,8 @@ const profileAssetUpload = ( signals ) => {
 
     // Evt
     let focusEvtEle = [
-        formWrap02Input, formWrap03Textarea,
-        formWrap05Slc, form06Slc, form06Slc02
+        formWrap02Input, formWrap03Textarea, formWrapCol02Slc,
+        formWrap05Col03Slc, formWrap05Slc, form06Slc, form06Slc02
     ];
 
     focusEvtEle.map( ele => {
@@ -261,12 +263,14 @@ const profileAssetUpload = ( signals ) => {
 
     submitBtn.dom.addEventListener( 'click', e => {
 
-        let uploadedFiles, nameForm, descriptionForm, filedsForm, majorForm, publicForm = false;
+        let uploadedFiles, nameForm, descriptionForm, filedsForm, majorForm, publicForm, textureForm, rigForm = false;
         
         ( !fileIpt.dom.files.length ) ? uploadedFiles = false : uploadedFiles = true;
         ( !formWrap02Input.dom.value ) ? nameForm = false : nameForm = true;
         ( !formWrap03Textarea.dom.value ) ? descriptionForm = false : descriptionForm = true;
         ( formWrap05Slc.dom.value === 'Select Asset Fields' ) ? filedsForm = false : filedsForm = true;
+        ( formWrapCol02Slc.dom.value === '-' ) ? textureForm = false : textureForm = true;
+        ( formWrap05Col03Slc.dom.value === '-' ) ? rigForm = false : rigForm = true;
         ( form06Slc.dom.value === 'select your major s/w' ) ? majorForm = false : majorForm = true;
         ( form06Slc02.dom.value === '-' ) ? publicForm = false : publicForm = true;
 
@@ -278,16 +282,30 @@ const profileAssetUpload = ( signals ) => {
             alertOutline( formWrap03Textarea, 'insert asset`s description' );
         } else if( !filedsForm ) {
             alertOutline( formWrap05Slc, 'select asset`s fields' );
-        } else if( !majorForm ) {
+        } else if( !textureForm ) {
+            alertOutline( formWrapCol02Slc, 'select texture`s included' );
+        } else if( !rigForm ) {
+            alertOutline( formWrap05Col03Slc, 'select rig`s included' );
+        }else if( !majorForm ) {
             alertOutline( form06Slc, 'select artist`s major sw' );
         } else if( !publicForm ) {
             alertOutline( form06Slc02, 'decide publish & private ' );
         } else {
             const { files } = fileIpt.dom;
             // let classifyObj = classifyFiles( files );
-            classifyFiles( files ).then( file => {
+            classifyFiles({ 
+                assets: files, 
+                title: formWrap02Input.dom.value,
+                description: formWrap03Textarea.dom.value,
+                field: formWrap05Slc.dom.value,
+                madeBy: form06Slc.dom.value,
+                publish: form06Slc02.dom.value,
+                texIn: formWrapCol02Slc.dom.value,
+                rigIn: formWrap05Col03Slc.dom.value
+            }).then( file => {
                 
-                assetPublicUpload( file, auth.currentUser.uid )
+                assetPublicUpload( file, auth.currentUser.uid );
+
             })
 
             // assetPublicUpload( classifyObj, auth.currentUser.uid )
@@ -336,14 +354,22 @@ const profileAssetUpload = ( signals ) => {
         
     }
 
-    function classifyFiles ( assets ) {
+    function classifyFiles ( datas ) {
 
-
-        let uploadAssets = [];
+        let { assets, title, description, field, madeBy, publish, texIn, rigIn } = datas
 
         return new Promise( (resolve, reject) => {
 
             let resObj = {};
+                resObj.assets = new Array();
+
+                resObj.title = title;
+                resObj.description = description;
+                resObj.field = field;
+                resObj.madeBy = madeBy;
+                resObj.publish = publish;
+                resObj.texIn = texIn;
+                resObj.rigIn = rigIn;
                 
                 sumAssets( assets )
                     .then( files => {
@@ -352,22 +378,24 @@ const profileAssetUpload = ( signals ) => {
                             files.assetFiles.map( file => {
                             
                                 let fileName = file.name.split('.').shift();
-                                resObj.title = fileName;
-                                resObj.obj = file;
-                                resObj.tex = new Set();
-                            
-                                files.assetTex.map( tex => {
-                                    let texName = tex.name.split('.').shift();
-                                    if( texName.includes( fileName ) ) {
-                                        resObj.tex.add( tex );
-                                    }
+                                
+                                resObj.assets.push({
+                                    name: fileName,
+                                    file: file,
+                                    texture: new Set()
                                 });
                             
-                                uploadAssets.push( resObj );
+                                files.assetTex.map( tex => {
+
+                                    let texName = tex.name.split('.').shift();
+                                    if( texName.includes( fileName ) ) resObj.assets.map( data => data.texture.add( tex ) )                                       
+                
+                                });
+                            
                             });
                         }
 
-                        resolve( uploadAssets );
+                        resolve( resObj );
                         
                     })
 
@@ -395,7 +423,7 @@ const profileAssetUpload = ( signals ) => {
                                     }
                                 });
                             
-                                uploadAssets.push( resObj );
+                                //uploadAssets.push( resObj );
                             });
                         }
                     })
@@ -430,7 +458,7 @@ const profileAssetUpload = ( signals ) => {
         // }
 
         // conversion();
-        return uploadAssets
+        //return uploadAssets
 
     }
 
