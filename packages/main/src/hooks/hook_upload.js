@@ -128,6 +128,44 @@ const avatarUpload = ( data, uid, loc ) => {
     
 }
 
+function texOutput( textures, texName ) {
+
+    return new Promise( ( resolve, reject ) => {
+
+        let tmpTex = []; //texture arr initialize
+
+        for( let tex of textures ) {
+
+            const uploadTexPath = `octa3d/assets/public/texture/${Timestamp.now().toMillis()}_octaTex_${texName}`;
+            const storageRef = ref( storage, uploadTexPath );
+            const texUploadTask = uploadBytesResumable( storageRef, tex );
+
+            texUploadTask.on( 'state_changed', ( snapshot ) => {
+
+                const progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+                console.log( 'Texture upload is ' + progress + '% done.');
+
+            }, (err) => {
+                console.log('err: ' + err )
+            }, () => {
+                getDownloadURL( texUploadTask.snapshot.ref )
+                    .then( (downloadURL) => {
+                        console.log( 'Texture available at downloadURL: ' + downloadURL );
+                        tmpTex.push( downloadURL);
+                        console.log('tmpTex: ', tmpTex)
+
+                        if( textures.size === tmpTex.length ) resolve( tmpTex );
+
+                    })
+            })
+
+        }
+
+    })
+
+    
+}
+
 
 function assetOutput( assets ) {
 
@@ -153,8 +191,23 @@ function assetOutput( assets ) {
                 .then( (downloadURL) => {
     
                     console.log( 'File available at downloadURL: ' + downloadURL );
-                    tmpArr.push( { obj: downloadURL, tex: null, ext: asset.ext, name: asset.name } );
-                    if( assets.length === tmpArr.length ) resolve( tmpArr )
+
+                    // Texture check@ Promise return
+                    if( asset.texture ) {
+                        texOutput( asset.texture, asset.name )
+                            .then(( resTex ) => {
+                                tmpArr.push( { obj: downloadURL, tex: resTex, ext: asset.ext, name: asset.name } );
+
+                                console.log('tmpArr: ', tmpArr);
+                                // console.log('asset.length: ', asset.length );
+                                // console.log('tmpArr.tex.length: ', tmpArr.tex.length );
+                                if( assets.length === tmpArr.length ) {
+                                    console.log('최종 tmpArr: ', tmpArr ); 
+                                    resolve( tmpArr );
+
+                                }
+                            })
+                    } // Texture Chk End@
     
                 });
 
@@ -172,16 +225,6 @@ const assetPublicUpload = ( datas, usr ) => {
 
     let { title, assets, description, field, madeBy, publish, texIn, rigIn } = datas;
     
-    // console.log( 'title: ', title );
-    // console.log( 'asset: ', assets );
-    // console.log( 'description: ', description  );
-    // console.log( 'field: ', field );
-    // console.log( 'madeBy: ', madeBy );
-    // console.log( 'publish: ', publish );
-    // console.log( 'texIn: ', texIn );
-    // console.log( 'rigIn: ', rigIn );
-    
-
     if( publish === 'publish') {
         
         console.log('공개용');
@@ -200,13 +243,12 @@ const assetPublicUpload = ( datas, usr ) => {
 
                 try {
                     res.map( async (usrObj) => {
-                        console.log('usrObj: ', usrObj );
+                        
                         await updateDoc( doc( db, 'users', usr.uid ), {
                             model: arrayUnion( usrObj )
-                        })
+                        });
+
                     })
-                    
-                    // await setDoc(doc(db, 'users', uid), assetDB, { merge: true })
                 
                 } catch (e) {
                 
@@ -215,7 +257,7 @@ const assetPublicUpload = ( datas, usr ) => {
                 } finally {
                 
                     console.log('user db Cleanup here'); // cleanup, always executed
-                    //window.location.href= '/mypage';
+                    
                 }
 
             }
@@ -257,7 +299,7 @@ const assetPublicUpload = ( datas, usr ) => {
                 } finally {
                 
                     console.log('asset to Public Cleanup here'); // cleanup, always executed
-                    window.location.href= '/mypage';
+                    //window.location.href= '/mypage';
                 }
 
             }
