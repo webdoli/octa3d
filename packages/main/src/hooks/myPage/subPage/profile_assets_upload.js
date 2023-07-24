@@ -304,7 +304,7 @@ const profileAssetUpload = ( signals ) => {
                 rigIn: formWrap05Col03Slc.dom.value
             }).then( file => {
                 
-                assetPublicUpload( file, auth.currentUser.uid );
+                assetPublicUpload( file, auth.currentUser );
 
             })
 
@@ -378,10 +378,12 @@ const profileAssetUpload = ( signals ) => {
                             files.assetFiles.map( file => {
                             
                                 let fileName = file.name.split('.').shift();
+                                let fileExt = file.name.split('.').pop();
                                 
                                 resObj.assets.push({
                                     name: fileName,
                                     file: file,
+                                    ext: fileExt,
                                     texture: new Set()
                                 });
                             

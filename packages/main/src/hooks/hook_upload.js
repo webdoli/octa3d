@@ -1,6 +1,6 @@
 import { ref, uploadBytesResumable, getDownloadURL } from "firebase/storage";
 import { db, storage, timestamp } from "../db/firebaseDB";
-import { Timestamp, doc, setDoc } from "firebase/firestore";
+import { Timestamp, arrayUnion, doc, setDoc, updateDoc } from "firebase/firestore";
 
 const coverUpload = ( data, uid, loc ) => {
 
@@ -105,7 +105,7 @@ const avatarUpload = ( data, uid, loc ) => {
                     async function run() {
 
                         try {
-                        
+                            
                             await setDoc(doc(db, 'users', uid), data, { merge: true })
                         
                         } catch (e) {
@@ -128,7 +128,45 @@ const avatarUpload = ( data, uid, loc ) => {
     
 }
 
-const assetPublicUpload = ( datas, uid ) => {
+
+function assetOutput( assets ) {
+
+    return new Promise( ( resolve, reject ) => {
+
+        let tmpArr = new Array();
+
+        assets.map( asset => {
+            
+            const uploadAssetPath = `octa3d/assets/public/models/${asset.ext}/${Timestamp.now().toMillis()}_octa_stg_${asset.name}`;
+            const storageRef = ref( storage, uploadAssetPath );
+            const uploadTask = uploadBytesResumable( storageRef, asset.file );
+    
+            uploadTask.on( 'state_changed', ( snapshot ) => {
+                const progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+                console.log( 'Upload is ' + progress + '% done.');
+                return progress;
+            }, ( err ) => {
+                console.log( 'storage upload errors: ', err );
+            }, () =>{
+    
+                getDownloadURL( uploadTask.snapshot.ref )
+                .then( (downloadURL) => {
+    
+                    console.log( 'File available at downloadURL: ' + downloadURL );
+                    tmpArr.push( { obj: downloadURL, tex: null, ext: asset.ext, name: asset.name } );
+                    if( assets.length === tmpArr.length ) resolve( tmpArr )
+    
+                });
+
+            });
+    
+        });
+
+    })
+    
+}
+
+const assetPublicUpload = ( datas, usr ) => {
 
     // console.log('assets Upload Start: ', datas );
 
@@ -137,7 +175,7 @@ const assetPublicUpload = ( datas, uid ) => {
     // console.log( 'title: ', title );
     // console.log( 'asset: ', assets );
     // console.log( 'description: ', description  );
-    console.log( 'field: ', field );
+    // console.log( 'field: ', field );
     // console.log( 'madeBy: ', madeBy );
     // console.log( 'publish: ', publish );
     // console.log( 'texIn: ', texIn );
@@ -147,93 +185,87 @@ const assetPublicUpload = ( datas, uid ) => {
     if( publish === 'publish') {
         
         console.log('공개용');
-        let tmpAssetDB = [];
         let assetDB = {
-            id: uid, //이메일 변경
-            asset: null,
-            tex: []
+            uid: usr.uid, //이메일 변경
+            model: null
         }
 
-        assets.map( asset => {
+        let docRef = doc( db, 'users', usr.uid );
 
-            console.log( 'filed: ', field );
-            const uploadAssetPath = `octa3d/assets/public/${field}/${asset.name.split('.').shift()}/${asset.name}`;
-            const storageRef = ref( storage, uploadAssetPath );
-            const uploadTask = uploadBytesResumable( storageRef, asset.file );
+        assetOutput( assets )
+        .then( async ( res ) => {
+            
+            // insert user db
+            async function insertAssetToUserDB() {
 
-            uploadTask.on( 'state_changed', ( snapshot ) => {
-                const progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
-                console.log( 'Upload is ' + progress + '% done.');
-            }, (err) => {
-
-            }, () =>{
-                getDownloadURL( uploadTask.snapshot.ref )
-                    .then( (downloadURL) => {
-                        console.log( 'File available at downloadURL: ' + downloadURL );
-                        assetDB.asset = downloadURL
+                try {
+                    res.map( async (usrObj) => {
+                        console.log('usrObj: ', usrObj );
+                        await updateDoc( doc( db, 'users', usr.uid ), {
+                            model: arrayUnion( usrObj )
+                        })
                     })
-            });
-
-            console.log( 'assetDB: ', assetDB );
-
-            // const uploadAssetPath = `octa3d/assets/public/${field}/${asset.name.split('.').shift()}/${ Timestamp.fromDate(new Date()) }?${asset.name}`;
-            // const storageRef = ref( storage, uploadAssetPath );
-            // const uploadTask = uploadBytesResumable( storageRef, asset.file );
-
-            // if( asset.texture ) {
-            //     const uploadTexPath = `octa3d/assets/public/texture/${ Timestamp.fromDate(new Date()) }?${asset.name}`;
-            //     const storageRef = ref( storage, uploadTexPath );
+                    
+                    // await setDoc(doc(db, 'users', uid), assetDB, { merge: true })
                 
-            //     for( let tex of asset.texture ) {
-            //         const texUploadTask = uploadBytesResumable( storageRef, tex );
-            //         texUploadTask.on( 'state_changed', ( snapshot ) => {
-            //             const progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
-            //             console.log( 'Upload is ' + progress + '% done.');
-        
-            //         }, (err) => {
-            //             console.log('err: ' + err )
-            //         }, () => {
-            //             getDownloadURL( texUploadTask.snapshot.ref )
-            //                 .then( (downloadURL) => {
-            //                     console.log( 'File available at downloadURL: ' + downloadURL );
-            //                     assetDB.tex.push( downloadURL)
-
-            //                 })
-            //         })
-            //     }
-            // }
-
-            // uploadTask.on( 'state_changed', ( snapshot ) => {
-            //     const progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
-            //     console.log( 'Upload is ' + progress + '% done.');
+                } catch (e) {
                 
-
-            // }, (err) => {
-            //     console.log('err: ' + err )
-            // }, () => {
+                    console.error(e); // handle your error here
                 
-            //     async function run() {
-
-            //         try {
-                    
-            //             await setDoc(doc(db, 'users', uid), assetDB, { merge: true })
-                    
-            //         } catch (e) {
-                    
-            //             console.error(e); 
-                    
-            //         } finally {
-                    
-            //             console.log('Cleanup here'); 
-            //             window.location.href= '/mypage';
-            //         }
-
-            //     }
+                } finally {
                 
-            //     run();
-            // })
+                    console.log('user db Cleanup here'); // cleanup, always executed
+                    //window.location.href= '/mypage';
+                }
 
-        })
+            }
+
+            // insert public assets
+            async function insertAssetToPublic() {
+
+                assetDB.title = title;
+                assetDB.description = description;
+                assetDB.field = field;
+                assetDB.madeBy = madeBy;
+                assetDB.publish = publish;
+                assetDB.texIn = texIn;
+                assetDB.rigIn = rigIn;
+                assetDB.model = res;
+                assetDB.user = usr.email;
+
+                let assetsNames = '';
+                assets.map( db => {
+                    assetsNames += `${db.name}_`
+                })
+
+                try {
+                
+                    await setDoc( 
+                        doc( 
+                            db, 
+                            'models', 
+                            `${ Timestamp.now().toMillis() }_octa3dPublicModels_${assetsNames}`
+                        ), 
+                        assetDB, 
+                        { merge: true }
+                    )
+                
+                } catch (e) {
+                
+                    console.error(e); // handle your error here
+                
+                } finally {
+                
+                    console.log('asset to Public Cleanup here'); // cleanup, always executed
+                    window.location.href= '/mypage';
+                }
+
+            }
+            
+            insertAssetToUserDB();
+            insertAssetToPublic();
+
+        });
 
     } else {
         //private
