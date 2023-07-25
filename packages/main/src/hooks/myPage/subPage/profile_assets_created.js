@@ -1,11 +1,12 @@
-import { UIDiv, UIH, UIUL, UILI, UIP, UIA, UIImg, UIIcon, UISpan } from "../../../libs/octaUI"
+import { UIDiv, UIH, UIUL, UILI, UIP, UIA, UIImg, UIIcon, UISpan } from "../../../libs/octaUI";
+import getRealData from "../../hook_getData";
 
 const profileAssetCreated = () => {
 
     const tapPane = new UIDiv().setAttr({ 'class': 'tab-pane show active', 'id': 'created-assets', 'role': 'tabpanel', 'aria-labelledby':'created-assets-tab' });
-    let row = new UIDiv().setAttr({ 'class': 'row justify-content-center gx-3 gy-2' });
-    let col = new UIDiv().setAttr({ 'class': 'col-lg-4 col-sm-6'});
-    let item = new UIDiv().setAttr({ 'class': 'nft-item' });
+    let row = new UIDiv().setAttr({ 'class': 'row justify-content-center gx-3 gy-2' }); // Create 세부 페이지
+    let col = new UIDiv().setAttr({ 'class': 'col-lg-4 col-sm-6'}); // 각각 카드 Wraper
+    let item = new UIDiv().setAttr({ 'class': 'nft-item' }); //각각 카드
     let inner = new UIDiv().setAttr({ 'class': 'nft-inner' });
     
     let h02 = new UIH( 'Created Page', 2 );
@@ -94,6 +95,15 @@ const profileAssetCreated = () => {
 
     loadBtn.addSeq( loadA01, loadSpan );
     tapPane.add( row, loadBtn );
+
+
+    // 1] THREE.js 모듈 설치
+    // 2] DB에서 user models의 배열 개수 불러오기 (uid 받기)
+    // 3] THREE.js 로더 불러오기 
+    // 4] scene만들기
+    // 5] renderer에 캔버스 붙이기
+    // 6] 사이즈 조절하기
+    // 7] signals 새로고침 등록하기
 
     return tapPane;
 
