@@ -1,28 +1,137 @@
 import { UIDiv, UIH, UIUL, UILI, UIP, UIA, UIImg, UIIcon, UISpan } from "../../../libs/octaUI";
 import getRealData from "../../hook_getData";
 import { auth } from "../../../db/firebaseDB";
+import * as THREE from 'three';
+import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js';
 
 const profileAssetCreated = () => {
 
     const tapPane = new UIDiv().setAttr({ 'class': 'tab-pane show active', 'id': 'created-assets', 'role': 'tabpanel', 'aria-labelledby':'created-assets-tab' });
     let row = new UIDiv().setAttr({ 'class': 'row justify-content-center gx-3 gy-2' }); // Create 세부 페이지 = class'content'와 같음;
 
+    let renderer;
+    const scenes = [];
+
+    init();
+    animate();
+
     //try catch finally 구문으로 실행
-    
-    let assetSize = null;
-    let usrModelsData = getRealData( 'users', auth.currentUser.uid ).then( (res) => {
-        // console.log('usersModelData: ', res.data().model.length );
-        assetSize = res.data().model.length;
 
-        console.log('assetSize: ', assetSize );
-        // for( let i=0; i<)
+    function init() {
+        let assetSize = null;
+        getRealData( 'users', auth.currentUser.uid ).then( (res) => {
 
-        let col = new UIDiv().setAttr({ 'class': 'col-lg-4 col-sm-6'}); // 각각 카드 Wraper
-        let item = new UIDiv().setAttr({ 'class': 'nft-item' }); //각각 카드
-        let inner = new UIDiv().setAttr({ 'class': 'nft-inner' });
+            assetSize = res.data().model.length;
+
+            // temp Geometry :: remove after
+            const geometries = [
+                new THREE.BoxGeometry( 1, 1, 1 ),
+                new THREE.SphereGeometry( 0.5, 12, 8 ),
+                new THREE.DodecahedronGeometry( 0.5 ),
+                new THREE.CylinderGeometry( 0.5, 0.5, 1, 12 )
+            ];
+
+            for( let i = 0; i < assetSize; i ++ ) {
+
+                const scene = new THREE.Scene();
+
+                //make a list item
+                let col = new UIDiv().setAttr({ 'class': 'col-lg-4 col-sm-6'}); // 각각 카드 Wraper
+                let item = new UIDiv().setAttr({ 'class': 'nft-item' }); //각각 카드
+                let inner = new UIDiv().setAttr({ 'class': 'nft-inner' });
+
+                // make a card title
+                let cardTitle = new UIH( 'Created Page', 4 );
+                let sceneEle = new UIDiv().setAttr({ 'class': 'nft-item-top d-flex justify-content-between align-items-center' });
+
+                //make THREE Scene
+                scene.userData.element = sceneEle;
+
+                const camera = new THREE.PerspectiveCamera( 50, 1, 1, 10 );
+	    		camera.position.z = 2;
+	    		scene.userData.camera = camera;
+
+                const controls = new OrbitControls( scene.userData.camera, scene.userData.element.dom );
+	    		controls.minDistance = 2;
+	    		controls.maxDistance = 5;
+	    		controls.enablePan = false;
+	    		controls.enableZoom = false;
+	    		scene.userData.controls = controls;
+
+                const geometry = geometries[ geometries.length * Math.random() | 0 ];
+
+                const material = new THREE.MeshStandardMaterial( {
+
+                    color: new THREE.Color().setHSL( Math.random(), 1, 0.75, THREE.SRGBColorSpace ),
+                    roughness: 0.5,
+                    metalness: 0,
+                    flatShading: true
+
+                } );
+
+                scene.add( new THREE.Mesh( geometry, material ) );
+	    		scene.add( new THREE.HemisphereLight( 0xaaaaaa, 0x444444, 3 ) );
+
+                const light = new THREE.DirectionalLight( 0xffffff, 1.5 );
+	    		light.position.set( 1, 1, 1 );
+	    		scene.add( light );
+
+	    		scenes.push( scene );
+
+                inner.add( cardTitle, sceneEle );
+                row.addSeq( col, item, inner  );
+
+                tapPane.add( row );
+
+            }
+
+        });
+
+        renderer = new THREE.WebGLRenderer( { antialias: true } );
+        renderer.setClearColor( 0xffffff, 1 );
+	    renderer.setPixelRatio( window.devicePixelRatio );
+	    renderer.useLegacyLights = false;
+
+    }
+
+        function animate() {
+
+            render();
+            requestAnimationFrame( animate );
+
+        }
+
+        function render() {
+
+            console.log('render실행');
+            console.log('renderer: ', renderer);
+            renderer.setClearColor( 0xffffff );
+			renderer.setScissorTest( false );
+			renderer.clear();
+
+            renderer.setClearColor( 0xe0e0e0 );
+			renderer.setScissorTest( true );
+
+            scenes.forEach( ( scene ) => {
+
+                scene.children[ 0 ].rotation.y = Date.now() * 0.001;
+                const element = scene.userData.element.dom;
+                const rect = element.getBoundingClientRect();
+
+                const camera = scene.userData.camera;
+
+                renderer.render( scene, camera );
+
+            })
+
+        }
+
+        // let col = new UIDiv().setAttr({ 'class': 'col-lg-4 col-sm-6'}); // 각각 카드 Wraper
+        // let item = new UIDiv().setAttr({ 'class': 'nft-item' }); //각각 카드
+        // let inner = new UIDiv().setAttr({ 'class': 'nft-inner' });
         
-        let h02 = new UIH( 'Created Page', 2 );
-        let itemTop = new UIDiv().setAttr({ 'class': 'nft-item-top d-flex justify-content-between align-items-center' });
+        // let cardTitle = new UIH( 'Created Page', 4 );
+        // let sceneEle = new UIDiv().setAttr({ 'class': 'nft-item-top d-flex justify-content-between align-items-center' });
         
         let authorPart = new UIDiv().setAttr({ 'class': 'author-part' });
         
@@ -90,7 +199,7 @@ const profileAssetCreated = () => {
         morePart.add( dropStart );
 
 
-        itemTop.add( authorPart, morePart );
+        //sceneEle.add( authorPart, morePart );
 
         thumn.add( bottomImg );
         bootomH4.add( bottmH4a );
@@ -102,13 +211,13 @@ const profileAssetCreated = () => {
         bottomContent.add( bootomH4, bottomItem )
 
         itemBottom.add( thumn, bottomContent );
-        inner.add( h02, itemTop, itemBottom );
-        row.addSeq( col, item, inner  );
+        // inner.add( cardTitle, itemTop, itemBottom );
+        // row.addSeq( col, item, inner  );
 
-        loadBtn.addSeq( loadA01, loadSpan );
-        tapPane.add( row, loadBtn );
+        // loadBtn.addSeq( loadA01, loadSpan );
+        // tapPane.add( row, loadBtn );
 
-    });
+    
     
     // 1] THREE.js 모듈 설치
     // 2] DB에서 user models의 배열 개수 불러오기 (uid 받기)
