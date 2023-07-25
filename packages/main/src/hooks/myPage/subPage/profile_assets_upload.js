@@ -263,6 +263,8 @@ const profileAssetUpload = ( signals ) => {
 
     submitBtn.dom.addEventListener( 'click', e => {
 
+        e.preventDefault();
+
         let uploadedFiles, nameForm, descriptionForm, filedsForm, majorForm, publicForm, textureForm, rigForm = false;
         
         ( !fileIpt.dom.files.length ) ? uploadedFiles = false : uploadedFiles = true;
@@ -373,25 +375,28 @@ const profileAssetUpload = ( signals ) => {
                 
                 sumAssets( assets )
                     .then( files => {
+
                         if( files.assetFiles.length ) {
 
                             files.assetFiles.map( file => {
                             
                                 let fileName = file.name.split('.').shift();
                                 let fileExt = file.name.split('.').pop();
-                                
-                                resObj.assets.push({
-                                    name: fileName,
-                                    file: file,
-                                    ext: fileExt,
-                                    texture: new Set()
-                                });
+                                let tmpTexArr= [];
                             
                                 files.assetTex.map( tex => {
 
                                     let texName = tex.name.split('.').shift();
-                                    if( texName.includes( fileName ) ) resObj.assets.map( data => data.texture.add( tex ) )                                       
+                                    if( texName.includes( fileName ) ) tmpTexArr.push( tex );
+                                    // if( texName.includes( fileName ) ) resObj.assets.map( data => data.texture.add( tex ) )                                       
                 
+                                });
+
+                                resObj.assets.push({
+                                    name: fileName,
+                                    file: file,
+                                    ext: fileExt,
+                                    texture: tmpTexArr
                                 });
                             
                             });
@@ -402,65 +407,6 @@ const profileAssetUpload = ( signals ) => {
                     })
 
         })
-        // let conversion = async () => {
-        //     try {
-                let resObj = {};
-                // let files = await sumAssets( assets );
-                sumAssets( assets )
-                    .then( files => {
-                        if( files.assetFiles.length ) {
-
-                            files.assetFiles.map( file => {
-                            
-                                let fileName = file.name.split('.').shift();
-                                resObj.title = fileName;
-                                resObj.obj = file;
-                                resObj.tex = new Set();
-                            
-                                files.assetTex.map( tex => {
-                                    let texName = tex.name.split('.').shift();
-                                    if( texName.includes( fileName ) ) {
-                                        //console.log('텍스처 있음: ', texName );
-                                        resObj.tex.add( tex );
-                                    }
-                                });
-                            
-                                //uploadAssets.push( resObj );
-                            });
-                        }
-                    })
-                // if( files.assetFiles.length ) {
-
-                //     files.assetFiles.map( file => {
-
-                //         let fileName = file.name.split('.').shift();
-                //         resObj.title = fileName;
-                //         resObj.obj = file;
-                //         resObj.tex = new Set();
-
-                //         files.assetTex.map( tex => {
-                //             let texName = tex.name.split('.').shift();
-                //             if( texName.includes( fileName ) ) {
-                //                 //console.log('텍스처 있음: ', texName );
-                //                 resObj.tex.add( tex );
-                //             }
-                //         });
-
-                //         uploadAssets.push( resObj );
-                //     });
-                // }
-            // }
-            // catch(err) {
-            //     console.log('making asset err: ', err );
-            // } 
-            // finally {
-            //     //After Conduct another things.
-            //     //console.log( ' finally uploadAssets: ', uploadAssets )
-            // }
-        // }
-
-        // conversion();
-        //return uploadAssets
 
     }
 
