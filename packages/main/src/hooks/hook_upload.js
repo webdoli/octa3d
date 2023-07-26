@@ -181,7 +181,7 @@ function insertStorage( assets, uid ) {
             ( uid ) 
             ? uploadAssetPath = `octa3d/assets/private/models/${asset.ext}/${uid}/${Timestamp.now().toMillis()}_octa_stg_${asset.name}`
             : uploadAssetPath = `octa3d/assets/public/models/${asset.ext}/${Timestamp.now().toMillis()}_octa_stg_${asset.name}`;
-            
+
             const storageRef = ref( storage, uploadAssetPath );
             const uploadTask = uploadBytesResumable( storageRef, asset.file );
     
