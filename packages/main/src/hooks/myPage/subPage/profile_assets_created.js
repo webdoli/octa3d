@@ -24,6 +24,7 @@ const profileAssetCreated = () => {
             for( let i = 0; i < assets.length; i ++ ) {
 
                 const scene = new THREE.Scene();
+                const texLoader = new THREE.TextureLoader();
 
                 //make a list item
                 let col = new UIDiv().setAttr({ 'class': 'col-lg-4 col-sm-6', }); // 각각 카드 Wraper
@@ -70,9 +71,26 @@ const profileAssetCreated = () => {
                 controls.update();
 
                 const fbxLoader = new FBXLoader();
+                /*
                 fbxLoader.load(
                     assets[i].obj,
                     ( obj ) => {
+                        obj.traverse(function (child) {
+                            if ( child.isMesh ) {
+
+                                texLoader.load( assets[i].tex[0], ( texture ) => {
+
+                                    child.material.map = texture;
+                                    child.material.needsupdate = true;
+                                    console.log( 'texture: ', texture );
+
+                                })
+                                child.castShadow = true;
+							    child.receiveShadow = true;
+                                //child.material = material
+                            }
+                        })
+                        // object.scale.set(.01, .01, .01)
                         scene.add( obj )
                     },
                     (xhr) => {
@@ -82,7 +100,7 @@ const profileAssetCreated = () => {
                         console.log(error)
                     }
                 )
-
+                    */
                 
                 animate();
 
