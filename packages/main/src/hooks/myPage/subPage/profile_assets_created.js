@@ -1,231 +1,100 @@
-import { UIDiv, UIH, UIUL, UILI, UIP, UIA, UIImg, UIIcon, UISpan } from "../../../libs/octaUI";
+import { UIDiv, UIH, UIUL, UILI, UIP, UIA, UIImg, UIIcon, UISpan, OctaUI } from "../../../libs/octaUI";
 import getRealData from "../../hook_getData";
 import { auth } from "../../../db/firebaseDB";
 import * as THREE from 'three';
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js';
+import { FBXLoader } from 'three/examples/jsm/loaders/FBXLoader'
 
 const profileAssetCreated = () => {
 
     const tapPane = new UIDiv().setAttr({ 'class': 'tab-pane show active', 'id': 'created-assets', 'role': 'tabpanel', 'aria-labelledby':'created-assets-tab' });
-    let row = new UIDiv().setAttr({ 'class': 'row justify-content-center gx-3 gy-2' }); // Create 세부 페이지 = class'content'와 같음;
+    let row = new UIDiv().setAttr({ 'class': 'row justify-content-center gx-3 gy-2', 'id':'subPageWrapper' }); // Create 세부 페이지 = class'content'와 같음;
+    //let canvas = new OctaUI( document.createElement('canvas') ).setAttr({ 'id':'c', 'style':`position:absolute;` });
+    tapPane.add( row );
 
     let renderer;
     const scenes = [];
 
-    init();
-    animate();
+    getRealData( 'users', auth.currentUser.uid ).then( (res) => {
 
-    //try catch finally 구문으로 실행
+            let assets = res.data().model;
 
-    function init() {
-        let assetSize = null;
-        getRealData( 'users', auth.currentUser.uid ).then( (res) => {
+            // console.log('model: ', res.data().model );
 
-            assetSize = res.data().model.length;
-
-            // temp Geometry :: remove after
-            const geometries = [
-                new THREE.BoxGeometry( 1, 1, 1 ),
-                new THREE.SphereGeometry( 0.5, 12, 8 ),
-                new THREE.DodecahedronGeometry( 0.5 ),
-                new THREE.CylinderGeometry( 0.5, 0.5, 1, 12 )
-            ];
-
-            for( let i = 0; i < assetSize; i ++ ) {
+            for( let i = 0; i < assets.length; i ++ ) {
 
                 const scene = new THREE.Scene();
 
                 //make a list item
-                let col = new UIDiv().setAttr({ 'class': 'col-lg-4 col-sm-6'}); // 각각 카드 Wraper
-                let item = new UIDiv().setAttr({ 'class': 'nft-item' }); //각각 카드
-                let inner = new UIDiv().setAttr({ 'class': 'nft-inner' });
+                let col = new UIDiv().setAttr({ 'class': 'col-lg-4 col-sm-6', }); // 각각 카드 Wraper
+                let item = new UIDiv().setAttr({ 'class': 'nft-item', 'style':'height:200px;' }); //각각 카드
+                let inner = new UIDiv().setAttr({ 'class': 'nft-inner', 'style':'height:200px;'});
 
                 // make a card title
                 let cardTitle = new UIH( 'Created Page', 4 );
-                let sceneEle = new UIDiv().setAttr({ 'class': 'nft-item-top d-flex justify-content-between align-items-center' });
+                let sceneEle = new UIDiv()
+                    .setAttr({ 
+                        'class': 'scn-asset',
+                        'style': 'border:1px solid tomato; z-index:10;height:160px;margin-top:20px;',
+                        'id':'asset-small-scene'
+                    });
+
+                scene.userData.element = sceneEle.dom;
+
+                
+                inner.add( cardTitle);
+                row.addSeq( col, item, inner );
 
                 //make THREE Scene
-                scene.userData.element = sceneEle;
+                const camera = new THREE.PerspectiveCamera( 75, (inner.dom.clientWidth*.8) / (inner.dom.clientHeight*.65), 0.1, 1000 );
+                const renderer = new THREE.WebGLRenderer();
+                renderer.setSize( inner.dom.clientWidth*.8, inner.dom.clientHeight*.65 );
 
-                const camera = new THREE.PerspectiveCamera( 50, 1, 1, 10 );
-	    		camera.position.z = 2;
-	    		scene.userData.camera = camera;
+                const light = new THREE.PointLight()
+                light.position.set(0.8, 1.4, 1.0)
+                scene.add(light)
 
-                const controls = new OrbitControls( scene.userData.camera, scene.userData.element.dom );
-	    		controls.minDistance = 2;
-	    		controls.maxDistance = 5;
-	    		controls.enablePan = false;
-	    		controls.enableZoom = false;
-	    		scene.userData.controls = controls;
+                const ambientLight = new THREE.AmbientLight()
+                scene.add(ambientLight)
 
-                const geometry = geometries[ geometries.length * Math.random() | 0 ];
+                const controls = new OrbitControls( camera, renderer.domElement );
 
-                const material = new THREE.MeshStandardMaterial( {
+                inner.dom.appendChild( renderer.domElement );
 
-                    color: new THREE.Color().setHSL( Math.random(), 1, 0.75, THREE.SRGBColorSpace ),
-                    roughness: 0.5,
-                    metalness: 0,
-                    flatShading: true
+                // const geometry = new THREE.BoxGeometry( 1, 1, 1 );
+                // const material = new THREE.MeshBasicMaterial( { color: 0x00ff00 } );
+                // const cube = new THREE.Mesh( geometry, material );
+                //scene.add( cube );
 
-                } );
+                camera.position.z = 2;
+                controls.update();
 
-                scene.add( new THREE.Mesh( geometry, material ) );
-	    		scene.add( new THREE.HemisphereLight( 0xaaaaaa, 0x444444, 3 ) );
+                const fbxLoader = new FBXLoader();
+                fbxLoader.load(
+                    assets[i].obj,
+                    ( obj ) => {
+                        scene.add( obj )
+                    },
+                    (xhr) => {
+                        console.log((xhr.loaded / xhr.total) * 100 + '% loaded')
+                    },
+                    (error) => {
+                        console.log(error)
+                    }
+                )
 
-                const light = new THREE.DirectionalLight( 0xffffff, 1.5 );
-	    		light.position.set( 1, 1, 1 );
-	    		scene.add( light );
+                
+                animate();
 
-	    		scenes.push( scene );
-
-                inner.add( cardTitle, sceneEle );
-                row.addSeq( col, item, inner  );
-
-                tapPane.add( row );
+                function animate() {
+                    requestAnimationFrame( animate );
+                    controls.update();
+                    renderer.render( scene, camera );
+                }
 
             }
 
-        });
-
-        renderer = new THREE.WebGLRenderer( { antialias: true } );
-        renderer.setClearColor( 0xffffff, 1 );
-	    renderer.setPixelRatio( window.devicePixelRatio );
-	    renderer.useLegacyLights = false;
-
-    }
-
-        function animate() {
-
-            render();
-            requestAnimationFrame( animate );
-
-        }
-
-        function render() {
-
-            console.log('render실행');
-            console.log('renderer: ', renderer);
-            renderer.setClearColor( 0xffffff );
-			renderer.setScissorTest( false );
-			renderer.clear();
-
-            renderer.setClearColor( 0xe0e0e0 );
-			renderer.setScissorTest( true );
-
-            scenes.forEach( ( scene ) => {
-
-                scene.children[ 0 ].rotation.y = Date.now() * 0.001;
-                const element = scene.userData.element.dom;
-                const rect = element.getBoundingClientRect();
-
-                const camera = scene.userData.camera;
-
-                renderer.render( scene, camera );
-
-            })
-
-        }
-
-        // let col = new UIDiv().setAttr({ 'class': 'col-lg-4 col-sm-6'}); // 각각 카드 Wraper
-        // let item = new UIDiv().setAttr({ 'class': 'nft-item' }); //각각 카드
-        // let inner = new UIDiv().setAttr({ 'class': 'nft-inner' });
-        
-        // let cardTitle = new UIH( 'Created Page', 4 );
-        // let sceneEle = new UIDiv().setAttr({ 'class': 'nft-item-top d-flex justify-content-between align-items-center' });
-        
-        let authorPart = new UIDiv().setAttr({ 'class': 'author-part' });
-        
-        let ul01 = new UIUL().setAttr({ 'class': 'author-list d-flex' });
-        let li01 = new UILI().setAttr({ 'class': 'single-author' });
-        let a01 = new UIA('#');
-        let img01 = new UIImg().setAttr({ 'src': '', 'alt': 'author-img' });
-
-        let li02 = new UILI().setAttr({ 'class': 'single-author d-flex align-items-center' });
-        let a02 = new UIA('#').setAttr({ 'class': 'veryfied' });
-        let img02 = new UIImg().setAttr({ 'src': '', 'alt': 'author-img' });
-        let h06 = new UIH('', 6 );
-        let a02_1 = new UIA('#').setTextContent('John Doe');
-
-        let morePart = new UIDiv().setAttr({ 'class': 'more-part' });
-        let dropStart = new UIDiv().setAttr({ 'class': 'dropstart' });
-        let dropA = new UIA().setAttr({ 'class': 'dropdown-toggle', 'href':'#', 'role':'button', 'data-bs-toggle':'dropdown', 'aria-expanded': 'false', 'data-bs-offset': '25,0' });
-        let icon01 = new UIIcon().setAttr({ 'class': 'icofont-flikr'});
-
-        let dropUL = new UIUL().setAttr({ 'class': 'dropdown-menu'});
-        let li03 = new UILI();
-        let a03 = new UIA().setAttr({ 'class':'dropdown-item', 'href': '#' }).setTextContent('Report');
-        let span01 = new UISpan();
-        let icon02 = new UIIcon().setAttr({ 'class': 'icofont-warning' });
-
-        let li04 = new UILI();
-        let a04 = new UIA().setAttr({ 'class':'dropdown-item', 'href': '#' }).setTextContent('Share');
-        let span02 = new UISpan();
-        let icon03 = new UIIcon().setAttr({ 'class': 'icofont-reply' })
-
-
-        // bottom
-        let itemBottom = new UIDiv().setAttr({ 'class': 'nft-item-bottom' });
-        let thumn = new UIDiv().setAttr({ 'class': 'nft-thumb' });
-        let bottomImg = new UIImg().setAttr({'src':'', 'alt':'nft-img'});
-
-        let bottomContent = new UIDiv().setAttr({ 'class': 'nft-content' });
-        let bootomH4 = new UIH('', 4 );
-        let bottmH4a = new UIA().setTextContent('Walking On Air');
-
-        let bottomItem = new UIDiv().setAttr({ 'class': 'price-like d-flex justify-content-between align-items-center' });
-        let bottomP = new UIP('Price: ').setAttr({'class':'nft-price'});
-        let bottomSpan = new UISpan().setAttr({ 'class':'yellow-color'}).setTextContent('0.34 ETH');
-        let bottoma01 = new UIA().setAttr({ 'class':'nft-like', 'href':'#' }).setTextContent('230');
-        let bottomIcon = new UIIcon().setAttr({'class':'icofont-heart'});
-
-        //load btn
-        let loadBtn = new UIDiv().setAttr({ 'class':'load-btn' });
-        let loadA01 = new UIA().setAttr({ 'href':'#', 'class':'default-btn move-bottom' });
-        let loadSpan = new UISpan().setTextContent('Load More');
-
-
-        li01.addSeq( a01, img01 );
-        a02.add( img02 );
-        h06.add( a02_1 );
-        li02.add( a02, h06 );
-        ul01.add( li01, li02 );
-        authorPart.add( ul01 );
-
-        dropA.add( icon01 );
-        li03.addSeq( a03, span01, icon02 );
-        li04.addSeq( a04, span02, icon03 );
-        dropUL.add( li03, li04 );
-        dropStart.add( dropA, dropUL );
-        morePart.add( dropStart );
-
-
-        //sceneEle.add( authorPart, morePart );
-
-        thumn.add( bottomImg );
-        bootomH4.add( bottmH4a );
-
-        bottomP.add( bottomSpan );
-        bottoma01.add( bottomIcon );
-        bottomItem.add( bottomP, bottoma01 );
-
-        bottomContent.add( bootomH4, bottomItem )
-
-        itemBottom.add( thumn, bottomContent );
-        // inner.add( cardTitle, itemTop, itemBottom );
-        // row.addSeq( col, item, inner  );
-
-        // loadBtn.addSeq( loadA01, loadSpan );
-        // tapPane.add( row, loadBtn );
-
-    
-    
-    // 1] THREE.js 모듈 설치
-    // 2] DB에서 user models의 배열 개수 불러오기 (uid 받기)
-    // 3] THREE.js 로더 불러오기 
-    // 4] scene만들기
-    // 5] renderer에 캔버스 붙이기
-    // 6] 사이즈 조절하기
-    // 7] signals 새로고침 등록하기
+    });
 
     return tapPane;
 
