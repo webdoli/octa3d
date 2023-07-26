@@ -128,7 +128,7 @@ const avatarUpload = ( data, uid, loc ) => {
     
 }
 
-function texOutput( textures, texName, uid ) {
+function texOutput( textures, texName, ext, uid ) {
 
     return new Promise( ( resolve, reject ) => {
 
@@ -138,8 +138,8 @@ function texOutput( textures, texName, uid ) {
 
             let uploadTexPath;
             ( uid ) 
-            ? uploadTexPath = `octa3d/assets/private/texture/${uid}/${Timestamp.now().toMillis()}_octaTex_${texName}`
-            : uploadTexPath = `octa3d/assets/public/texture/${Timestamp.now().toMillis()}_octaTex_${texName}`;
+            ? uploadTexPath = `octa3d/assets/private/models/${ext}/${uid}/${Timestamp.now().toMillis()}_octaTex_${texName}`
+            : uploadTexPath = `octa3d/assets/public/models/${ext}/${Timestamp.now().toMillis()}_octaTex_${texName}`;
             
             const storageRef = ref( storage, uploadTexPath );
             const texUploadTask = uploadBytesResumable( storageRef, tex );
@@ -200,7 +200,7 @@ function insertStorage( assets, uid ) {
 
                     // Texture check@ Promise return
                     if( asset.texture ) {
-                        texOutput( asset.texture, asset.name, uid )
+                        texOutput( asset.texture, asset.name, asset.ext, uid )
                             .then(( resTex ) => {
 
                                 tmpArr.push( { obj: downloadURL, tex: resTex, ext: asset.ext, name: asset.name } );
