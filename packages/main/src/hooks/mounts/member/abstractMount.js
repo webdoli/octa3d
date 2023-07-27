@@ -1,8 +1,8 @@
 class abstractMount {
     
-    constructor( url ) {
-    
-        this.url = url;       
+    constructor() {
+
+        //this.signals = signals;       
     }
     
     mount() {

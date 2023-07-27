@@ -1,7 +1,7 @@
 import { db } from "../db/firebaseDB";
-import { doc, getDoc } from "firebase/firestore";
+import { doc, getDoc, onSnapshot } from "firebase/firestore";
 
-const getData = ( collection, usrDoc ) => {
+const getRealData = ( collection, usrDoc ) => {
 
     const promiseData = new Promise( async ( resolve, reject ) => {
 
@@ -18,4 +18,4 @@ const getData = ( collection, usrDoc ) => {
 
 }
 
-export default getData
+export default getRealData

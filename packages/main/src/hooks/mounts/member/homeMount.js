@@ -1,12 +1,13 @@
 import abstractMount from "./abstractMount";
-import UserHeader from "../components/userHeader";
-import Main from "../components/main";
-import Footer from "../components/footer";
-import { hookSignout } from "./hook_signout";
+import UserHeader from "../../../components/userHeader";
+import Main from "../../../components/main";
+import Footer from "../../../components/footer";
+import { hookSignout } from "../../auth/hook_signout";
 
 export default class HomeMount extends abstractMount {
     
     constructor() {
+        console.log('홈마운트 시작');
         super();
     }
 

@@ -1,8 +1,8 @@
 import abstractMount from "./abstractMount";
-import UserHeader from "../components/userHeader";
-import Footer from "../components/footer";
+import UserHeader from "../../../components/userHeader";
+import Footer from "../../../components/footer";
 import { mount as asset_mount } from 'assets/Assets';
-import { hookSignout } from "./hook_signout";
+import { hookSignout } from "../../auth/hook_signout";
 
 export default class AssetMount extends abstractMount {
     
