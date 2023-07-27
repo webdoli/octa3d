@@ -128,20 +128,22 @@ const avatarUpload = ( data, uid, loc ) => {
     
 }
 
-function texOutput( textures, texName, ext, uid ) {
+function texOutput( textures, texName, ext, uid, secure ) {
 
     return new Promise( ( resolve, reject ) => {
 
-        let tmpTex = []; //texture arr initialize
+        let tmpTex = [];
+        
 
         for( let tex of textures ) {
 
             let uploadTexPath;
-            ( uid ) 
-            ? uploadTexPath = `octa3d/assets/private/models/${ext}/${uid}/${Timestamp.now().toMillis()}_octaTex_${texName}`
-            : uploadTexPath = `octa3d/assets/public/models/${ext}/${Timestamp.now().toMillis()}_octaTex_${texName}`;
+            ( secure === 'private' ) 
+            ? uploadTexPath = `octa3d/assets/private/models/${ext}/${uid}/${tex.name}`
+            : uploadTexPath = `octa3d/assets/public/models/${ext}/${uid}/${tex.name}`;
             
             const storageRef = ref( storage, uploadTexPath );
+            // const httpRef = ref( storage, `https://firebasestorage.googleapis.com/v0/b/octa3d-439a2.appspot.com/o/${tex.name}` )
             const texUploadTask = uploadBytesResumable( storageRef, tex );
 
             texUploadTask.on( 'state_changed', ( snapshot ) => {
@@ -155,7 +157,12 @@ function texOutput( textures, texName, ext, uid ) {
                 getDownloadURL( texUploadTask.snapshot.ref )
                     .then( (downloadURL) => {
                         console.log( 'Texture available at downloadURL: ' + downloadURL );
-                        tmpTex.push( downloadURL);
+                        let tmpObj = {}
+                        let textureName = tex.name;
+                        let textureUrl = downloadURL;
+                        tmpObj[ textureName ] = textureUrl;
+
+                        tmpTex.push( tmpObj );
 
                         if( textures.length === tmpTex.length ) resolve( tmpTex );
 
@@ -170,7 +177,7 @@ function texOutput( textures, texName, ext, uid ) {
 }
 
 
-function insertStorage( assets, uid ) {
+function insertStorage( assets, uid, secure ) {
 
     return new Promise( ( resolve, reject ) => {
 
@@ -178,9 +185,9 @@ function insertStorage( assets, uid ) {
 
         assets.map( asset => {
             let uploadAssetPath;
-            ( uid ) 
+            ( secure === 'private' ) 
             ? uploadAssetPath = `octa3d/assets/private/models/${asset.ext}/${uid}/${Timestamp.now().toMillis()}_octa_stg_${asset.name}`
-            : uploadAssetPath = `octa3d/assets/public/models/${asset.ext}/${Timestamp.now().toMillis()}_octa_stg_${asset.name}`;
+            : uploadAssetPath = `octa3d/assets/public/models/${asset.ext}/${uid}/${Timestamp.now().toMillis()}_octa_stg_${asset.name}`;
 
             const storageRef = ref( storage, uploadAssetPath );
             const uploadTask = uploadBytesResumable( storageRef, asset.file );
@@ -200,7 +207,7 @@ function insertStorage( assets, uid ) {
 
                     // Texture check@ Promise return
                     if( asset.texture ) {
-                        texOutput( asset.texture, asset.name, asset.ext, uid )
+                        texOutput( asset.texture, asset.name, asset.ext, uid, secure )
                             .then(( resTex ) => {
 
                                 tmpArr.push( { obj: downloadURL, tex: resTex, ext: asset.ext, name: asset.name } );
@@ -296,7 +303,7 @@ const assetPublicUpload = ( datas, usr ) => {
     
     if( publish === 'publish') {
         
-        insertStorage( assets )
+        insertStorage( assets, usr.uid, 'public' )
         .then( async ( res ) => {
 
             insertAssetToUserDB( res, docRef );
@@ -306,7 +313,7 @@ const assetPublicUpload = ( datas, usr ) => {
 
     } else {
 
-        insertStorage( assets, usr.uid )
+        insertStorage( assets, usr.uid, 'private' )
             .then( async ( res ) => {
 
                 insertAssetToUserDB( res, docRef );

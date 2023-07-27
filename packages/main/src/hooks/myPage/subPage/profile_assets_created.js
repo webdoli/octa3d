@@ -40,6 +40,7 @@ const profileAssetCreated = () => {
                         'id':'asset-small-scene'
                     });
 
+                scene.background = new THREE.Color(0xffffff);
                 scene.userData.element = sceneEle.dom;
 
                 
@@ -51,11 +52,24 @@ const profileAssetCreated = () => {
                 const renderer = new THREE.WebGLRenderer();
                 renderer.setSize( inner.dom.clientWidth*.8, inner.dom.clientHeight*.65 );
 
-                const light = new THREE.PointLight()
+                //Light
+                //light
+                let light = new THREE.HemisphereLight(0xffeeb1, 0x080820, 4);
+                scene.add(light);
+
+                const directionalLight = new THREE.DirectionalLight(0xffa95c, 5);
+                directionalLight.position.set(-50, 50, 50);
+                directionalLight.castShadow = true;
+                directionalLight.shadow.bias = -0.0001;
+                directionalLight.shadow.mapSize.width = 1024 * 4; // default
+                directionalLight.shadow.mapSize.height = 1024 * 4; // default
+                scene.add(directionalLight);
+
+                light = new THREE.PointLight()
                 light.position.set(0.8, 1.4, 1.0)
                 scene.add(light)
 
-                const ambientLight = new THREE.AmbientLight()
+                const ambientLight = new THREE.AmbientLight( 0xffffff );
                 scene.add(ambientLight)
 
                 const controls = new OrbitControls( camera, renderer.domElement );
@@ -70,21 +84,47 @@ const profileAssetCreated = () => {
                 camera.position.z = 2;
                 controls.update();
 
-                const fbxLoader = new FBXLoader();
-                /*
+                var urlMap = [];
+                var manager = new THREE.LoadingManager();
+                manager.setURLModifier( function( url ) {
+
+
+                    // this function is called for each asset request
+                    if ( url.split('.').pop() === ('jpg' || 'png' || 'gif' || 'jpeg' || 'tif') ) {
+                        
+                        let key = url.split('/').pop();
+
+                        assets[i].tex.map( item => { 
+                            
+                            Object.keys( item ).map( texTitle => { if( texTitle === key ) url = item[key]})
+                            
+                        })
+                    }
+
+                    // assets[i].tex
+                
+                    return url;
+                
+                } );
+
+                const fbxLoader = new FBXLoader( manager );
+
+                // fbxLoader.setResourcePath('https://firebasestorage.googleapis.com/v0/b/octa3d-439a2.appspot.com/o/');
+                
                 fbxLoader.load(
                     assets[i].obj,
                     ( obj ) => {
                         obj.traverse(function (child) {
+
                             if ( child.isMesh ) {
 
-                                texLoader.load( assets[i].tex[0], ( texture ) => {
+                                // texLoader.load( assets[i].tex[0], ( texture ) => {
 
-                                    child.material.map = texture;
-                                    child.material.needsupdate = true;
-                                    console.log( 'texture: ', texture );
+                                //     child.material.map = texture;
+                                //     child.material.needsupdate = true;
+                                //     console.log( 'texture: ', texture );
 
-                                })
+                                // })
                                 child.castShadow = true;
 							    child.receiveShadow = true;
                                 //child.material = material
@@ -100,7 +140,7 @@ const profileAssetCreated = () => {
                         console.log(error)
                     }
                 )
-                    */
+                
                 
                 animate();
 

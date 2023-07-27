@@ -385,7 +385,7 @@ const profileAssetUpload = ( signals ) => {
                                 let tmpTexArr= [];
                             
                                 files.assetTex.map( tex => {
-
+                                    
                                     let texName = tex.name.split('.').shift();
                                     if( texName.includes( fileName ) ) tmpTexArr.push( tex );
                                     // if( texName.includes( fileName ) ) resObj.assets.map( data => data.texture.add( tex ) )                                       
