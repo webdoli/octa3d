@@ -58,14 +58,20 @@ const profileAssetCreated = () => {
 
                 pageUL.add( pagePrevItem );
                 
-
                 for( let i = 1; i <= lastPage; i++ ) {
                     let pageItem = new UILI().setAttr({ 'class':'page-item' });
                     let pageLink = new UIA().setAttr({ 'class':'page-link', 'href':'#'}).setTextContent( i );
+                    pageLink.dom.addEventListener('click', e => {
+                        e.preventDefault();
+                        curPage = parseInt(e.target.textContent);
+                        startNum = (curPage * pageSize) - pageSize;
+                        lastNum = ( lastPage === curPage ) ? assets.length : curPage * pageSize;
+                        row.clear();
+                        pageLoading( startNum, lastNum, assets );
+                        
+                    })
                     pageItem.add( pageLink );
                     pageUL.add( pageItem );
-                    //nextPage.dom.after( pageItem.dom );
-                    
                 }
 
                 pageUL.add( pageNextItem );
@@ -75,7 +81,8 @@ const profileAssetCreated = () => {
             function pageLoading( startNum, lastNum, assets ) {
                 // for( let i = 0; i < assets.length; i ++ ) {
                 for( let i = startNum; i < lastNum; i ++ ) {
-
+                    console.log('시작 넘버: ', startNum );
+                    console.log('마지막 넘버: ', lastNum );
                     const scene = new THREE.Scene();
                     const texLoader = new THREE.TextureLoader();
 
