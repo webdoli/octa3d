@@ -1,4 +1,4 @@
-import { UIDiv, UIH, UIUL, UILI, UIP, UIA, UIImg, UIIcon, UISpan, OctaUI } from "../../../libs/octaUI";
+import { UIDiv, UIH, UIUL, UILI, UIP, UIA, UIImg, UIIcon, UISpan, OctaUI, UIButton } from "../../../libs/octaUI";
 import getRealData from "../../hook_getData";
 import { auth } from "../../../db/firebaseDB";
 import * as THREE from 'three';
@@ -59,6 +59,7 @@ const profileAssetCreated = () => {
                 pageUL.add( pagePrevItem );
                 
                 for( let i = 1; i <= lastPage; i++ ) {
+
                     let pageItem = new UILI().setAttr({ 'class':'page-item' });
                     let pageLink = new UIA().setAttr({ 'class':'page-link', 'href':'#'}).setTextContent( i );
                     pageLink.dom.addEventListener('click', e => {
@@ -81,30 +82,148 @@ const profileAssetCreated = () => {
             function pageLoading( startNum, lastNum, assets ) {
                 // for( let i = 0; i < assets.length; i ++ ) {
                 for( let i = startNum; i < lastNum; i ++ ) {
+
                     console.log('시작 넘버: ', startNum );
                     console.log('마지막 넘버: ', lastNum );
+
                     const scene = new THREE.Scene();
-                    const texLoader = new THREE.TextureLoader();
 
                     //make a list item
                     let col = new UIDiv().setAttr({ 'class': 'col-lg-4 col-sm-6', }); // 각각 카드 Wraper
                     let item = new UIDiv().setAttr({ 'class': 'nft-item', 'style':'height:200px;' }); //각각 카드
-                    let inner = new UIDiv().setAttr({ 'class': 'nft-inner', 'style':'height:200px;'});
+                    let inner = new UIDiv().setAttr({ 
+                        'class': 'z-1 nft-inner dropdown', 'style':'height:200px;'});
+                    
+                    let assetIconCSS = new OctaUI( document.createElement('style') );
+                        assetIconCSS.setTextContent( `
+                            #assetIconNav {
+                                background-color: #fff;
+                                padding: 0px;
+                                height: 0%;
+                                opacity: 0;
+                                display: flex;
+                                flex-direction: column;
+                                align-items: start;
+                                justify-content: start;
+                                border-radius: 3px;
+                                box-shadow: 0 2px 5px rgba(0, 0, 0, .3);
+                                transition:height .1s linear;
+                                margin: 0;
+                                box-sizing:border-box;
+                            }
+
+                            #assetIconNav.active {
+                                top:50px;
+                                transform: translateX(15px);
+                                opacity: 1;
+                                padding: 3px;
+                                height:29%;
+                                width:24%;
+                                right:0;
+                            }
+
+                            #assetIconNav ul {
+                                display: flex;
+                                flex-direction: column;
+                                list-style-type: none;
+                                padding: 0;
+                                margin: 0;
+                                width: 0;
+                                transition: height 0.2s linear;
+                            }
+
+                            #assetIconNav.active ul {
+                                height: 100%;
+                            }
+
+                            #assetIconNav ul li {
+                                transform: rotateY(0deg);
+                                opacity: 0;
+                                transition: transform 0.5s linear, opacity 0.5s linear;
+                            }
+
+                            #assetIconNav.active ul li {
+                                opacity: 1;
+                            }
+
+                            #assetIconNav ul a {
+                                position: relative;
+                                color: #000;
+                                text-decoration: none;
+                                margin: 0;
+                            }
+                        `)
+                    let titleWrap = new UIDiv().setAttr({ 'class':'titleWrap', 'style':'display:flex;justify-content:space-between;margin-bottom:15px;'});
+
+                    let assetIconNav = new OctaUI( document.createElement('nav') ).setAttr({
+                        'id':'assetIconNav',
+                        'style':'position:absolute'
+                    });
+                    let iconNavUL = new UIUL();
+                    
+                    let iconNavLi01 = new UILI();
+                    let iconNaviLi01Link = new UIA().setAttr({ 'href':'#', 'style':'color:#040b29;font-size:.8em;' }).setTextContent('Edit');
+                    iconNavLi01.add( iconNaviLi01Link );
+
+                    let iconNavLi02 = new UILI();
+                    let iconNaviLi02Link = new UIA().setAttr({ 'href':'#', 'style':'color:#040b29;font-size:.8em;' }).setTextContent('Delete');
+                    iconNavLi02.add( iconNaviLi02Link );
+
+                    let iconToggleBtnWrap = new UIButton().setAttr({ 'class':'icon', 'id':'toggle', 'style':'border-radius:5px;background-color:#1a203c;color:white;' });
+                    let iconAssetEdit = new UIIcon().setAttr({ 'class':'bi bi-three-dots-vertical' });
+
+                    iconToggleBtnWrap.dom.addEventListener('click', (e) => {
+                        assetIconNav.dom.classList.toggle('active');
+                    })
+                    
+                    iconToggleBtnWrap.add( iconAssetEdit );
+
+                    iconNavUL.add( iconNavLi01, iconNavLi02 );
+                    assetIconNav.add( iconNavUL );
+                    
+                    // let iconWrap = new UIDiv().setAttr({ 'class':'btn-group'});
+                    // let dropdownBtn = new UIButton().setAttr({ 
+                    //     'type':'button', 'class':'btn btn-secondary btn-sm dropdown-toggle',
+                    //     'data-bs-toggle':'dropdown', 'aria-expanded':'false' 
+                    // });
+
+                    // let editUL = new UIUL().setAttr({ 'class':'dropdown-menu', 'style':'width:30px !important;border:2px solid red;' });
+
+                    // let editLi01 = new UILI();
+                    // let editLi01A01 = new UIA().setAttr({ 'class':'dropdown-item', 'href':'#' });
+                    // let editLi01A01Icon = new UIIcon().setAttr({ 'class':'fas fa-user-alt pe-2' }).setTextContent('Edit');
+                    // editLi01.addSeq( editLi01A01, editLi01A01Icon );
+
+                    // let editLi02 = new UILI();
+                    // let editLi02A01 = new UIA().setAttr({ 'class':'dropdown-item', 'href':'#' });
+                    // let editLi02A01Icon = new UIIcon().setAttr({ 'class':'fas fa-cog pe-2' }).setTextContent('Delete');
+                    // editLi02.addSeq( editLi02A01, editLi02A01Icon );
+
+                    // let editLi03 = new UILI();
+                    // let editLi03A01 = new UIA().setAttr({ 'class':'dropdown-item', 'href':'#' });
+                    // let editLi03A01Icon = new UIIcon().setAttr({ 'class':'fas fa-door-open pe-2' }).setTextContent('Pick');
+                    // editLi03.addSeq( editLi03A01, editLi03A01Icon );
+
+                    // editUL.add( editLi01, editLi02, editLi03 );
+                    // iconWrap.add( dropdownBtn, editUL );
+
+                    
 
                     // make a card title
                     let cardTitle = new UIH( assets[i].name , 7 );
                     let sceneEle = new UIDiv()
                         .setAttr({ 
                             'class': 'scn-asset',
-                            'style': 'border:1px solid tomato; z-index:10;height:160px;margin-top:20px;',
+                            'style': 'z-index:10;height:160px;margin-top:20px;',
                             'id':'asset-small-scene'
                         });
+
 
                     scene.background = new THREE.Color(0xffffff);
                     scene.userData.element = sceneEle.dom;
 
-                    
-                    inner.add( cardTitle);
+                    titleWrap.add( cardTitle, iconToggleBtnWrap );
+                    inner.add( assetIconCSS, titleWrap, assetIconNav );
                     row.addSeq( col, item, inner );
 
                     //make THREE Scene
