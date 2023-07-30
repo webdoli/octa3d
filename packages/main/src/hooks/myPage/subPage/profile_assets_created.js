@@ -5,7 +5,7 @@ import * as THREE from 'three';
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js';
 import { FBXLoader } from 'three/examples/jsm/loaders/FBXLoader'
 
-const profileAssetCreated = () => {
+const profileAssetCreated = ( signals ) => {
 
     const tapPane = new UIDiv().setAttr({ 'class': 'tab-pane show active', 'id': 'created-assets', 'role': 'tabpanel', 'aria-labelledby':'created-assets-tab' });
     let row = new UIDiv().setAttr({ 'class': 'row justify-content-center gx-3 gy-2', 'id':'subPageWrapper' }); // Create 세부 페이지 = class'content'와 같음;
@@ -152,6 +152,15 @@ const profileAssetCreated = () => {
                                 text-decoration: none;
                                 margin: 0;
                             }
+
+                            .assetEditIcon {
+                                padding: 5px 10px;
+                            }
+
+                            .assetEditIcon:hover {
+                                border-radius:3px;
+                                background-color: #e7e3c6;
+                            }
                         `)
                     let titleWrap = new UIDiv().setAttr({ 'class':'titleWrap', 'style':'display:flex;justify-content:space-between;margin-bottom:15px;'});
 
@@ -162,8 +171,12 @@ const profileAssetCreated = () => {
                     let iconNavUL = new UIUL();
                     
                     let iconNavLi01 = new UILI();
-                    let iconNaviLi01Link = new UIA().setAttr({ 'href':'#', 'style':'color:#040b29;font-size:.8em;' }).setTextContent('Edit');
+                    let iconNaviLi01Link = new UISpan().setAttr({ 'class':'assetEditIcon', 'style':'color:#040b29;font-size:.8em;cursor:pointer;' }).setTextContent('Edit');
                     iconNavLi01.add( iconNaviLi01Link );
+
+                    iconNaviLi01Link.dom.addEventListener('click', (e) => {
+                        console.log('doc name: ', assets[i].docName );
+                    })
 
                     let iconNavLi02 = new UILI();
                     let iconNaviLi02Link = new UIA().setAttr({ 'href':'#', 'style':'color:#040b29;font-size:.8em;' }).setTextContent('Delete');
@@ -174,6 +187,14 @@ const profileAssetCreated = () => {
 
                     iconToggleBtnWrap.dom.addEventListener('click', (e) => {
                         assetIconNav.dom.classList.toggle('active');
+                    });
+
+                    window.addEventListener('click', e => {
+                        if( iconToggleBtnWrap.dom.contains( e.target ) ) {
+                            e.preventDefault();
+                        } else {
+                            assetIconNav.dom.className = 'icon'; 
+                        }
                     })
                     
                     iconToggleBtnWrap.add( iconAssetEdit );

@@ -20,6 +20,7 @@ const profileAssetUpload = ( signals ) => {
     //signals
     signals.myAssetUpload.add( ( assets ) => {
         console.log('3D Asset upload start: ', assets );
+        
     });
 
     let UsrAssetFiles = null;

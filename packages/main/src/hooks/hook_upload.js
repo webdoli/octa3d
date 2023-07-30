@@ -1,6 +1,6 @@
 import { ref, uploadBytesResumable, getDownloadURL } from "firebase/storage";
 import { db, storage, timestamp } from "../db/firebaseDB";
-import { Timestamp, arrayUnion, doc, setDoc, updateDoc } from "firebase/firestore";
+import { Timestamp, arrayUnion, doc, setDoc, updateDoc, collection, addDoc } from "firebase/firestore";
 
 const coverUpload = ( data, uid, loc ) => {
 
@@ -226,10 +226,12 @@ function insertStorage( assets, uid, secure ) {
     
 }
 
-async function insertAssetToUserDB ( res, docRef ) {
+async function insertAssetToUserDB ( res, docRef, docName ) {
     try {
         res.map( async (usrObj) => {
-            
+
+            usrObj.docName = await docName;
+
             await updateDoc( docRef, {
                 model: arrayUnion( usrObj )
             });
@@ -267,16 +269,28 @@ async function makeAssetRTServer ( res, usr, assetDB, datas ) {
     })
 
     try {
+
+        const docRef = await addDoc( 
+            collection( 
+                db, 
+                'models'
+            ), 
+            assetDB
+        );
+
+        // console.log('docRef: ', docRef.id );
     
-        await setDoc( 
+        await setDoc(
             doc( 
                 db, 
                 'models', 
-                `${ Timestamp.now().toMillis() }_octa3dPublicModels_${assetsNames}`
+                `${ docRef.id }`
             ), 
-            assetDB, 
+            { documentName: docRef.id }, 
             { merge: true }
-        )
+        );
+
+        insertAssetToUserDB( res, doc( db, 'users', usr.uid ), docRef.id );
     
     } catch (e) {
     
@@ -306,7 +320,7 @@ const assetPublicUpload = ( datas, usr ) => {
         insertStorage( assets, usr.uid, 'public' )
         .then( async ( res ) => {
 
-            insertAssetToUserDB( res, docRef );
+            // insertAssetToUserDB( res, docRef );
             makeAssetRTServer( res, usr, assetDB, datas );
 
         });
@@ -316,7 +330,7 @@ const assetPublicUpload = ( datas, usr ) => {
         insertStorage( assets, usr.uid, 'private' )
             .then( async ( res ) => {
 
-                insertAssetToUserDB( res, docRef );
+                // insertAssetToUserDB( res, docRef );
                 makeAssetRTServer( res, usr, assetDB, datas );
 
             });
