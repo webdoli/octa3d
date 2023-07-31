@@ -176,7 +176,7 @@ const profileAssetCreated = ( signals ) => {
 
                     iconNaviLi01Link.dom.addEventListener('click', (e) => {
                         
-                        signals.assetUploadUpdate.dispatch( assets[i].docName );
+                        signals.assetUploadUpdate.dispatch( assets[i].docID );
                         signals.assetEditMode.dispatch();
                     })
 

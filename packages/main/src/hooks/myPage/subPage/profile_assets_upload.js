@@ -313,7 +313,7 @@ const profileAssetUpload = ( signals ) => {
 
     function dbUpload( data ) {
         console.log('data upload: ', data );
-        assetPublicUpload( data, auth.currentUser.uid, )
+        assetPublicUpload( data, auth.currentUser.uid )
     }
 
     function alertOutline( ele, text ) {
@@ -406,8 +406,8 @@ const profileAssetUpload = ( signals ) => {
     }
 
     //signals
-    // signals.assetUploadUpdate.add( ( docName ) => {
-    //     console.log('asset upload reset: ', docName )
+    // signals.assetUploadUpdate.add( ( docID ) => {
+    //     console.log('asset upload reset: ', docID )
     //     while ( tabPane.dom.firstChild ) {
     //         tabPane.dom.removeChild( tabPane.dom.firstChild );
     //     }

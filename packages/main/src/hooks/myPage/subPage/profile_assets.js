@@ -81,9 +81,9 @@ const profileAssetPage = ( signals ) => {
     container.addSeq( row, article, activeTab );
 
     //signals
-    signals.assetUploadUpdate.add( ( docName ) => {
-        console.log('asset upload reset: ', docName );
-        tabContent.add( profileAssetEdit( signals, docName ) )
+    signals.assetUploadUpdate.add( ( docID ) => {
+        console.log('asset upload reset: ', docID );
+        tabContent.add( profileAssetEdit( signals, docID ) )
         li01.dom.remove();
         topUL.dom.insertBefore( li04.dom, topUL.dom.firstChild );
         // while ( tabPane.dom.firstChild ) {

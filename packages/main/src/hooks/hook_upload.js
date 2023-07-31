@@ -1,6 +1,6 @@
-import { ref, uploadBytesResumable, getDownloadURL } from "firebase/storage";
+import { ref, uploadBytesResumable, getDownloadURL, deleteObject, getStorage } from "firebase/storage";
 import { db, storage, timestamp } from "../db/firebaseDB";
-import { Timestamp, arrayUnion, doc, setDoc, updateDoc, collection, addDoc } from "firebase/firestore";
+import { Timestamp, arrayUnion, doc, getDoc, setDoc, updateDoc, query, where, getDocs, collection, addDoc } from "firebase/firestore";
 
 const coverUpload = ( data, uid, loc ) => {
 
@@ -139,8 +139,8 @@ function texOutput( textures, texName, ext, uid, secure ) {
 
             let uploadTexPath;
             ( secure === 'private' ) 
-            ? uploadTexPath = `octa3d/assets/private/models/${ext}/${uid}/${tex.name}`
-            : uploadTexPath = `octa3d/assets/public/models/${ext}/${uid}/${tex.name}`;
+            ? uploadTexPath = `octa3d/assets/private/models/${ext}/texture/${tex.name}`
+            : uploadTexPath = `octa3d/assets/public/models/${ext}/texture/${tex.name}`;
             
             const storageRef = ref( storage, uploadTexPath );
             // const httpRef = ref( storage, `https://firebasestorage.googleapis.com/v0/b/octa3d-439a2.appspot.com/o/${tex.name}` )
@@ -186,8 +186,8 @@ function insertStorage( assets, uid, secure ) {
         assets.map( asset => {
             let uploadAssetPath;
             ( secure === 'private' ) 
-            ? uploadAssetPath = `octa3d/assets/private/models/${asset.ext}/${uid}/${Timestamp.now().toMillis()}_octa_stg_${asset.name}`
-            : uploadAssetPath = `octa3d/assets/public/models/${asset.ext}/${uid}/${Timestamp.now().toMillis()}_octa_stg_${asset.name}`;
+            ? uploadAssetPath = `octa3d/assets/private/models/${asset.ext}/${Timestamp.now().toMillis()}_octa_stg_${asset.name}`
+            : uploadAssetPath = `octa3d/assets/public/models/${asset.ext}/${Timestamp.now().toMillis()}_octa_stg_${asset.name}`;
 
             const storageRef = ref( storage, uploadAssetPath );
             const uploadTask = uploadBytesResumable( storageRef, asset.file );
@@ -226,15 +226,41 @@ function insertStorage( assets, uid, secure ) {
     
 }
 
-async function insertAssetToUserDB ( res, docRef, docName ) {
+async function insertAssetToUserDB ( res, docRef, docID, update ) {
     try {
         res.map( async (usrObj) => {
 
-            usrObj.docName = await docName;
+            usrObj.docID = await docID;
+            
+            if( update === 'update' ) {
+                console.log('3) Update @@ insrtAssetToUserDB 업데이트 ');
+                const q = query( collection(db, 'users'), where( "model", "==", true ));
+                const querySnapshot = await getDocs( q );
 
-            await updateDoc( docRef, {
-                model: arrayUnion( usrObj )
-            });
+                console.log( 'usrObj: ', usrObj );
+
+                console.log('쿼리 querySnapshot 결과값: ', querySnapshot );
+                querySnapshot.forEach( doc => {
+                    console.log('쿼리 doc: ', doc );
+
+                    doc.data().map( (asset, index) => {
+                        let docInID = Object.values( asset )
+                        if (docInID === docID ) asset[index] = usrObj; 
+                    //     console.log( 'asset: ', asset[index] );
+
+                        // if( asset.docID === docID ) {
+                        //     asset[index] = usrObj
+                        // }
+                    })
+                })
+                // user.model에서 docID와 같은 model을 배열에서 찾음
+                // 해당 배열에 덮어쓰기
+            } else if( update === 'create' ){
+                console.log('3) Create @@ insrtAssetToUserDB');
+                await updateDoc( docRef, {
+                    model: arrayUnion( usrObj )
+                });
+            }
 
         })
     
@@ -249,7 +275,7 @@ async function insertAssetToUserDB ( res, docRef, docName ) {
     }
 }
 
-async function makeAssetRTServer ( res, usr, assetDB, datas ) {
+async function makeAssetRTServer ( res, usr, assetDB, datas, updateDocUID ) {
 
     let { title, assets, description, field, madeBy, publish, texIn, rigIn } = datas;
 
@@ -269,28 +295,51 @@ async function makeAssetRTServer ( res, usr, assetDB, datas ) {
     })
 
     try {
+        if( updateDocUID ) {
+            console.log('2) Update makeAssetRTServer, docID: ', updateDocUID );
+            //docID 경로에서 기존 Storage에 있는 파일 모두 삭제 
+            const storage = getStorage();
+            const docRef = doc( db, 'models', updateDocUID );
+            const docSnap = await getDoc( docRef );
 
-        const docRef = await addDoc( 
-            collection( 
-                db, 
-                'models'
-            ), 
-            assetDB
-        );
+            if( docSnap.exists() ) {
+                let removeModelUrl = docSnap.data().model.map( item => {
+                    if( item.obj ) {
 
-        // console.log('docRef: ', docRef.id );
-    
-        await setDoc(
-            doc( 
-                db, 
-                'models', 
-                `${ docRef.id }`
-            ), 
-            { documentName: docRef.id }, 
-            { merge: true }
-        );
+                        const desertRef = ref( storage, item.obj );
+                        deleteObject( desertRef ).then( () => {
+                            console.log( 'Storage 파일 삭제' );
+                        }).catch( err => console.log('파일삭제 Err: ', err ))
+                    }
 
-        insertAssetToUserDB( res, doc( db, 'users', usr.uid ), docRef.id );
+                    if( item.tex ) {
+                        item.tex.map( texture => {
+                            let value = Object.values( texture )[0];
+                            const desertRef = ref( storage, value );
+                            deleteObject( desertRef ).then( () => {
+                                console.log( 'Storage 텍스처 삭제' );
+                            }).catch( err => console.log('파일삭제 Err: ', err ))
+                        })
+                    }
+                })  
+            }
+
+            await updateDoc( docRef, assetDB );
+            insertAssetToUserDB( res, doc( db, 'users', usr.uid ), updateDocUID, 'update' );
+
+        } else {
+            console.log('2) Create makeAssetRTServer docID');
+            const docRef = await addDoc( collection( db, 'models' ), assetDB );
+            await setDoc(
+                doc( db, 'models', `${ docRef.id }` ), 
+                { docID: docRef.id }, 
+                { merge: true }
+            );
+
+            insertAssetToUserDB( res, doc( db, 'users', usr.uid ), docRef.id, 'create' );
+
+        }
+        
     
     } catch (e) {
     
@@ -299,21 +348,21 @@ async function makeAssetRTServer ( res, usr, assetDB, datas ) {
     } finally {
     
         console.log('asset to Storage Cleanup here'); // cleanup, always executed
-        window.location.href= '/mypage';
+        //@ window.location.href= '/mypage';
         // created 페이지 생성 signal dispatch 실행
     }
 }
 
 
-const assetPublicUpload = ( datas, usr ) => {
+const assetPublicUpload = ( datas, usr, update ) => {
     
     let { assets, publish } = datas;
     let docRef = doc( db, 'users', usr.uid );
-
     let assetDB = {
         uid: usr.uid, //이메일 변경
         model: null
     }
+    let updateDocID = ( update ) ? update : '';
     
     if( publish === 'publish') {
         
@@ -321,7 +370,7 @@ const assetPublicUpload = ( datas, usr ) => {
         .then( async ( res ) => {
 
             // insertAssetToUserDB( res, docRef );
-            makeAssetRTServer( res, usr, assetDB, datas );
+            makeAssetRTServer( res, usr, assetDB, datas, updateDocID );
 
         });
 
