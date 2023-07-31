@@ -36,6 +36,8 @@ const signals = {
     myAssetUpload: new Signal(),
     profileSubpageReset: new Signal(),
     resetAboutPage: new Signal(),
+    assetUploadUpdate: new Signal(),
+    assetEditMode: new Signal(),
     testAlert: new Signal(),
 };
 

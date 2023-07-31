@@ -175,7 +175,9 @@ const profileAssetCreated = ( signals ) => {
                     iconNavLi01.add( iconNaviLi01Link );
 
                     iconNaviLi01Link.dom.addEventListener('click', (e) => {
-                        console.log('doc name: ', assets[i].docName );
+                        
+                        signals.assetUploadUpdate.dispatch( assets[i].docName );
+                        signals.assetEditMode.dispatch();
                     })
 
                     let iconNavLi02 = new UILI();
