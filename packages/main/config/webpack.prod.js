@@ -16,7 +16,7 @@ const prodConfig = {
     },
     plugins: [
         new ModuleFederationPlugin({
-            name: 'container',
+            name: 'main',
             remotes: {
                 assets: `assets@${assetsDomain}/remoteEntry.js`
             },
