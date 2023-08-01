@@ -1,6 +1,6 @@
 import { ref, uploadBytesResumable, getDownloadURL, deleteObject, getStorage } from "firebase/storage";
 import { db, storage, timestamp } from "../db/firebaseDB";
-import { Timestamp, arrayUnion, doc, getDoc, setDoc, updateDoc, query, where, getDocs, collection, addDoc } from "firebase/firestore";
+import { Timestamp, arrayUnion, doc, getDoc, setDoc, deleteDoc, updateDoc, query, where, getDocs, collection, addDoc } from "firebase/firestore";
 
 const coverUpload = ( data, uid, loc ) => {
 
@@ -233,24 +233,33 @@ async function insertAssetToUserDB ( res, docRef, docID, update ) {
             usrObj.docID = await docID;
             
             if( update === 'update' ) {
-                console.log('3) Update @@ insrtAssetToUserDB 업데이트 ');
-                const q = query( collection(db, 'users'), where( "model", "==", true ));
-                const querySnapshot = await getDocs( q );
 
-                console.log( 'usrObj: ', usrObj );
+                let models;
+                console.log('3) Update @@ insrtAssetToUserDB 업데이트, models: ', models);
+                
+                const docs = await getDoc( docRef );
 
-                console.log('쿼리 querySnapshot 결과값: ', querySnapshot );
-                querySnapshot.forEach( doc => {
-                    console.log(doc.id, " => ", doc.data());
+                if( docs.exists() ) {
+                    models = await docs.data().model;
+                    models.map( (asset, idx) => {
+                        if( asset.docID === docID ) {
+                            console.log('덮어쓸 모델 찾음: ', asset.name, 'assets: ', models[idx] );
+                            models[idx] = usrObj;
+                        }
+                    });
+                };
 
-                    // doc.data().map( (asset, index) => {
-                        // let docInID = Object.values( asset )
-                        // if (docInID === docID ) asset[index] = usrObj; 
-                    
-                    // })
+                console.log('Last models: ', models );
+                updateDoc( docRef, {
+                    model: models 
                 })
-                // user.model에서 docID와 같은 model을 배열에서 찾음
-                // 해당 배열에 덮어쓰기
+                .then( res => {
+                    console.log( 'user Model update Complete@@ res: ', res );
+                })
+                .catch( err => {
+                    console.log( 'user Model update err occured: ', err );
+                })
+                
             } else if( update === 'create' ){
                 console.log('3) Create @@ insrtAssetToUserDB');
                 await updateDoc( docRef, {
@@ -344,7 +353,7 @@ async function makeAssetRTServer ( res, usr, assetDB, datas, updateDocUID ) {
     } finally {
     
         console.log('asset to Storage Cleanup here'); // cleanup, always executed
-        //@ window.location.href= '/mypage';
+        window.location.href= '/mypage';
         // created 페이지 생성 signal dispatch 실행
     }
 }
@@ -384,22 +393,108 @@ const assetPublicUpload = ( datas, usr, update ) => {
     
 }
 
+const deleteAsset = ( uid, docID ) => {
+    console.log('해당 asset 삭제:', docID, 'uid: ', uid );
+    let userDocRef = doc( db, 'users', uid )
+
+    async function deleteData() {
+
+        try {
+            // 1)firestore models 삭제
+            await deleteDoc( doc( db, 'models', docID ) );
+
+            //2)user 모델 삭제
+            let models;
+            const docs = await getDoc( userDocRef );
+
+            if( docs.exists() ) {
+                models = await docs.data().model;
+                models.map( (asset, idx) => {
+                    if( asset.docID === docID ) {
+                        
+                        console.log('삭제할 모델 찾음: ', asset.name, 'assets: ', models[idx] );
+                        
+                        //3)storage 삭제
+                        const desertRef = ref( storage, asset.obj );
+                        
+                        deleteObject( desertRef ).then( () => {
+                            console.log( 'Asset Storage 파일 삭제' );
+                        }).catch( err => console.log('파일삭제 Err: ', err ));
+
+                        if( asset.tex ) {
+                            asset.tex.map( texture => {
+                                let value = Object.values( texture )[0];
+                                const desertRef = ref( storage, value );
+                                deleteObject( desertRef ).then( () => {
+                                    console.log( 'Storage 텍스처 삭제' );
+                                }).catch( err => console.log('파일삭제 Err: ', err ))
+                            })
+                        }
+
+                        models.splice( idx, 1 )
+                    }
+                });
+            };
+
+            updateDoc( userDocRef, {
+                model: models 
+            })
+            .then( res => {
+                console.log( 'user Model update Complete@@ res: ', res );
+                window.location.href= '/mypage';
+            })
+            .catch( err => {
+                console.log( 'user Model update err occured: ', err );
+            })
+
+        }
+        catch(err) {
+
+        }
+        finally{
+            console.log('@@ Asset 삭제 완료 @@')
+        }
+    }
+
+    deleteData();
+    
+}
+
 const firebaseQueryTest = async ( datas, usr, docID ) => {
 
-    const q = query( collection( db, 'users'), where( "id", "==", true ));
-    const querySnapshot = await getDocs( q );
+    const docRef = doc( db, 'users', usr.uid );
+    const docs = await getDoc( docRef );
 
-    console.log('쿼리 querySnapshot 결과값: ', querySnapshot );
+    if( docs.exists() ) {
+
+        let models = await docs.data().model;
+        models.map( (asset, idx) => {
+            if( asset.docID === docID ) {
+                console.log('덮어쓸 모델 찾음: ', asset.name, 'assets: ', models[idx] );
+                models[idx] = arr
+            }
+        });
+
+        updateDoc( docRef, models )
+            .then( res => {
+                console.log('user Model update Complete! res: ', res );
+            })  
+            .catch( err => {
+                console.log( err );
+            })
+
+    }
+    
             
-    querySnapshot.forEach( doc => {
-        console.log(doc.id, " => ", doc.data());
+    // querySnapshot.forEach( doc => {
+    //     console.log(doc.id, " => ", doc.data());
         // doc.data().map( (asset, index) => {
             // let docInID = Object.values( asset )
             // if (docInID === docID ) asset[index] = usrObj; 
         
         // })
-    })
+    // })
 }
 
 
-export { coverUpload, avatarUpload, assetPublicUpload, firebaseQueryTest }
+export { coverUpload, avatarUpload, assetPublicUpload, deleteAsset, firebaseQueryTest }

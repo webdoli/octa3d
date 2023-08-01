@@ -298,7 +298,7 @@ const profileAssetEdit = ( signals, docUID ) => {
 
             //formWrap last:: submit btn
             let submitDiv = new UIDiv().setAttr({'class':'submit-btn-field text-center'});
-            let submitBtn = new UIButton('Create Item').setAttr({ 'type':'button' });
+            let submitBtn = new UIButton('Edit').setAttr({ 'type':'button' });
             submitDiv.add( submitBtn );
 
             // form inner06:: 
@@ -364,8 +364,8 @@ const profileAssetEdit = ( signals, docUID ) => {
                         rigIn: formWrap05Col03Slc.dom.value
                     }).then( file => {
 
-                        //assetPublicUpload( file, auth.currentUser, docID );
-                        firebaseQueryTest( file, auth.currentUser, docID );
+                        assetPublicUpload( file, auth.currentUser, docID );
+                        // firebaseQueryTest( file, auth.currentUser, docID );
 
                     })
 

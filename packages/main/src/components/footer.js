@@ -110,7 +110,7 @@ const Footer = () => {
                 <div class="copyright">
                     <p>
                         Copyright © 2023
-                        <a href="#">Liti</a> All Rights Reserved
+                        <a href="#">CGHUB</a> All Rights Reserved
                     </p>
                 </div>
             </div>

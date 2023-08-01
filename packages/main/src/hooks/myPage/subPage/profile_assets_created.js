@@ -3,7 +3,8 @@ import getRealData from "../../hook_getData";
 import { auth } from "../../../db/firebaseDB";
 import * as THREE from 'three';
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js';
-import { FBXLoader } from 'three/examples/jsm/loaders/FBXLoader'
+import { FBXLoader } from 'three/examples/jsm/loaders/FBXLoader';
+import { deleteAsset } from "../../hook_upload";
 
 const profileAssetCreated = ( signals ) => {
 
@@ -181,8 +182,12 @@ const profileAssetCreated = ( signals ) => {
                     })
 
                     let iconNavLi02 = new UILI();
-                    let iconNaviLi02Link = new UIA().setAttr({ 'href':'#', 'style':'color:#040b29;font-size:.8em;' }).setTextContent('Delete');
+                    let iconNaviLi02Link = new UISpan().setAttr({ 'style':'color:#040b29;font-size:.8em;cursor:pointer' }).setTextContent('Delete');
                     iconNavLi02.add( iconNaviLi02Link );
+
+                    iconNaviLi02Link.dom.addEventListener('click', (e) => {
+                        deleteAsset( auth.currentUser.uid, assets[i].docID );
+                    })
 
                     let iconToggleBtnWrap = new UIButton().setAttr({ 'class':'icon', 'id':'toggle', 'style':'border-radius:5px;background-color:#1a203c;color:white;' });
                     let iconAssetEdit = new UIIcon().setAttr({ 'class':'bi bi-three-dots-vertical' });

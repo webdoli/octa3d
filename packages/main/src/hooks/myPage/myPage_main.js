@@ -153,7 +153,7 @@ const myPageMain = ( signals ) => {
             let widgetTitleH05 = new UIH( 'Search 3D Assets', 5 );
 
             let widgetCon = new UIDiv().setAttr({ 'class':'widget-content' });
-            let widgetP01 = new UIP().setTextContent('Search from best Rarest NFT collections');
+            let widgetP01 = new UIP().setTextContent('Search from best 3D Asset collections');
             let widgetConForm = new UIDiv().setAttr({ 'class':'form-floating nft-search-input' });
             let widgetConIpt = new UIInput().setAttr({ 'type':'text', 'class':'form-control', 'placeholder':'Search Assets' });
             let widgetLabel = new OctaUI( document.createElement('label') ).setTextContent('Search Assets');
@@ -170,7 +170,7 @@ const myPageMain = ( signals ) => {
             //Aside:: snsWidget
             let snsWidget = new UIDiv().setAttr({ 'class':'widget widget-instagram' });
             let snsWidgetHeader = new UIDiv().setAttr({ 'class':'widget-header' });
-            let snsWidgetH05 = new UIH('Featured NFT', 5 ).setAttr({ 'class':'title' });
+            let snsWidgetH05 = new UIH('Featured Scenes', 5 ).setAttr({ 'class':'title' });
             let snsWidgetUl = new UIUL().setAttr({ 'class':'widget-wrapper d-flex flex-wrap justify-content-center' });
             let snsWidgetLi = new UILI();
             let snsWidgetA01 = new UIA().setAttr({ 'data-rel':'lightcase', 'href':'#' });

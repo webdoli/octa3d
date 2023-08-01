@@ -15,14 +15,14 @@ const UserHeader = () => {
         <nav class="octa3d-main-header-nav">
             <div class="octa3d-main-container">       
                 <div class="octa3d-main-header-logo">
-                    <a href="/"><img src="img/logo/logo3.png" alt=""></a>
+                    <a href="/"><img src="img/logo/cghubLogo02.png" style="width:55%;margin-left:20px;" alt=""></a>
                 </div>
                 <ul class="octa3d-main-menu">
-                    <li><a href="animation.html">About</a></li>
-                    <li><a href="">Octa 3D</a>
+                    <li><a href="/">About</a></li>
+                    <li><a href="/octa3d-editor">Octa 3D</a>
                     <li><a href="/assets">Assets</a></li>
-                    <!--<li><a href="#">Scenes</a></li>-->
-                    <li><a href="#">Blog</a></li>
+                    <!--<li><a href="/">Scenes</a></li>-->
+                    <li><a href="/">Blog</a></li>
                     <div class="octa3d-login-guest" style="margin-left:40px;">
                         <ul>
                             <li><a href="/mypage" class="octa3d-myPage-btn">MY PAGE</a></li>
