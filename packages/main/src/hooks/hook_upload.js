@@ -241,17 +241,13 @@ async function insertAssetToUserDB ( res, docRef, docID, update ) {
 
                 console.log('쿼리 querySnapshot 결과값: ', querySnapshot );
                 querySnapshot.forEach( doc => {
-                    console.log('쿼리 doc: ', doc );
+                    console.log(doc.id, " => ", doc.data());
 
-                    doc.data().map( (asset, index) => {
-                        let docInID = Object.values( asset )
-                        if (docInID === docID ) asset[index] = usrObj; 
-                    //     console.log( 'asset: ', asset[index] );
-
-                        // if( asset.docID === docID ) {
-                        //     asset[index] = usrObj
-                        // }
-                    })
+                    // doc.data().map( (asset, index) => {
+                        // let docInID = Object.values( asset )
+                        // if (docInID === docID ) asset[index] = usrObj; 
+                    
+                    // })
                 })
                 // user.model에서 docID와 같은 model을 배열에서 찾음
                 // 해당 배열에 덮어쓰기
@@ -388,5 +384,22 @@ const assetPublicUpload = ( datas, usr, update ) => {
     
 }
 
+const firebaseQueryTest = async ( datas, usr, docID ) => {
 
-export { coverUpload, avatarUpload, assetPublicUpload }
+    const q = query( collection( db, 'users'), where( "id", "==", true ));
+    const querySnapshot = await getDocs( q );
+
+    console.log('쿼리 querySnapshot 결과값: ', querySnapshot );
+            
+    querySnapshot.forEach( doc => {
+        console.log(doc.id, " => ", doc.data());
+        // doc.data().map( (asset, index) => {
+            // let docInID = Object.values( asset )
+            // if (docInID === docID ) asset[index] = usrObj; 
+        
+        // })
+    })
+}
+
+
+export { coverUpload, avatarUpload, assetPublicUpload, firebaseQueryTest }

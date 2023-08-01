@@ -1,6 +1,6 @@
 import { UIDiv, UIRow, OctaUI, UIInput, UITextArea, UIP, UIButton, UISpan, UIIcon } from "../../../libs/octaUI";
 import "bootstrap-icons/font/bootstrap-icons.css";
-import { assetPublicUpload } from "../../hook_upload";
+import { assetPublicUpload, firebaseQueryTest } from "../../hook_upload";
 import { db, auth } from "../../../db/firebaseDB";
 import { getDoc, doc } from 'firebase/firestore';
 import { getStorage, ref, getBlob } from "firebase/storage";
@@ -364,7 +364,8 @@ const profileAssetEdit = ( signals, docUID ) => {
                         rigIn: formWrap05Col03Slc.dom.value
                     }).then( file => {
 
-                        assetPublicUpload( file, auth.currentUser, docID );
+                        //assetPublicUpload( file, auth.currentUser, docID );
+                        firebaseQueryTest( file, auth.currentUser, docID );
 
                     })
 
