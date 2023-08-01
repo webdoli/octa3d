@@ -17,11 +17,6 @@ function makeSlcOpt ( slc, opts ) {
 
 const profileAssetUpload = ( signals ) => {
 
-    //signals
-    signals.myAssetUpload.add( ( assets ) => {
-        console.log('3D Asset upload start: ', assets );
-    });
-
     let UsrAssetFiles = null;
 
     let tabPane = new UIDiv().setAttr({'class':'tab-pane', 'id':'upload-assets', 'role':'tabpanel', 'aria-labelledby':'pills-personal-tab'});
@@ -318,7 +313,7 @@ const profileAssetUpload = ( signals ) => {
 
     function dbUpload( data ) {
         console.log('data upload: ', data );
-        assetPublicUpload( data, auth.currentUser.uid, )
+        assetPublicUpload( data, auth.currentUser.uid )
     }
 
     function alertOutline( ele, text ) {
@@ -409,6 +404,20 @@ const profileAssetUpload = ( signals ) => {
         })
 
     }
+
+    //signals
+    // signals.assetUploadUpdate.add( ( docID ) => {
+    //     console.log('asset upload reset: ', docID )
+    //     while ( tabPane.dom.firstChild ) {
+    //         tabPane.dom.removeChild( tabPane.dom.firstChild );
+    //     }
+
+    // });
+
+    signals.myAssetUpload.add( ( assets ) => {
+        console.log('3D Asset upload start: ', assets );
+        
+    });
 
     return tabPane;
 

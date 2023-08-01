@@ -32,7 +32,7 @@ const Header = () => {
             <div class="nft-search">
                 <div class="form-floating nft-search-input">
                     <input type="text" class="form-control" id="nftSearch" placeholder="Search NFT">
-                    <label for="nftSearch">Search NFT</label>
+                    <label for="nftSearch">Search 3D Assets</label>
                     <button type="button"> <i class="icofont-search-1"></i></button>
                 </div>
             </div>

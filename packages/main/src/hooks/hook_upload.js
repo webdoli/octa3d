@@ -1,6 +1,6 @@
-import { ref, uploadBytesResumable, getDownloadURL } from "firebase/storage";
+import { ref, uploadBytesResumable, getDownloadURL, deleteObject, getStorage } from "firebase/storage";
 import { db, storage, timestamp } from "../db/firebaseDB";
-import { Timestamp, arrayUnion, doc, setDoc, updateDoc } from "firebase/firestore";
+import { Timestamp, arrayUnion, doc, getDoc, setDoc, deleteDoc, updateDoc, query, where, getDocs, collection, addDoc } from "firebase/firestore";
 
 const coverUpload = ( data, uid, loc ) => {
 
@@ -139,8 +139,8 @@ function texOutput( textures, texName, ext, uid, secure ) {
 
             let uploadTexPath;
             ( secure === 'private' ) 
-            ? uploadTexPath = `octa3d/assets/private/models/${ext}/${uid}/${tex.name}`
-            : uploadTexPath = `octa3d/assets/public/models/${ext}/${uid}/${tex.name}`;
+            ? uploadTexPath = `octa3d/assets/private/models/${ext}/texture/${tex.name}`
+            : uploadTexPath = `octa3d/assets/public/models/${ext}/texture/${tex.name}`;
             
             const storageRef = ref( storage, uploadTexPath );
             // const httpRef = ref( storage, `https://firebasestorage.googleapis.com/v0/b/octa3d-439a2.appspot.com/o/${tex.name}` )
@@ -186,8 +186,8 @@ function insertStorage( assets, uid, secure ) {
         assets.map( asset => {
             let uploadAssetPath;
             ( secure === 'private' ) 
-            ? uploadAssetPath = `octa3d/assets/private/models/${asset.ext}/${uid}/${Timestamp.now().toMillis()}_octa_stg_${asset.name}`
-            : uploadAssetPath = `octa3d/assets/public/models/${asset.ext}/${uid}/${Timestamp.now().toMillis()}_octa_stg_${asset.name}`;
+            ? uploadAssetPath = `octa3d/assets/private/models/${asset.ext}/${Timestamp.now().toMillis()}_octa_stg_${asset.name}`
+            : uploadAssetPath = `octa3d/assets/public/models/${asset.ext}/${Timestamp.now().toMillis()}_octa_stg_${asset.name}`;
 
             const storageRef = ref( storage, uploadAssetPath );
             const uploadTask = uploadBytesResumable( storageRef, asset.file );
@@ -226,13 +226,46 @@ function insertStorage( assets, uid, secure ) {
     
 }
 
-async function insertAssetToUserDB ( res, docRef ) {
+async function insertAssetToUserDB ( res, docRef, docID, update ) {
     try {
         res.map( async (usrObj) => {
+
+            usrObj.docID = await docID;
             
-            await updateDoc( docRef, {
-                model: arrayUnion( usrObj )
-            });
+            if( update === 'update' ) {
+
+                let models;
+                console.log('3) Update @@ insrtAssetToUserDB 업데이트, models: ', models);
+                
+                const docs = await getDoc( docRef );
+
+                if( docs.exists() ) {
+                    models = await docs.data().model;
+                    models.map( (asset, idx) => {
+                        if( asset.docID === docID ) {
+                            console.log('덮어쓸 모델 찾음: ', asset.name, 'assets: ', models[idx] );
+                            models[idx] = usrObj;
+                        }
+                    });
+                };
+
+                console.log('Last models: ', models );
+                updateDoc( docRef, {
+                    model: models 
+                })
+                .then( res => {
+                    console.log( 'user Model update Complete@@ res: ', res );
+                })
+                .catch( err => {
+                    console.log( 'user Model update err occured: ', err );
+                })
+                
+            } else if( update === 'create' ){
+                console.log('3) Create @@ insrtAssetToUserDB');
+                await updateDoc( docRef, {
+                    model: arrayUnion( usrObj )
+                });
+            }
 
         })
     
@@ -247,7 +280,7 @@ async function insertAssetToUserDB ( res, docRef ) {
     }
 }
 
-async function makeAssetRTServer ( res, usr, assetDB, datas ) {
+async function makeAssetRTServer ( res, usr, assetDB, datas, updateDocUID ) {
 
     let { title, assets, description, field, madeBy, publish, texIn, rigIn } = datas;
 
@@ -267,16 +300,51 @@ async function makeAssetRTServer ( res, usr, assetDB, datas ) {
     })
 
     try {
-    
-        await setDoc( 
-            doc( 
-                db, 
-                'models', 
-                `${ Timestamp.now().toMillis() }_octa3dPublicModels_${assetsNames}`
-            ), 
-            assetDB, 
-            { merge: true }
-        )
+        if( updateDocUID ) {
+            console.log('2) Update makeAssetRTServer, docID: ', updateDocUID );
+            //docID 경로에서 기존 Storage에 있는 파일 모두 삭제 
+            const storage = getStorage();
+            const docRef = doc( db, 'models', updateDocUID );
+            const docSnap = await getDoc( docRef );
+
+            if( docSnap.exists() ) {
+                let removeModelUrl = docSnap.data().model.map( item => {
+                    if( item.obj ) {
+
+                        const desertRef = ref( storage, item.obj );
+                        deleteObject( desertRef ).then( () => {
+                            console.log( 'Storage 파일 삭제' );
+                        }).catch( err => console.log('파일삭제 Err: ', err ))
+                    }
+
+                    if( item.tex ) {
+                        item.tex.map( texture => {
+                            let value = Object.values( texture )[0];
+                            const desertRef = ref( storage, value );
+                            deleteObject( desertRef ).then( () => {
+                                console.log( 'Storage 텍스처 삭제' );
+                            }).catch( err => console.log('파일삭제 Err: ', err ))
+                        })
+                    }
+                })  
+            }
+
+            await updateDoc( docRef, assetDB );
+            insertAssetToUserDB( res, doc( db, 'users', usr.uid ), updateDocUID, 'update' );
+
+        } else {
+            console.log('2) Create makeAssetRTServer docID');
+            const docRef = await addDoc( collection( db, 'models' ), assetDB );
+            await setDoc(
+                doc( db, 'models', `${ docRef.id }` ), 
+                { docID: docRef.id }, 
+                { merge: true }
+            );
+
+            insertAssetToUserDB( res, doc( db, 'users', usr.uid ), docRef.id, 'create' );
+
+        }
+        
     
     } catch (e) {
     
@@ -291,23 +359,23 @@ async function makeAssetRTServer ( res, usr, assetDB, datas ) {
 }
 
 
-const assetPublicUpload = ( datas, usr ) => {
+const assetPublicUpload = ( datas, usr, update ) => {
     
     let { assets, publish } = datas;
     let docRef = doc( db, 'users', usr.uid );
-
     let assetDB = {
         uid: usr.uid, //이메일 변경
         model: null
     }
+    let updateDocID = ( update ) ? update : '';
     
     if( publish === 'publish') {
         
         insertStorage( assets, usr.uid, 'public' )
         .then( async ( res ) => {
 
-            insertAssetToUserDB( res, docRef );
-            makeAssetRTServer( res, usr, assetDB, datas );
+            // insertAssetToUserDB( res, docRef );
+            makeAssetRTServer( res, usr, assetDB, datas, updateDocID );
 
         });
 
@@ -316,7 +384,7 @@ const assetPublicUpload = ( datas, usr ) => {
         insertStorage( assets, usr.uid, 'private' )
             .then( async ( res ) => {
 
-                insertAssetToUserDB( res, docRef );
+                // insertAssetToUserDB( res, docRef );
                 makeAssetRTServer( res, usr, assetDB, datas );
 
             });
@@ -325,5 +393,108 @@ const assetPublicUpload = ( datas, usr ) => {
     
 }
 
+const deleteAsset = ( uid, docID ) => {
+    console.log('해당 asset 삭제:', docID, 'uid: ', uid );
+    let userDocRef = doc( db, 'users', uid )
 
-export { coverUpload, avatarUpload, assetPublicUpload }
+    async function deleteData() {
+
+        try {
+            // 1)firestore models 삭제
+            await deleteDoc( doc( db, 'models', docID ) );
+
+            //2)user 모델 삭제
+            let models;
+            const docs = await getDoc( userDocRef );
+
+            if( docs.exists() ) {
+                models = await docs.data().model;
+                models.map( (asset, idx) => {
+                    if( asset.docID === docID ) {
+                        
+                        console.log('삭제할 모델 찾음: ', asset.name, 'assets: ', models[idx] );
+                        
+                        //3)storage 삭제
+                        const desertRef = ref( storage, asset.obj );
+                        
+                        deleteObject( desertRef ).then( () => {
+                            console.log( 'Asset Storage 파일 삭제' );
+                        }).catch( err => console.log('파일삭제 Err: ', err ));
+
+                        if( asset.tex ) {
+                            asset.tex.map( texture => {
+                                let value = Object.values( texture )[0];
+                                const desertRef = ref( storage, value );
+                                deleteObject( desertRef ).then( () => {
+                                    console.log( 'Storage 텍스처 삭제' );
+                                }).catch( err => console.log('파일삭제 Err: ', err ))
+                            })
+                        }
+
+                        models.splice( idx, 1 )
+                    }
+                });
+            };
+
+            updateDoc( userDocRef, {
+                model: models 
+            })
+            .then( res => {
+                console.log( 'user Model update Complete@@ res: ', res );
+                window.location.href= '/mypage';
+            })
+            .catch( err => {
+                console.log( 'user Model update err occured: ', err );
+            })
+
+        }
+        catch(err) {
+
+        }
+        finally{
+            console.log('@@ Asset 삭제 완료 @@')
+        }
+    }
+
+    deleteData();
+    
+}
+
+const firebaseQueryTest = async ( datas, usr, docID ) => {
+
+    const docRef = doc( db, 'users', usr.uid );
+    const docs = await getDoc( docRef );
+
+    if( docs.exists() ) {
+
+        let models = await docs.data().model;
+        models.map( (asset, idx) => {
+            if( asset.docID === docID ) {
+                console.log('덮어쓸 모델 찾음: ', asset.name, 'assets: ', models[idx] );
+                models[idx] = arr
+            }
+        });
+
+        updateDoc( docRef, models )
+            .then( res => {
+                console.log('user Model update Complete! res: ', res );
+            })  
+            .catch( err => {
+                console.log( err );
+            })
+
+    }
+    
+            
+    // querySnapshot.forEach( doc => {
+    //     console.log(doc.id, " => ", doc.data());
+        // doc.data().map( (asset, index) => {
+            // let docInID = Object.values( asset )
+            // if (docInID === docID ) asset[index] = usrObj; 
+        
+        // })
+    // })
+}
+
+
+export { coverUpload, avatarUpload, assetPublicUpload, deleteAsset, firebaseQueryTest }
