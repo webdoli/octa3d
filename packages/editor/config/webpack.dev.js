@@ -9,20 +9,20 @@ const devConfig = {
 
     mode: 'development',
     output: {
-        publicPath: 'auto',
+        publicPath: 'http://localhost:8082/'
     },
     devServer: {
-        port: 8080,
+        port: 8082,
         historyApiFallback: true
     },
     plugins: [
         new ModuleFederationPlugin({
-            name: 'main',
-            remotes: {
-                assets:'assets@http://localhost:8081/remoteEntry.js',
-                editor:'editor@http://localhost:8082/remoteEntry.js'
+            name: 'editor',
+            filename: 'remoteEntry.js',
+            exposes: {
+                './Editor': './src/bootstrap'
             },
-            shared: packageJson.dependencies,
+            shared: packageJson.dependencies
         }),
         new CopyPlugin({
             patterns: [
