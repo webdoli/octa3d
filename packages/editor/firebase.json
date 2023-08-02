@@ -1,6 +1,13 @@
 {
   "hosting": {
+    "site": "octa3d-editor",
     "public": "dist",
+    "rewrites": [
+      {
+        "source":"**",
+        "destination": "/index.html"
+      }
+    ],
     "ignore": [
       "firebase.json",
       "**/.*",
