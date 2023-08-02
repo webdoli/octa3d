@@ -20,7 +20,7 @@ const devConfig = {
             name: 'editor',
             filename: 'remoteEntry.js',
             exposes: {
-                './Essets': './src/bootstrap'
+                './Editor': './src/bootstrap'
             },
             shared: packageJson.dependencies
         }),

@@ -6,6 +6,7 @@ const packageJson = require('../package.json');
 const CopyPlugin = require('copy-webpack-plugin');
 
 const assetsDomain = 'https://octa3d-assets.web.app/';
+const editorDomain = 'https://octa3d-editor.web.app/'
 
 const prodConfig = {
 
@@ -18,7 +19,8 @@ const prodConfig = {
         new ModuleFederationPlugin({
             name: 'main',
             remotes: {
-                assets: `assets@${assetsDomain}/remoteEntry.js`
+                assets: `assets@${assetsDomain}/remoteEntry.js`,
+                editor: `editor@${editorDomain}/remoteEntry.js`
             },
             shared: packageJson.dependencies,
         }),

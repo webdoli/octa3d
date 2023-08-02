@@ -4,7 +4,7 @@ const path = require('path');
 const CopyPlugin = require('copy-webpack-plugin');
 const commonConfig = require('./webpack.common');
 const packageJson = require('../package.json');
-// const domain = 'https://octa3d-assets.web.app/';
+const domain = 'https://octa3d-editor.web.app/';
 
 
 const prodConfig = {
