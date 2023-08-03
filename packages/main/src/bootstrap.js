@@ -10,6 +10,7 @@ import Footer from './components/footer';
 
 //mount
 import { mount as guestAssetMount } from 'assets/Assets';
+// import { mount as guestEditorMount } from 'editor/Editor'
 import LoginGUI from './components/login';
 import SignupGUI from './components/signup';
 
@@ -51,9 +52,12 @@ onAuthStateChanged( auth, ( user ) => {
     } else {
 
         console.log('Guest');
-        guestMain( headerEle, mainEle , footerEle );
-        routeGuestPage( mainEle, footerEle );
-
+        guestMain( headerEle, mainEle , footerEle )
+            .then( () => {
+                console.log('route guest page 실행');
+                routeGuestPage( mainEle, footerEle );
+            });
+        
     }
 
 });
@@ -92,12 +96,18 @@ function userMain() {
 // Loading Guest Page
 function guestMain( header, main, footer ) {
 
-    header.appendChild( GuestHeader() );
-    main.appendChild( Main() );
-    footer.appendChild( Footer().footer01 );
-    footer.appendChild( Footer().footer02 );
+    return new Promise( ( resolve, reject ) => {
+        console.log('guestMain Promise 실행')
+        header.appendChild( GuestHeader() );
+        main.appendChild( Main() );
+        footer.appendChild( Footer().footer01 );
+        footer.appendChild( Footer().footer02 );
 
-    mobileExe( mainEle, footerEle );
+        resolve()
+
+        //@ mobileExe( mainEle, footerEle );
+
+    })
 
 }
 
@@ -128,9 +138,16 @@ function routeGuestPage( mainEle, footerEle ) {
                 break;
 
             case 'http://localhost:8080/assets' :
+                console.log('Case: asset 라우팅');
                 hookAssetMount( mainEle, footerEle, guestAssetMount, false, pre_loader );
             case 'https://octa3d-439a2.firebaseapp.com/assets':
                 hookAssetMount( mainEle, footerEle, guestAssetMount, false, pre_loader );
+                break;
+
+            case 'http://localhost:8080/octa3d-editor' :
+                hookAssetMount( mainEle, footerEle, guestEditorMount, false, pre_loader );
+            case 'https://octa3d-editor.firebaseapp.com/assets':
+                hookAssetMount( mainEle, footerEle, guestEditorMount, false, pre_loader );
                 break;
 
         }
