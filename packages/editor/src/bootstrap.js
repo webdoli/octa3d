@@ -1,5 +1,12 @@
-console.log('@ octa-editor start @');
 import { Editor } from "./components/Editor";
+import { ViewportMain } from "./components/viewport/ViewportMain";
+import { Menubar } from "./components/Menubar";
+import { Resizer } from "./components/Resizer";
+import { Sidebar } from "./components/viewport/Sidebar";
+import { Timeline } from "./components/viewport/Timeline";
+
+// css import
+import "./index.css";
 
 const mount = ( el ) => {
 
@@ -7,9 +14,30 @@ const mount = ( el ) => {
     const signals = editor.signals;
 
     const container = document.createElement('div');
-    container.setAttribute( 'class', 'octa3d-editor');
+    container.setAttribute( 'class', 'container-editor');
 
     el.appendChild( container );
+
+    const viewport = new ViewportMain( editor );
+    container.appendChild( viewport.dom );
+
+    const menubar = new Menubar( editor );
+    container.appendChild( menubar.dom );
+
+    const sidebar = new Sidebar( editor );
+    container.appendChild( sidebar.dom );
+
+    const resizer = new Resizer( editor );
+    container.appendChild( resizer.dom );
+
+    const timeline = new Timeline( editor );
+    container.appendChild( timeline.dom );
+
+    function onWinResize() {
+        editor.signals.windowResize.dispatch();
+    }
+
+    window.addEventListener('resize', onWinResize );
 
     return {
         res: '@@ Octa3D Editor Page 유저DB window 저장 @@'

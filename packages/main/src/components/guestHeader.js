@@ -15,7 +15,7 @@ const GuestHeader = () => {
                 <nav class="octa3d-main-header-nav">
                     <div class="octa3d-main-container">       
                         <div class="octa3d-main-header-logo">
-                            <a href="/"><img src="img/logo/logo3.png" alt=""></a>
+                            <a href="/"><img src="img/logo/cghubLogo02.png" alt=""></a>
                         </div>
                         <ul class="octa3d-main-menu">
                             <li><a href="">About</a></li>
