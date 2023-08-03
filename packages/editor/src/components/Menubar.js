@@ -1,5 +1,4 @@
 import { UIDiv } from '../libs/ui';
-import "./Menubar.css";
 import { MenubarFile } from './Menubar.File';
 
     function Menubar ( editor ) {

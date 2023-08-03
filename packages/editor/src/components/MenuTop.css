@@ -1,0 +1,336 @@
+hr {
+	border: 0;
+	border-top: 1px solid #ccc;
+}
+
+button {
+	position: relative;
+}
+
+input {
+	vertical-align: middle;
+}
+
+	input[type="color"]::-webkit-color-swatch-wrapper {
+		padding: 0;
+	}
+	input[type="color"]::-webkit-color-swatch {
+		border: none;
+	}
+
+.Panel {
+    -moz-user-select: none;
+    -webkit-user-select: none;
+    -ms-user-select: none;
+
+    /* No support for these yet */
+    -o-user-select: none;
+    user-select: none;
+}
+
+.TabbedPanel {
+    -moz-user-select: none;
+    -webkit-user-select: none;
+    -ms-user-select: none;
+
+    /* No support for these yet */
+    -o-user-select: none;
+    user-select: none;
+    position: relative;
+    display: block;
+    width: 100%;
+    min-width: 260px;
+}
+    
+    .TabbedPanel .Tabs {
+        position: relative;
+        display: block;
+        width: 100%;
+    }
+    
+        .TabbedPanel .Tabs .Tab {
+            padding: 10px;
+            text-transform: uppercase;
+        }
+    
+        .TabbedPanel .Panels {
+            position: relative;
+            display: block;
+            width: 100%;
+        }
+
+        /* outliner */
+
+#outliner .opener {
+	display: inline-block;
+	width: 14px;
+	height: 14px;
+	margin: 0px 4px;
+	vertical-align: top;
+	text-align: center;
+}
+
+	#outliner .opener.open:after {
+		content: '−';
+	}
+
+	#outliner .opener.closed:after {
+		content: '+';
+	}
+
+#outliner .option {
+
+	border: 1px solid transparent;
+
+}
+
+#outliner .option.drag {
+
+	border: 1px dashed #999;
+
+}
+
+#outliner .option.dragTop {
+
+	border-top: 1px dashed #999;
+
+}
+
+#outliner .option.dragBottom {
+
+	border-bottom: 1px dashed #999;
+
+}
+
+#outliner .type {
+	display: inline-block;
+	width: 14px;
+	height: 14px;
+	color: #ddd;
+	text-align: center;
+}
+
+#outliner .type:after {
+	content: '●';
+}
+
+.Panel {
+	-moz-user-select: none;
+	-webkit-user-select: none;
+	-ms-user-select: none;
+
+	/* No support for these yet */
+	-o-user-select: none;
+	user-select: none;
+}
+
+.TabbedPanel {
+	-moz-user-select: none;
+	-webkit-user-select: none;
+	-ms-user-select: none;
+
+	/* No support for these yet */
+	-o-user-select: none;
+	user-select: none;
+	position: relative;
+	display: block;
+	width: 100%;
+	min-width: 260px;
+}
+
+.TabbedPanel .Tabs {
+	position: relative;
+	display: block;
+	width: 100%;
+}
+
+	.TabbedPanel .Tabs .Tab {
+		padding: 10px;
+		text-transform: uppercase;
+	}
+
+	.TabbedPanel .Panels {
+		position: relative;
+		display: block;
+		width: 100%;
+	}
+
+
+/* */
+
+#outliner .Scene {
+	color: #8888dd;
+}
+
+#outliner .Camera {
+	color: #dd8888;
+}
+
+#outliner .Light {
+	color: #dddd88;
+}
+
+/* */
+
+#outliner .Object3D {
+	color: #aaaaee;
+}
+
+#outliner .Mesh {
+	color: #8888ee;
+}
+
+#outliner .Line {
+	color: #88ee88;
+}
+
+#outliner .LineSegments {
+	color: #88ee88;
+}
+
+#outliner .Points {
+	color: #ee8888;
+}
+
+/* */
+
+#outliner .Geometry {
+	color: #aaeeaa;
+}
+
+#outliner .Material {
+	color: #eeaaee;
+}
+
+/* */
+
+#outliner .Script:after {
+	content: '◎'
+}
+
+/*  */
+
+button {
+	color: #555;
+	background-color: #ddd;
+	border: 0px;
+	margin: 0px; /* GNOME Web */
+	padding: 5px 8px;
+	font-size: 12px;
+	text-transform: uppercase;
+	cursor: pointer;
+	outline: none;
+}
+
+	button:hover {
+		background-color: #fff;
+	}
+
+	button.selected {
+		background-color: #fff;
+	}
+
+input, textarea {
+	border: 1px solid transparent;
+	color: #444;
+}
+
+input.Number {
+	color: #08f!important;
+	font-size: 12px;
+	border: 0px;
+	padding: 2px;
+}
+
+select {
+	color: #666;
+	background-color: #ddd;
+	border: 0px;
+	text-transform: uppercase;
+	cursor: pointer;
+	outline: none;
+}
+
+	select:hover {
+		background-color: #fff;
+	}
+
+
+/***********/
+/* MenuTop */
+/***********/
+#menubar {
+	position: absolute;
+	width: 100%;
+	height: 32px;
+	background: #eee;
+	padding: 0;
+	margin: 0;
+	right: 0;
+	top: 0;
+}
+
+#menubar .menu {
+    float: left;
+    cursor: pointer;
+    padding-right: 8px;
+}
+
+#menubar .menu.right {
+    float: right;
+    cursor: auto;
+    padding-right: 0;
+    text-align: right;
+}
+
+    #menubar .menu .title {
+        display: inline-block;
+        color: #888;
+        margin: 0;
+        padding: 8px;
+        line-height: 16px;
+    }
+
+    #menubar .menu .options {
+        position: fixed;
+        display: none;
+        padding: 5px 0;
+        background: #eee;
+        width: 150px;
+        max-height: calc(100% - 80px);
+        overflow: auto;
+    }
+
+    #menubar .menu:hover .options {
+        display: block;
+    }
+
+        #menubar .menu .options hr {
+            border-color: #ddd;
+        }
+
+        #menubar .menu .options .option {
+            color: #666;
+            background-color: transparent;
+            padding: 5px 10px;
+            margin: 0 !important;
+        }
+
+            #menubar .menu .options .option:hover {
+                color: #fff;
+                background-color: #08f;
+            }
+
+            #menubar .menu .options .option:active {
+                color: #666;
+                background: transparent;
+            }
+
+    #menubar .menu .options .inactive {
+        color: #bbb;
+        background-color: transparent;
+        padding: 5px 10px;
+        margin: 0 !important;
+    }
+
+

@@ -1,12 +1,14 @@
 import { Editor } from "./components/Editor";
 import { ViewportMain } from "./components/viewport/ViewportMain";
-import { Menubar } from "./components/Menubar";
+import { MenuTop } from "./components/MenuTop";
+// import { Menubar } from "./components/Menubar";
 import { Resizer } from "./components/Resizer";
 import { Sidebar } from "./components/viewport/Sidebar";
 import { Timeline } from "./components/viewport/Timeline";
 
 // css import
-import "./index.css";
+// import "./index.css";
+
 
 const mount = ( el ) => {
 
@@ -21,8 +23,11 @@ const mount = ( el ) => {
     const viewport = new ViewportMain( editor );
     container.appendChild( viewport.dom );
 
-    const menubar = new Menubar( editor );
-    container.appendChild( menubar.dom );
+    const menuTop = new MenuTop( editor );
+    container.appendChild( menuTop.dom );
+
+    // const menubar = new Menubar( editor );
+    // container.appendChild( menubar.dom );
 
     const sidebar = new Sidebar( editor );
     container.appendChild( sidebar.dom );
