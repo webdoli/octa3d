@@ -11,6 +11,10 @@ const mount = ( el ) => {
 
     el.appendChild( container );
 
+    return {
+        res: '@@ Octa3D Editor Page 유저DB window 저장 @@'
+    }
+
 }
 
 if( process.env.NODE_ENV === 'development' ) {

@@ -2,7 +2,7 @@
 const hookAssetMount = ( main, footer, mount, db, loader ) => {
 
     main.innerHTML = '';
-    footer.removeChild( footer.firstElementChild );
+    footer.firstChild.style.display = 'none';
     loader.style.display = 'none';
 
     const { res } = mount( main, db );

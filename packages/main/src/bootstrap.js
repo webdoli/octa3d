@@ -10,17 +10,20 @@ import Footer from './components/footer';
 
 //mount
 import { mount as guestAssetMount } from 'assets/Assets';
-// import { mount as guestEditorMount } from 'editor/Editor'
+import { mount as guestEditorMount } from 'editor/Editor'
 import LoginGUI from './components/login';
 import SignupGUI from './components/signup';
 
 import hookAssetMount from './hooks/mounts/guest/hook_AssetMount';
 import hookSignupMount from './hooks/mounts/guest/hook_SignupMount';
 import hookSigninMount from './hooks/mounts/guest/hook_SigninMount';
+import hookEditorMount from './hooks/mounts/guest/hook_EditorMount';
 
 import AssetMount from './hooks/mounts/member/assetMount';
 import HomeMount from './hooks/mounts/member/homeMount';
 import MypageMount from './hooks/mounts/member/mypageMount';
+import EditorMount from './hooks/mounts/member/editorMount';
+
 
 //SPA
 const headerEle = document.querySelector('.header-one');
@@ -52,10 +55,12 @@ onAuthStateChanged( auth, ( user ) => {
     } else {
 
         console.log('Guest');
+        let urlPath = window.location.href;
+
         guestMain( headerEle, mainEle , footerEle )
             .then( () => {
                 console.log('route guest page 실행');
-                routeGuestPage( mainEle, footerEle );
+                routeGuestPage( mainEle, footerEle, urlPath );
             });
         
     }
@@ -75,7 +80,9 @@ function userMain() {
         { 'http://localhost:8080/assets': new AssetMount( signals ) },
         { 'https://octa3d-439a2.firebaseapp.com/assets': new AssetMount( signals ) },
         { 'http://localhost:8080/mypage': new MypageMount( signals ) },
-        { 'https://octa3d-439a2.firebaseapp.com/mypage': new MypageMount( signals ) }
+        { 'https://octa3d-439a2.firebaseapp.com/mypage': new MypageMount( signals ) },
+        { 'http://localhost:8080/octa3d-editor': new EditorMount( signals ) },
+        { 'https://octa3d-439a2.firebaseapp.com/octa3d-editor': new EditorMount( signals ) },
     ];
     
     let currentUrl = window.location.href;
@@ -105,7 +112,7 @@ function guestMain( header, main, footer ) {
 
         resolve()
 
-        //@ mobileExe( mainEle, footerEle );
+        mobileExe( mainEle, footerEle );
 
     })
 
@@ -114,16 +121,14 @@ function guestMain( header, main, footer ) {
 /*******************/
 /*    Mounting     */
 /*******************/
-function routeGuestPage( mainEle, footerEle ) {
+function routeGuestPage( mainEle, footerEle, path ) {
 
     let pre_loader = document.querySelector('.preloader');
     console.log('guest page mounting ');
 
-    detectUrlChange.on('change', (newUrl) => {
+    // detectUrlChange.on('change', (newUrl) => {
 
-        console.log('url: ' + newUrl );
-
-        switch ( newUrl ) {
+        switch ( path ) {
 
             case 'http://localhost:8080/login' :
                 hookSigninMount( mainEle, footerEle, LoginGUI, pre_loader );
@@ -145,14 +150,14 @@ function routeGuestPage( mainEle, footerEle ) {
                 break;
 
             case 'http://localhost:8080/octa3d-editor' :
-                hookAssetMount( mainEle, footerEle, guestEditorMount, false, pre_loader );
+                hookEditorMount( mainEle, footerEle, guestEditorMount, false, pre_loader );
             case 'https://octa3d-editor.firebaseapp.com/assets':
-                hookAssetMount( mainEle, footerEle, guestEditorMount, false, pre_loader );
+                hookEditorMount( mainEle, footerEle, guestEditorMount, false, pre_loader );
                 break;
 
         }
     
-    });
+    // });
     
 }
 
