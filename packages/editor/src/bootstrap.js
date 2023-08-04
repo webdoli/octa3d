@@ -10,10 +10,22 @@ import { Timeline } from "./components/viewport/Timeline";
 import "./index.css";
 
 
-const mount = ( el ) => {
+const mount = ( props ) => {
 
+    let { el, params } = props;
     var editor = new Editor();
     const signals = editor.signals;
+
+    // 1] params값이 있을 경우
+    if( params.size > 0 ) {
+        for( let doc of params.values() ) {
+            console.log('docID: ', doc )
+        }
+    }
+    // 2] promise 구문으로 파이어베이스에서 3D asset 받아오기 
+
+    // 3] Menu.File 모듈에 3D파일, 텍스처 보내기
+    
 
     const container = document.createElement('div');
     container.setAttribute( 'class', 'container-editor');

@@ -55,12 +55,23 @@ onAuthStateChanged( auth, ( user ) => {
     } else {
 
         console.log('Guest');
-        let urlPath = window.location.href;
+        let urlOrigin = window.location.origin;
+        // let urlPath = window.location.href;
+        let urlPathName = window.location.pathname;
+        let urlRoute = urlOrigin + urlPathName;
+        const queryString = window.location.search;
+        const urlParams = new URLSearchParams( queryString );
+
+        // console.log('url all path: ', urlPath );
+        console.log('url path name: ', urlPathName );
+        console.log('url routing: ', )
+        console.log('url original path: ', urlOrigin );
+        let params = ( urlParams ) ? urlParams : '';
 
         guestMain( headerEle, mainEle , footerEle )
             .then( () => {
                 console.log('route guest page 실행');
-                routeGuestPage( mainEle, footerEle, urlPath );
+                routeGuestPage( mainEle, footerEle, urlRoute, params );
             });
         
     }
@@ -121,43 +132,44 @@ function guestMain( header, main, footer ) {
 /*******************/
 /*    Mounting     */
 /*******************/
-function routeGuestPage( mainEle, footerEle, path ) {
+function routeGuestPage( mainEle, footerEle, path, params ) {
 
     let pre_loader = document.querySelector('.preloader');
-    console.log('guest page mounting ');
-
-    // detectUrlChange.on('change', (newUrl) => {
-
-        switch ( path ) {
-
-            case 'http://localhost:8080/login' :
-                hookSigninMount( mainEle, footerEle, LoginGUI, pre_loader );
-            case 'https://octa3d-439a2.firebaseapp.com/login':
-                hookSigninMount( mainEle, footerEle, LoginGUI, pre_loader );
-                break;
-
-            case 'http://localhost:8080/signup' :
-                hookSignupMount( mainEle, footerEle, SignupGUI, pre_loader );
-            case 'https://octa3d-439a2.firebaseapp.com/signup':
-                hookSignupMount( mainEle, footerEle, SignupGUI, pre_loader );
-                break;
-
-            case 'http://localhost:8080/assets' :
-                console.log('Case: asset 라우팅');
-                hookAssetMount( mainEle, footerEle, guestAssetMount, false, pre_loader );
-            case 'https://octa3d-439a2.firebaseapp.com/assets':
-                hookAssetMount( mainEle, footerEle, guestAssetMount, false, pre_loader );
-                break;
-
-            case 'http://localhost:8080/octa3d-editor' :
-                hookEditorMount( mainEle, footerEle, guestEditorMount, false, pre_loader );
-            case 'https://octa3d-editor.firebaseapp.com/assets':
-                hookEditorMount( mainEle, footerEle, guestEditorMount, false, pre_loader );
-                break;
-
-        }
+    let assetParam = ( params ) ? params : '';
     
-    // });
+    switch ( path ) {
+
+        case 'http://localhost:8080/login' :
+            hookSigninMount( mainEle, footerEle, LoginGUI, pre_loader );
+            break;
+        case 'https://octa3d-439a2.firebaseapp.com/login':
+            hookSigninMount( mainEle, footerEle, LoginGUI, pre_loader );
+            break;
+
+        case 'http://localhost:8080/signup' :
+            hookSignupMount( mainEle, footerEle, SignupGUI, pre_loader );
+            break;
+        case 'https://octa3d-439a2.firebaseapp.com/signup':
+            hookSignupMount( mainEle, footerEle, SignupGUI, pre_loader );
+            break;
+
+        case 'http://localhost:8080/assets' :
+            console.log('Case: asset 라우팅');
+            hookAssetMount( mainEle, footerEle, guestAssetMount, false, pre_loader );
+            break;
+        case 'https://octa3d-439a2.firebaseapp.com/assets':
+            hookAssetMount( mainEle, footerEle, guestAssetMount, false, pre_loader );
+            break;
+
+        case 'http://localhost:8080/octa3d-editor' :
+            hookEditorMount( mainEle, footerEle, guestEditorMount, false, pre_loader, assetParam );
+            break;
+        case 'https://octa3d-editor.firebaseapp.com/assets':
+            hookEditorMount( mainEle, footerEle, guestEditorMount, false, pre_loader, assetParam );
+            break;
+
+    }
+    
     
 }
 
