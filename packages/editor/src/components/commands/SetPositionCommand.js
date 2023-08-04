@@ -1,4 +1,4 @@
-import { Command } from "../../Command";
+import { Command } from "../Command";
 import { Vector3 } from "three";
 
 class SetPositionCommand extends Command {

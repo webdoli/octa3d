@@ -1,4 +1,4 @@
-import { Command } from "../../Command";
+import { Command } from "../Command";
 import { SetUuidCommand } from "./SetUuidCommand";
 import { SetValueCommand } from "./SetValueCommand";
 import { AddObjectCommand } from "./AddObjectCommand";
