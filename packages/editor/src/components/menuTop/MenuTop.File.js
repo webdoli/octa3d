@@ -22,7 +22,6 @@ function MenuTopFile( editor ) {
 	container.add( options );
 
 	// New
-
 	let option = new UIRow();
 	option.setClass( 'option' );
 	option.setTextContent( strings.getKey( 'menubar/file/new' ) );
@@ -38,11 +37,9 @@ function MenuTopFile( editor ) {
 	options.add( option );
 
 	//
-
 	options.add( new UIHorizontalRule() );
 
 	// Import
-
 	const form = document.createElement( 'form' );
 	form.style.display = 'none';
 	document.body.appendChild( form );
@@ -251,97 +248,7 @@ function MenuTopFile( editor ) {
 	} );
 	options.add( option );
 
-	// Export PLY (ASCII)
-
-	option = new UIRow();
-	option.setClass( 'option' );
-	option.setTextContent( strings.getKey( 'menubar/file/export/ply' ) );
-	option.onClick( async function () {
-
-		const { PLYExporter } = await import( 'three/addons/exporters/PLYExporter.js' );
-
-		const exporter = new PLYExporter();
-
-		exporter.parse( editor.scene, function ( result ) {
-
-			saveArrayBuffer( result, 'model.ply' );
-
-		} );
-
-	} );
-	options.add( option );
-
-	// Export PLY (Binary)
-
-	option = new UIRow();
-	option.setClass( 'option' );
-	option.setTextContent( strings.getKey( 'menubar/file/export/ply_binary' ) );
-	option.onClick( async function () {
-
-		const { PLYExporter } = await import( 'three/addons/exporters/PLYExporter.js' );
-
-		const exporter = new PLYExporter();
-
-		exporter.parse( editor.scene, function ( result ) {
-
-			saveArrayBuffer( result, 'model-binary.ply' );
-
-		}, { binary: true } );
-
-	} );
-	options.add( option );
-
-	// Export STL (ASCII)
-
-	option = new UIRow();
-	option.setClass( 'option' );
-	option.setTextContent( strings.getKey( 'menubar/file/export/stl' ) );
-	option.onClick( async function () {
-
-		const { STLExporter } = await import( 'three/addons/exporters/STLExporter.js' );
-
-		const exporter = new STLExporter();
-
-		saveString( exporter.parse( editor.scene ), 'model.stl' );
-
-	} );
-	options.add( option );
-
-	// Export STL (Binary)
-
-	option = new UIRow();
-	option.setClass( 'option' );
-	option.setTextContent( strings.getKey( 'menubar/file/export/stl_binary' ) );
-	option.onClick( async function () {
-
-		const { STLExporter } = await import( 'three/addons/exporters/STLExporter.js' );
-
-		const exporter = new STLExporter();
-
-		saveArrayBuffer( exporter.parse( editor.scene, { binary: true } ), 'model-binary.stl' );
-
-	} );
-	options.add( option );
-
-	// Export USDZ
-
-	option = new UIRow();
-	option.setClass( 'option' );
-	option.setTextContent( strings.getKey( 'menubar/file/export/usdz' ) );
-	option.onClick( async function () {
-
-		const { USDZExporter } = await import( 'three/addons/exporters/USDZExporter.js' );
-
-		const exporter = new USDZExporter();
-
-		saveArrayBuffer( await exporter.parse( editor.scene ), 'model.usdz' );
-
-	} );
-	options.add( option );
-
-	//
-
-	options.add( new UIHorizontalRule() );
+	
 
 	// Publish
 

@@ -7,7 +7,7 @@ import { Sidebar } from "./components/viewport/Sidebar";
 import { Timeline } from "./components/viewport/Timeline";
 
 // css import
-// import "./index.css";
+import "./index.css";
 
 
 const mount = ( el ) => {

@@ -31,7 +31,63 @@ function MenuTopAdd( editor ) {
 
     options.add( new UIHorizontalRule() );
 
-    /************** */ 
+
+    /*****************/ 
+    /*** 3D Object ***/
+    /*****************/
+
+    // Box
+    option = new UIRow();
+    option.setClass( 'option' );
+    option.setTextContent( strings.getKey( 'menubar/add/box' ) );
+    option.onClick( function () {
+
+		const geometry = new THREE.BoxGeometry( 1, 1, 1, 1, 1, 1 );
+		const mesh = new THREE.Mesh( geometry, new THREE.MeshStandardMaterial() );
+		mesh.name = 'Box';
+
+		editor.execute( new AddObjectCommand( editor, mesh ) );
+
+	} );
+	options.add( option );
+
+
+    // Plane
+	option = new UIRow();
+	option.setClass( 'option' );
+	option.setTextContent( strings.getKey( 'menubar/add/plane' ) );
+	option.onClick( function () {
+
+		const geometry = new THREE.PlaneGeometry( 1, 1, 1, 1 );
+		const material = new THREE.MeshStandardMaterial();
+		const mesh = new THREE.Mesh( geometry, material );
+		mesh.name = 'Plane';
+
+		editor.execute( new AddObjectCommand( editor, mesh ) );
+
+	} );
+	options.add( option );
+
+    // Sphere
+
+	option = new UIRow();
+	option.setClass( 'option' );
+	option.setTextContent( strings.getKey( 'menubar/add/sphere' ) );
+	option.onClick( function () {
+
+		const geometry = new THREE.SphereGeometry( 1, 32, 16, 0, Math.PI * 2, 0, Math.PI );
+		const mesh = new THREE.Mesh( geometry, new THREE.MeshStandardMaterial() );
+		mesh.name = 'Sphere';
+
+		editor.execute( new AddObjectCommand( editor, mesh ) );
+
+	} );
+	options.add( option );
+
+    // Row
+    options.add( new UIHorizontalRule() );
+
+	/************** */ 
     /*    Light     */
     /****************/
 
@@ -158,62 +214,6 @@ function MenuTopAdd( editor ) {
 
 	} );
 	options.add( option );
-
-
-    /*****************/ 
-    /*** 3D Object ***/
-    /*****************/
-
-    // Box
-    option = new UIRow();
-    option.setClass( 'option' );
-    option.setTextContent( strings.getKey( 'member/add/box' ) );
-    option.onClick( function () {
-
-		const geometry = new THREE.BoxGeometry( 1, 1, 1, 1, 1, 1 );
-		const mesh = new THREE.Mesh( geometry, new THREE.MeshStandardMaterial() );
-		mesh.name = 'Box';
-
-		editor.execute( new AddObjectCommand( editor, mesh ) );
-
-	} );
-	options.add( option );
-
-
-    // Plane
-	option = new UIRow();
-	option.setClass( 'option' );
-	option.setTextContent( strings.getKey( 'menubar/add/plane' ) );
-	option.onClick( function () {
-
-		const geometry = new THREE.PlaneGeometry( 1, 1, 1, 1 );
-		const material = new THREE.MeshStandardMaterial();
-		const mesh = new THREE.Mesh( geometry, material );
-		mesh.name = 'Plane';
-
-		editor.execute( new AddObjectCommand( editor, mesh ) );
-
-	} );
-	options.add( option );
-
-    // Sphere
-
-	option = new UIRow();
-	option.setClass( 'option' );
-	option.setTextContent( strings.getKey( 'menubar/add/sphere' ) );
-	option.onClick( function () {
-
-		const geometry = new THREE.SphereGeometry( 1, 32, 16, 0, Math.PI * 2, 0, Math.PI );
-		const mesh = new THREE.Mesh( geometry, new THREE.MeshStandardMaterial() );
-		mesh.name = 'Sphere';
-
-		editor.execute( new AddObjectCommand( editor, mesh ) );
-
-	} );
-	options.add( option );
-
-    // Row
-    options.add( new UIHorizontalRule() );
 
 
     /****************/ 

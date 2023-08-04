@@ -24,7 +24,13 @@ function Strings( config ) {
 			'menubar/edit/center': 'Center',
 			'menubar/edit/clone': 'Clone',
 			'menubar/edit/delete': 'Delete (Del)',
+			'menubar/edit/fixcolormaps': 'Fix Color Maps',
 
+			'menubar/add': 'Add',
+			'menubar/add/group': 'Group',
+			'menubar/add/plane': 'Plane',
+			'menubar/add/box': 'Box',
+			'menubar/add/sphere': 'Sphere',
             'menubar/add/pointlight': 'PointLight',
 			'menubar/add/spotlight': 'SpotLight',
 			'menubar/add/directionallight': 'DirectionalLight',
