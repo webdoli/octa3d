@@ -7,7 +7,14 @@ const LoaderUtils = {
 		for ( let i = 0; i < files.length; i ++ ) {
 
 			const file = files[ i ];
-			map[ file.name ] = file;
+			
+			if( file.type.includes('image')) {
+				
+				map[ `${file.name}` ] = file;	
+			} else {
+				map[ file.name ] = file;
+			}
+			
 
 		}
 

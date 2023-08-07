@@ -6,6 +6,9 @@ import { Resizer } from "./components/Resizer";
 import { Sidebar } from "./components/viewport/Sidebar";
 import { Timeline } from "./components/viewport/Timeline";
 
+//import DB
+import { getDatas } from "./hooks/firebaseCRUD";
+
 // css import
 import "./index.css";
 
@@ -13,15 +16,17 @@ import "./index.css";
 const mount = ( props ) => {
 
     let { el, params } = props;
-    var editor = new Editor();
-    const signals = editor.signals;
-
+    let docID = new Array();
     // 1] params값이 있을 경우
     if( params.size > 0 ) {
         for( let doc of params.values() ) {
-            console.log('docID: ', doc )
+            docID.push( doc );
         }
     }
+
+    var editor = new Editor();
+    const signals = editor.signals;
+    
     // 2] promise 구문으로 파이어베이스에서 3D asset 받아오기 
 
     // 3] Menu.File 모듈에 3D파일, 텍스처 보내기
@@ -53,6 +58,22 @@ const mount = ( props ) => {
     function onWinResize() {
         editor.signals.windowResize.dispatch();
     }
+
+    async function initialLoading( docID ) {
+
+        console.log('시작 시 로딩 파일 있음: ', docID );
+        // doc ID로 파이어베이스에서 model, texture 파일 받음
+
+        let resFileDatas = await getDatas( 'models', docID, editor );
+        
+        // editor.loader.loadFiles( startModel.files );
+        editor.loader.loadFiles( resFileDatas );
+        // Loader에 파일 넘기기 실행
+        
+    }
+
+    //시작 에셋 로딩
+    if( docID ) initialLoading( docID );
 
     window.addEventListener('resize', onWinResize );
 

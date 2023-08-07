@@ -23,33 +23,56 @@ function Loader( editor ) {
     this.loadFiles = ( files, filesMap ) => {
 
         if( files.length > 0 ) {
-
+			
             filesMap = filesMap || LoaderUtils.createFilesMap( files );
 
             const manager = new THREE.LoadingManager();
-            manager.setURLModifier( ( url ) => {
+			const manager01 = new THREE.LoadingManager();
 
-                url = url.replace( /^(\.?\/)/, '' ); // remove './'
+			console.log('filesMap: ', filesMap );
 
-                const file = filesMap[ url ];
+			manager01.setURLModifier( url => {
 
-                if ( file ) {
+				const file = filesMap[ url ];
 
-					console.log( 'Loading', url );
-
-					return URL.createObjectURL( file );
-
+				if( file ) {
+					console.log('loading url: ', url );
+					url = file.cloudName;
 				}
+
+				// if( url === 'Jeep_Renegade_2016_color.jpg') {
+				// 	url = 'https://firebasestorage.googleapis.com/v0/b/octa3d-439a2.appspot.com/o/octa3d%2Fassets%2Fpublic%2Fmodels%2Ffbx%2Ftexture%2FJeep_Renegade_2016_color.jpg?alt=media&token=f634ac77-92dd-4489-95ac-a78936af6d72.jpg'
+				// }
 
 				return url;
 
-            });
+			})
 
-            manager.addHandler( /\.tga$/i, new TGALoader() );
+            // manager.setURLModifier( ( url ) => {
+
+			// 	url = url.replace( /^(\.?\/)/, '' ); // remove './'
+
+            //     const file = filesMap[ url ];
+
+            //     if ( file ) {
+
+			// 		console.log( 'Loading', url );
+
+			// 		return URL.createObjectURL( file );
+
+			// 	}
+
+			// 	return url;
+
+            // });
+
+            // manager.addHandler( /\.tga$/i, new TGALoader() );
+			// manager01.addHandler( /\.tga$/i, new TGALoader() );
 
 			for ( let i = 0; i < files.length; i ++ ) {
 
-				scope.loadFile( files[ i ], manager );
+				// scope.loadFile( files[ i ], manager );
+				scope.loadFile( files[ i ], manager01 );
 
 			}
 
@@ -60,10 +83,12 @@ function Loader( editor ) {
 
     this.loadFile = ( file, manager ) => {
 
+		if( file.type.includes('image') ) return;
+		
         const filename = file.name;
 		const extension = filename.split( '.' ).pop().toLowerCase();
-
 		const reader = new FileReader();
+
 		reader.addEventListener( 'progress', function ( event ) {
 			
 			const size = '(' + Math.floor( event.total / 1000 ) + ' KB)';
