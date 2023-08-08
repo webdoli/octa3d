@@ -94,7 +94,7 @@ function getData( c, documents, editor ) {
                                     let texName = tex;
                                     let texValue = texArr[tex];
                                     let texExt = texName.split( '.' ).pop().toLowerCase();
-                                    console.log('텍스처네임: ', texName );
+                                    //console.log('텍스처네임: ', texName );
                                     
                                     getDataFromStorage( `${ texName }`,`${ texValue }`, `image/jpeg` )
                                         .then( ( texRes ) => {
@@ -103,7 +103,7 @@ function getData( c, documents, editor ) {
                                             //@ modelSrc.push( texRes );
                                             dt.items.add( texRes );
                                             //@ resolve( modelSrc );
-                                            resolve( dt.files );
+                                            // resolve( dt.files );
 
                                         })
                                     /*
@@ -127,6 +127,9 @@ function getData( c, documents, editor ) {
                                     */
                                     
                                 }
+
+                                resolve( dt.files );
+
                             });
                         
                         } // if End
@@ -201,6 +204,7 @@ const getDatas = ( c, docs ) => {
             if( docs ) {
 
                 getData( c, docs ).then( res => {
+                    console.log('CRUD res: ', res, res.length );
                     resolve( res );
                 });
         

@@ -100,7 +100,7 @@ const profileAssetCreated = ( signals ) => {
                             #assetIconNav {
                                 background-color: #fff;
                                 padding: 0px;
-                                height: 0%;
+                                
                                 opacity: 0;
                                 display: flex;
                                 flex-direction: column;
@@ -118,7 +118,7 @@ const profileAssetCreated = ( signals ) => {
                                 transform: translateX(15px);
                                 opacity: 1;
                                 padding: 3px;
-                                height:29%;
+                                height:40%;
                                 width:24%;
                                 right:0;
                             }
@@ -147,6 +147,16 @@ const profileAssetCreated = ( signals ) => {
                                 opacity: 1;
                             }
 
+                            #assetIconNav.active ul li span {
+                                padding: 2px 12px
+                            }
+
+                            #assetIconNav.active ul li span:hover {
+                                
+                                border-radius:3px;
+                                background-color: tomato;
+                            }
+
                             #assetIconNav ul a {
                                 position: relative;
                                 color: #000;
@@ -157,11 +167,7 @@ const profileAssetCreated = ( signals ) => {
                             .assetEditIcon {
                                 padding: 5px 10px;
                             }
-
-                            .assetEditIcon:hover {
-                                border-radius:3px;
-                                background-color: #e7e3c6;
-                            }
+                           
                         `)
                     let titleWrap = new UIDiv().setAttr({ 'class':'titleWrap', 'style':'display:flex;justify-content:space-between;margin-bottom:15px;'});
 
@@ -187,7 +193,16 @@ const profileAssetCreated = ( signals ) => {
 
                     iconNaviLi02Link.dom.addEventListener('click', (e) => {
                         deleteAsset( auth.currentUser.uid, assets[i].docID );
-                    })
+                    });
+
+                    let iconNavLi03 = new UILI();
+                    let iconNaviLi03Link = new UISpan().setAttr({ 'style':'color:#040b29;font-size:.8em;cursor:pointer' }).setTextContent('Editor');
+                    iconNavLi03.add( iconNaviLi03Link );
+
+                    iconNaviLi03Link.dom.addEventListener('click', (e) => {
+                        window.location.href = `/octa3d-editor?assets=${assets[i].docID}`;
+                        
+                    });
 
                     let iconToggleBtnWrap = new UIButton().setAttr({ 'class':'icon', 'id':'toggle', 'style':'border-radius:5px;background-color:#1a203c;color:white;' });
                     let iconAssetEdit = new UIIcon().setAttr({ 'class':'bi bi-three-dots-vertical' });
@@ -206,7 +221,7 @@ const profileAssetCreated = ( signals ) => {
                     
                     iconToggleBtnWrap.add( iconAssetEdit );
 
-                    iconNavUL.add( iconNavLi01, iconNavLi02 );
+                    iconNavUL.add( iconNavLi01, iconNavLi03, iconNavLi02 );
                     assetIconNav.add( iconNavUL );
                     
                     // let iconWrap = new UIDiv().setAttr({ 'class':'btn-group'});

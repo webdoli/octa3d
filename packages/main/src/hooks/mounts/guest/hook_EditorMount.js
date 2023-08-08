@@ -2,8 +2,8 @@
 const hookEditorMount = ( main, footer, mount, db, loader, assetParam ) => {
 
     main.innerHTML = '';
-    footer.firstChild.style.display = 'none';
-    loader.style.display = 'none';
+    if(footer.firstChild) footer.firstChild.style.display = 'none';
+    if( loader ) loader.style.display = 'none';
 
     let params = ( assetParam ) ? assetParam : '';
     const { res } = mount( { el:main, params:params } );

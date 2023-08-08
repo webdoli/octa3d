@@ -3,7 +3,8 @@ const LoaderUtils = {
 	createFilesMap: function ( files ) {
 
 		const map = {};
-
+		console.log('createFile length: ', files.length );
+		
 		for ( let i = 0; i < files.length; i ++ ) {
 
 			const file = files[ i ];

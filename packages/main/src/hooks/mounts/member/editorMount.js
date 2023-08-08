@@ -7,11 +7,11 @@ import { hookSignout } from "../../auth/hook_signout";
 export default class EditorMount extends abstractMount {
     
     constructor( signals ) {
-        console.log('asset마운트 class 시작')
+        console.log('asset마운트 class 시작');
         super();
     }
 
-    mount( db ) {
+    mount( param ) {
 
         const header = document.querySelector('.header-one');
         const main = document.querySelector('#main');
@@ -21,7 +21,7 @@ export default class EditorMount extends abstractMount {
         footer.appendChild( Footer().footer02 );
 
         main.innerHTML = '';
-        const { res } = editor_mount( main, db );
+        const { res } = editor_mount( { el: main, params: param } );
 
         document.querySelector('.preloader').style.display = 'none';
         this.setEvent();

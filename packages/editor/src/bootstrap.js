@@ -66,6 +66,8 @@ const mount = ( props ) => {
 
         let resFileDatas = await getDatas( 'models', docID, editor );
         
+        console.log('resFileDatas: ', resFileDatas[2] );
+        console.log('resFileDatas length: ', resFileDatas.length );
         // editor.loader.loadFiles( startModel.files );
         editor.loader.loadFiles( resFileDatas );
         // Loader에 파일 넘기기 실행

@@ -47,26 +47,30 @@ const signals = {
 
 onAuthStateChanged( auth, ( user ) => {
 
+    let urlOrigin = window.location.origin;
+    let urlPathName = window.location.pathname;
+    let urlRoute = urlOrigin + urlPathName;
+    const queryString = window.location.search;
+    const urlParams = new URLSearchParams( queryString );
+    let params = ( urlParams ) ? urlParams : '';
+
     if( user ) {
 
         console.log('유저 로그인')
-        userMain( headerEle, mainEle, footerEle, user )
+        userMain( headerEle, mainEle, footerEle, user, urlRoute, params )
       
     } else {
 
         console.log('Guest');
-        let urlOrigin = window.location.origin;
-        // let urlPath = window.location.href;
-        let urlPathName = window.location.pathname;
-        let urlRoute = urlOrigin + urlPathName;
-        const queryString = window.location.search;
-        const urlParams = new URLSearchParams( queryString );
-
-        // console.log('url all path: ', urlPath );
+        // let urlOrigin = window.location.origin;
+        // let urlPathName = window.location.pathname;
+        // let urlRoute = urlOrigin + urlPathName;
+        // const queryString = window.location.search;
+        // const urlParams = new URLSearchParams( queryString );
+        // let params = ( urlParams ) ? urlParams : '';
         console.log('url path name: ', urlPathName );
         console.log('url routing: ', )
         console.log('url original path: ', urlOrigin );
-        let params = ( urlParams ) ? urlParams : '';
 
         guestMain( headerEle, mainEle , footerEle )
             .then( () => {
@@ -83,8 +87,11 @@ onAuthStateChanged( auth, ( user ) => {
 /*******************/
 
 // Loading Login Page
-function userMain() {
-    
+function userMain( headerEle, mainEle, footerEle, user, urlRoute, params ) {
+
+    let pre_loader = document.querySelector('.preloader');
+    let assetParam = ( params ) ? params : '';
+    console.log('파람값: ', assetParam );
     let mountUrls = [
         { 'http://localhost:8080/': new HomeMount( signals ) },
         { 'https://octa3d-439a2.firebaseapp.com/': new HomeMount( signals ) },
@@ -93,21 +100,22 @@ function userMain() {
         { 'http://localhost:8080/mypage': new MypageMount( signals ) },
         { 'https://octa3d-439a2.firebaseapp.com/mypage': new MypageMount( signals ) },
         { 'http://localhost:8080/octa3d-editor': new EditorMount( signals ) },
+        // { 'http://localhost:8080/octa3d-editor': hookEditorMount( mainEle, footerEle, guestEditorMount, false, pre_loader, assetParam ) },
         { 'https://octa3d-439a2.firebaseapp.com/octa3d-editor': new EditorMount( signals ) },
     ];
     
-    let currentUrl = window.location.href;
+    let currentUrl = urlRoute;
     
     mountUrls.map( mounts => {
     
         if ( mounts[currentUrl ] ) {
     
-            mounts[currentUrl].mount();
+            mounts[currentUrl].mount( assetParam );
         }
     
     });
     
-    mobileExe( mainEle, footerEle );
+    // mobileExe( mainEle, footerEle );
    
 }
 
