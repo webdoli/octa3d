@@ -64,12 +64,16 @@ const mount = ( props ) => {
         console.log('시작 시 로딩 파일 있음: ', docID );
         // doc ID로 파이어베이스에서 model, texture 파일 받음
 
-        let resFileDatas = await getDatas( 'models', docID, editor );
+        getDatas( 'models', docID, editor )
+            .then( (res) => {
+                console.log('resFileDatas: ', res );
+                editor.loader.loadFiles( res );
+            });
         
-        console.log('resFileDatas: ', resFileDatas[2] );
-        console.log('resFileDatas length: ', resFileDatas.length );
+        // console.log('resFileDatas length: ', resFileDatas.length );
+        
         // editor.loader.loadFiles( startModel.files );
-        editor.loader.loadFiles( resFileDatas );
+        //@ editor.loader.loadFiles( resFileDatas );
         // Loader에 파일 넘기기 실행
         
     }

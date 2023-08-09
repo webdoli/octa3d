@@ -35,7 +35,6 @@ function getDataFromStorage( originName, value, type ) {
         getBlob( ref( storage, value ) )
         .then( blob => {
 
-            console.log('blob: ', blob );
             let texFile = new File(
                 [blob],
                 `${ originName }`,
@@ -49,6 +48,89 @@ function getDataFromStorage( originName, value, type ) {
     })
 }
 
+function getTexData ( textures ) {
+
+    console.log('getTexData 실행, textures: ', textures );
+    let textureFiles = new Array();
+
+    return new Promise( resolve => {
+
+        textures.map( (texArr) => {
+
+            for( let tex in texArr ) {
+    
+                let texName = tex;
+                let texValue = texArr[tex];
+                let texExt = texName.split( '.' ).pop().toLowerCase();
+                
+                getDataFromStorage( `${ texName }`,`${ texValue }`, `image/jpeg` )
+                .then( ( texRes ) => {
+    
+                    texRes.cloudName = texValue+texExt;
+                    texRes.textureOriginName = texName;
+                    textureFiles.push( texRes );
+                })
+            }
+    
+        });
+
+        resolve( textureFiles )
+
+    })
+
+}
+
+function setDataArr( modelUrlArr, modelSrc ) {
+
+    console.log('setDataArr 실행');
+
+    return new Promise( resolve => {
+
+        modelUrlArr.forEach( model => {
+                    
+            // let dt = new DataTransfer();
+            let modelUrl = model.obj;
+            let modelExt = model.ext;
+            let modelName = model.name;
+            let modelTex = model.tex;
+
+            getBlob( ref( storage, modelUrl ) )
+            .then( blob => {
+
+                let objFile = new File( 
+                    [blob], 
+                    `${ modelName }.${ modelExt }`,
+                    { 
+                        type: 'file',
+                        lastModified:new Date().getTime()
+                    }, 
+                );
+
+                modelSrc.push( objFile );
+                console.log('modelTex: ', modelTex );
+
+                if( modelTex ) {
+
+                    getTexData( modelSrc, modelTex )
+                    .then(( res ) => {
+
+                        console.log('텍스처 결과: ', res );
+                        resolve( res );
+                    })
+
+                } else {
+
+                    resolve( modelSrc );
+
+                }
+                
+            })
+
+        }); //model End
+
+    })
+}
+
 function getData( c, documents, editor ) {
    
     return new Promise( ( resolve, reject ) => {
@@ -57,134 +139,17 @@ function getData( c, documents, editor ) {
 
             let q = query( collection( db, c ), where( "docID", "==", item ) );
             const modelDatas = await getDocs( q );
+
             modelDatas.forEach( datas => {
 
                 let modelUrlArr = datas.data().model;
+                let modelSrc = new Array();
                 
-                modelUrlArr.forEach( model => {
-                    
-                    let dt = new DataTransfer();
-                    let modelSrc = new Array();
-                    let modelUrl = model.obj;
-                    let modelExt = model.ext;
-                    let modelName = model.name;
-                    let modelTex = model.tex;
-
-                    getBlob( ref( storage, modelUrl ) )
-                    .then( blob => {
-
-                        let objFile = new File( 
-                            [blob], 
-                            `${ modelName }.${ modelExt }`,
-                            { 
-                                type: 'file',
-                                lastModified:new Date().getTime()
-                            }, 
-                        );
-
-                        //@ modelSrc.push( objFile );
-                        dt.items.add( objFile )
-
-                        if( modelTex.length > 0 ) {
-                        
-                            
-                            modelTex.map( async (texArr) => {
-                                for( let tex in texArr ) {
-    
-                                    let texName = tex;
-                                    let texValue = texArr[tex];
-                                    let texExt = texName.split( '.' ).pop().toLowerCase();
-                                    //console.log('텍스처네임: ', texName );
-                                    
-                                    getDataFromStorage( `${ texName }`,`${ texValue }`, `image/jpeg` )
-                                        .then( ( texRes ) => {
-                                            texRes.cloudName = texValue+texExt;
-                                            texRes.textureOriginName = texName;
-                                            //@ modelSrc.push( texRes );
-                                            dt.items.add( texRes );
-                                            //@ resolve( modelSrc );
-                                            // resolve( dt.files );
-
-                                        })
-                                    /*
-                                    let texureData = await getBlob( ref( storage, texValue ) )
-                                        .then( blob => {
-                                            console.log('blob: ', blob );
-                                            let texFile = new File(
-                                                [blob],
-                                                `${ texValue }`,
-                                                { type: 'file', lastModified: new Date().getTime() }
-                                            );
-                                            // dt.items.add( texFile );
-                                            // modelSrc.push( texFile );
-                                            return texFile;
-                                            
-                                        });
-                                        
-                                        console.log('textureData: ', texureData );
-                                        modelSrc.push( texureData );
-                                    // modelSrc.push( tex );
-                                    */
-                                    
-                                }
-
-                                resolve( dt.files );
-
-                            });
-                        
-                        } // if End
-                        
-                        
-
-                        //return modelSrc;
-                        // console.log('modelSrc: ', modelSrc );
-                        // editor.loader.loadFiles( modelSrc );
-                        
-                    })
-                    // getBlob( ref( storage, modelUrl ) )
-                    //     .then( blob => {
-                            
-                    //         let objFile = new File( 
-                    //             [blob], 
-                    //             `${ modelName }.${ modelExt }`,
-                    //             { 
-                    //                 type: 'file',
-                    //                 lastModified:new Date().getTime()
-                    //             }    
-                    //         );
-                            
-                    //         modelSrc.push( objFile );
-                            
-                    //     })
-
-                        // if( modelTex.length > 0 ) {
-                        
-                        //     modelTex.map( texArr => {
-                        //         for( let tex in texArr ) {
-    
-                        //             let texName = tex;
-                        //             let texValue = texArr[tex];
-    
-                        //             getBlob( ref( storage, texValue ) )
-                        //                 .then( blob => {
-                        //                     console.log('blob: ', blob );
-                        //                     let texFile = new File(
-                        //                         [blob],
-                        //                         `${ texValue }`,
-                        //                         { type: 'file', lastModified: new Date().getTime() }
-                        //                     );
-                                            
-                        //                     modelSrc.push( texFile );
-                        //                 });
-                                    
-                        //         }
-                        //     })
-                        // }
-
-                        
-                            // resolve( dt );
-
-                });
+                resolve( modelUrlArr );
+                // setDataArr( modelUrlArr, modelSrc )
+                //     .then( ( res ) => {
+                //         resolve( res );
+                //     })
 
             });
     
@@ -194,26 +159,99 @@ function getData( c, documents, editor ) {
 
 }
 
+
+function getFBModelData ( url, name, ext ) {
+
+    console.log('getModelData 실행, modelDB: ' );
+
+    return new Promise( resolve => {
+
+        getBlob( ref( storage, url ) )
+            .then( blob => {
+
+                let objFile = new File( 
+                    [blob], 
+                    `${ name }.${ ext }`,
+                    { 
+                        type: 'file',
+                        lastModified:new Date().getTime()
+                    }, 
+                );
+
+                resolve( objFile );
+                
+            })
+
+    })
+
+}
+
+function getFBTexData ( texureDB ) {
+
+    console.log('getTexData 실행, textureDB: ', texureDB );
+
+    return new Promise( resolve => {
+
+        let texName = Object.keys( texureDB )[0];
+        let texValue = Object.values( texureDB )[0];
+        let texExt = texName.split( '.' ).pop().toLowerCase();
+        
+        getDataFromStorage( `${ texName }`,`${ texValue }`, `image/jpeg` )
+        .then( ( texRes ) => {
+
+            texRes.cloudName = texValue+texExt;
+            texRes.textureOriginName = texName;
+            resolve( texRes );
+
+        })
+
+    })
+
+}
+
+
 const getDatas = ( c, docs ) => {
 
     let res = [];
-    
-    return new Promise( (resolve, reject) => {
 
-        try {
-            if( docs ) {
+    if( docs ) {
 
-                getData( c, docs ).then( res => {
-                    console.log('CRUD res: ', res, res.length );
-                    resolve( res );
-                });
         
-            }
-        } catch ( err ){
-            console.log( err );
-        }
+        return new Promise( resolve => {
 
-    });
+            getData( c, docs )
+                .then( fbDocs => {
+
+                    for( let i = 0; i < fbDocs.length; i++ ) {
+
+                        let objUrl = fbDocs[i].obj;
+                        let objName = fbDocs[i].name;
+                        let objExt = fbDocs[i].ext;
+
+                        if( fbDocs[i].tex.length > 1 ) {
+
+                            let getTextures = fbDocs[i].tex.map( texInfo => getFBTexData( texInfo ) );
+
+                            Promise.all( getTextures )
+                                .then( texFile => {
+
+                                    getFBModelData( objUrl, objName, objExt )
+                                     .then( objModelDB => {
+                                        texFile.unshift( objModelDB );
+                                        resolve( texFile );
+                                     });
+                                    
+                                })
+
+                        }
+
+                        // console.log( 'fbDocs: ', fbDocs[i] );
+                    }
+                })
+
+        })    
+
+    }
     
 }
 
