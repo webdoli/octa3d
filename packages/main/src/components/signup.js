@@ -162,7 +162,8 @@ const SignupGUI = () => {
     
     container.appendChild( singupContainer.dom );
 
-    // window.recaptchaVerifier = new RecaptchaVerifier( auth, usrPhoneVerifyBtn.dom.id, {} );
+    
+  
 
     // wrapperForm.dom.addEventListener('submit', (e) => {
     //     e.preventDefault();

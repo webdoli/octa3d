@@ -1,5 +1,6 @@
 import { hookSignup } from "../../auth/hook_signup";
-
+import { auth } from "../../../db/firebaseDB";
+import { RecaptchaVerifier } from "firebase/auth";
 
 const hookSignupMount = ( main, footer, mount, loader ) => {
 
@@ -9,6 +10,13 @@ const hookSignupMount = ( main, footer, mount, loader ) => {
     main.appendChild( mount() );
     history.pushState({ data: '회원가입' }, 'Signup Page', '/signup');
     loader.style.display = 'none';
+
+    // window.recaptchaVerifier = new RecaptchaVerifier( auth, 'phoneVerifyBtn', {
+    //     'size': 'invisible',
+    //     'callback': () => {
+    //         alert('인증');
+    //     }
+    // }) ;
 
     // document.querySelector('#octa3d-signup-form').addEventListener('submit', (e) => {
     
