@@ -7,16 +7,14 @@ const hookSignupMount = ( main, footer, mount, loader ) => {
     main.innerHTML = '';
     footer.removeChild( footer.firstElementChild );
 
+    let recaptchaContainer = document.createElement('div');
+        recaptchaContainer.id = "recaptcha-container";
+    
+    main.appendChild( recaptchaContainer );
+
     main.appendChild( mount() );
     history.pushState({ data: '회원가입' }, 'Signup Page', '/signup');
     loader.style.display = 'none';
-
-    // window.recaptchaVerifier = new RecaptchaVerifier( auth, 'phoneVerifyBtn', {
-    //     'size': 'invisible',
-    //     'callback': () => {
-    //         alert('인증');
-    //     }
-    // }) ;
 
     // document.querySelector('#octa3d-signup-form').addEventListener('submit', (e) => {
     

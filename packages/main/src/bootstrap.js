@@ -1,6 +1,7 @@
 
 import { onAuthStateChanged } from 'firebase/auth';
 import { auth } from './db/firebaseDB';
+// import { RecaptchaVerifier } from 'firebase/auth';
 import detectUrlChange from 'detect-url-change';
 var Signal = require('signals');
 
@@ -23,7 +24,6 @@ import AssetMount from './hooks/mounts/member/assetMount';
 import HomeMount from './hooks/mounts/member/homeMount';
 import MypageMount from './hooks/mounts/member/mypageMount';
 import EditorMount from './hooks/mounts/member/editorMount';
-
 
 //SPA
 const headerEle = document.querySelector('.header-one');

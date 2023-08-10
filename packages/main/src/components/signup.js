@@ -2,9 +2,18 @@ import AuthCSS from "./authStyle";
 import { hookSignup } from "../hooks/auth/hook_signup";
 import { auth } from "../db/firebaseDB";
 import { RecaptchaVerifier } from "firebase/auth";
+import { phoneAuthenticate } from "../hooks/auth/hook_signup";
 import { OctaUI, UIA, UIButton, UIDiv, UIH, UIIcon, UIImg, UIInput, UILI, UIRow, UISpan, UIUL } from "../libs/octaUI";
 
 const SignupGUI = () => {
+
+    window.recaptchaVerifier = new RecaptchaVerifier( 'recaptcha-container', {
+        'size': 'invisible',
+        'callback': (response) => {
+            // reCAPTCHA solved, allow signInWithPhoneNumber.
+            //onSignInSubmit();
+        },
+    }, auth )
 
     let editSignupFormCSS = document.createElement('style');
     editSignupFormCSS.innerHTML += `
@@ -59,6 +68,9 @@ const SignupGUI = () => {
         .setAttr({ 'for':'confirmPass' })
         .setTextContent('Confirm Password');
 
+    // let submitPhoneNumAuth = () => {
+    //     console.log('폰 인증');
+    // }
     let usrPhone = new UIDiv().setAttr({ 
         'class':'form-floating mb-3',
         'style':'display:flex;align-items:center;justify-content:space-evenly'
@@ -71,9 +83,24 @@ const SignupGUI = () => {
             'style':'border-top-left-raduis:4px;border-top-right-radius:0;border-bottom-left-radius:4px;border-bottom-right-radius:0;' });
     let usrPhoneSpan = new UISpan().setAttr({ 'class':'input-group-addon' }).setTextContent('Phone');
     let usrPhoneVerifyBtn = new UIButton()
-        .setAttr({ 'class':'btn btn-primary btn-sm', 'id':'phoneVerifyBtn', 'type':'button', 'style':'background:#5138ee;' })
+        .setAttr({ 
+            'class':'btn btn-primary btn-sm', 
+            'id':'sign-in-button', 
+            'type':'button', 
+            'style':'background:#5138ee;',
+            // 'onClick':`${ submitPhoneNumAuth }`
+         })
         .setTextContent('Verify');
     
+    let usrCaptcha = new UIDiv().setAttr({ 'id':'recaptcha-container' });
+
+    // auth.languageCode = 'KR'
+    // window.recaptchaVerifier = new RecaptchaVerifier( auth, 'recaptcha-container', {
+    //     'size': 'invisible',
+    //     'callback': (response) => {
+        
+    //     }
+    // });
 
     let formRemember = new UIDiv().setAttr({ 'class': 'form-group' });
     let formRememHead = new UIDiv().setAttr({ 'class':'d-flex justify-content-between flex-wrap pt-sm-2' });
@@ -138,7 +165,7 @@ const SignupGUI = () => {
     formRemember.add( formRememHead );
     formGroup.addSeq( signupBtn, signupSpan );
 
-    wrapperForm.add( formFloatingID, formFloatingEmail, formFloatingPW, formFloatingRePW, usrPhone, formRemember, formGroup );
+    wrapperForm.add( formFloatingID, formFloatingEmail, formFloatingPW, formFloatingRePW, usrPhone, usrCaptcha, formRemember, formGroup );
 
     signinSpan.add( signinLink );
     signinAnotherWrap.add( signinAnotherIcon );

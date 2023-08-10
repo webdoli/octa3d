@@ -1,9 +1,15 @@
 import { auth, db, storage } from "../../db/firebaseDB";
 import { ref, uploadBytesResumable, getDownloadURL } from 'firebase/storage';
 import { doc, setDoc, addDoc, collection } from 'firebase/firestore';
-import { createUserWithEmailAndPassword, updateProfile } from "firebase/auth";
+import { createUserWithEmailAndPassword, updateProfile, RecaptchaVerifier  } from "firebase/auth";
 
-export const hookSignup = () => {
+const phoneAuthenticate = ( domID ) => {
+
+    window.recaptchaVerifier = new RecaptchaVerifier( auth, domID, {})
+
+}
+
+const hookSignup = () => {
 
     const signup = ( email, password, nickName ) => {
 
@@ -57,3 +63,5 @@ export const hookSignup = () => {
     return { signup }
 
 }
+
+export { hookSignup, phoneAuthenticate }
