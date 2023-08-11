@@ -62,13 +62,21 @@ const SignupGUI = () => {
 
     
     function submitPhoneNumAuth () {
-        let phoneNum = '+8210-8429-2916';
+        
+        let phoneNum = '+8210-2140-5789';
         var appVerifier = window.recaptchaVerifier;
         signInWithPhoneNumber( auth, phoneNum, appVerifier )
             .then( res => {
+
                 console.log('폰 전송 Code: ', res );
                 window.confirmationResult = res;
+
             })
+            .catch( (error) => {
+                console.log('phone SNS Error: ', error )
+                // Error; SMS not sent
+                // ...
+            });
 
     }
 
@@ -90,18 +98,23 @@ const SignupGUI = () => {
             'type':'button', 
             'style':'background:#5138ee;'
          })
+        .onClick( () => { submitPhoneNumAuth() } )
         .setTextContent('Verify');
 
-    usrPhoneVerifyBtn.dom.addEventListener('click', e => {
-        submitPhoneNumAuth();
-    })
+    // usrPhoneVerifyBtn.dom.addEventListener('click', e => {
+    //     submitPhoneNumAuth();
+    // })
+    function testFunc01 () {
+        console.log('testFunc01 실행');
+    }
 
     window.recaptchaVerifier = new RecaptchaVerifier( 'recaptcha-container', {
-        'size': 'invisible',
-        // 'callback': (response) => {
-            
-        //     submitPhoneNumAuth();
-        // },
+        'size': 'normal',
+        'callback': (response) => {
+            console.log('response: ', response );
+            testFunc01();
+            // submitPhoneNumAuth()
+        },
     }, auth );
 
    

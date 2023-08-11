@@ -1,6 +1,7 @@
 class OctaUI {
 
     constructor( dom ) {
+        
         this.dom = dom;
     }
 
@@ -101,6 +102,24 @@ class OctaUI {
     }
 
 }
+
+//Events
+const events = [ 'KeyUp', 'KeyDown', 'MouseOver', 'MouseOut', 'Click', 'DblClick', 'Change', 'Input' ];
+
+events.forEach(  (evt) => {
+
+    const method = 'on' + evt;
+
+    OctaUI.prototype[ method ] = function ( cb ) {
+
+        this.dom.addEventListener( evt.toLowerCase(), cb.bind( this ) );
+
+        return this;
+
+    }
+
+})
+
 
 //heritage
 class UIDiv extends OctaUI {
