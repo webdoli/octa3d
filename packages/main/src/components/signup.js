@@ -1,9 +1,42 @@
 import AuthCSS from "./authStyle";
 import { hookSignup } from "../hooks/auth/hook_signup";
 import { auth } from "../db/firebaseDB";
-import { RecaptchaVerifier, signInWithPhoneNumber  } from "firebase/auth";
+import { sendSignInLinkToEmail, RecaptchaVerifier, signInWithPhoneNumber  } from "firebase/auth";
 import { phoneAuthenticate } from "../hooks/auth/hook_signup";
 import { OctaUI, UIA, UIButton, UIDiv, UIH, UIIcon, UIImg, UIInput, UILI, UIRow, UISpan, UIUL } from "../libs/octaUI";
+
+const actionCodeSettings = {
+    
+    url: 'http://localhost:8080/',
+    // This must be true.
+    handleCodeInApp: true
+    // iOS: {
+    //   bundleId: 'com.example.ios'
+    // },
+    // android: {
+    //   packageName: 'com.example.android',
+    //   installApp: true,
+    //   minimumVersion: '12'
+    // },
+    // dynamicLinkDomain: 'example.page.link'
+};
+
+const validationEmail = ( email ) => {
+
+    let regex = new RegExp('[a-z0-9]+@[a-z]+\.[a-z]{2,3}');
+    return regex.test( email );
+
+}
+
+const createAlertEle = ( msg ) => {
+
+    let emailVerifyAlert = new UIDiv().setAttr({ 'class':'d-flex flex-row mb-3 emailVerifyAlert' });
+    let alertSpan = new UISpan().setAttr({ 'class':'p-2', 'style':'font-size:.85em;' }).setTextContent( msg );
+    emailVerifyAlert.add( alertSpan );
+
+    return emailVerifyAlert
+
+}
 
 const SignupGUI = () => {
 
@@ -14,7 +47,6 @@ const SignupGUI = () => {
         }
     `
     document.getElementsByTagName('head')[0].appendChild( editSignupFormCSS );
-
 
     let container = document.createElement('div');
         container.className = 'login-section padding-top padding-bottom'
@@ -32,19 +64,41 @@ const SignupGUI = () => {
     let wrapperForm = new OctaUI( document.createElement('form') )
         .setAttr({ 'class':'account-form', 'id':'octa3d-signup-form' });
     
+    /******************/
+    /*  user ID Code  */
+    /******************/
+    /*
     let formFloatingID = new UIDiv().setAttr({ 'class':'form-floating mb-3' });
     let userIDIpt = new UIInput()
         .setAttr({ 'type':'text', 'class':'form-control', 'id':'userIdInput', 'placeholder':'user-id' });
     let userIDLabel = new OctaUI( document.createElement('label' ))
         .setAttr({ 'for':'userIdInput' })
         .setTextContent('User ID');
+    */
 
-    let formFloatingEmail = new UIDiv().setAttr({ 'class':'form-floating mb-3' });
+    let loginEmail = new UIDiv().setAttr({ 'class':'form-floating col-md-12 mb-3', 'style':'display:flex;' });
     let userEmailIpt = new UIInput()
-        .setAttr({ 'type':'text', 'class':'form-control', 'id':'floatingInput', 'placeholder':'This email used when id is lost' });
+        .setAttr({ 'type':'email', 'class':'form-control', 'id':'floatingInput', 'placeholder':'This email used when id is lost' });
     let userEmailLabel = new OctaUI( document.createElement('label' ))
         .setAttr({ 'for':'floatingInput' })
-        .setTextContent('Email');
+        .setTextContent('Email( id )');
+    let emailVerifyBtn = new UIInput()
+        .setAttr({ 
+            'class':'btn btn-primary btn-sm col-md-2', 
+            'type':'button', 'value':'Verify', 
+            'style':'background:#5138ee;font-weight:400;border:none;' 
+        })
+        .onMouseOver((e) => { e.target.style='background-color:white;color:#5138ee;'})
+        .onMouseOut((e) => { e.target.style='background-color:#5138ee;color:white;border:none;font-weight:400;'});
+    
+
+    /* alert div add after */
+    let emailVerifyAlert = new UIDiv().setAttr({ 'class':'d-flex flex-row mb-3 emailVerifyAlert' });
+    let alertSpan = new UISpan().setAttr({ 'class':'p-2', 'style':'font-size:.7em;' }).setTextContent('');
+    emailVerifyAlert.add( alertSpan );
+
+    let alertMsg = new UIDiv().setAttr({ 'id':'alertMsgEmail' });
+    
 
     let formFloatingPW = new UIDiv().setAttr({ 'class':'form-floating mb-3' });
     let userPWIpt = new UIInput()
@@ -60,7 +114,10 @@ const SignupGUI = () => {
         .setAttr({ 'for':'confirmPass' })
         .setTextContent('Confirm Password');
 
-    
+    /******************/
+    /* phoneAuth Code */
+    /******************/
+    /*
     function submitPhoneNumAuth () {
         
         let phoneNum = '+8210-2140-5789';
@@ -84,6 +141,7 @@ const SignupGUI = () => {
         'class':'form-floating mb-3',
         'style':'display:flex;align-items:center;justify-content:space-evenly'
     });
+
     let usrPhoneIpt = new UIInput()
         .setAttr({
             'id':'phoneIptEl', 
@@ -104,6 +162,7 @@ const SignupGUI = () => {
     // usrPhoneVerifyBtn.dom.addEventListener('click', e => {
     //     submitPhoneNumAuth();
     // })
+
     function testFunc01 () {
         console.log('testFunc01 실행');
     }
@@ -116,20 +175,31 @@ const SignupGUI = () => {
             // submitPhoneNumAuth()
         },
     }, auth );
-
-   
+    */
 
     let formRemember = new UIDiv().setAttr({ 'class': 'form-group' });
-    let formRememHead = new UIDiv().setAttr({ 'class':'d-flex justify-content-between flex-wrap pt-sm-2' });
-    let formRememCheckGrp = new UIDiv().setAttr({ 'class':'checkgroup' });
-    let formRememIpt = new UIInput().setAttr({ 'type':'checkbox', 'id':'remember', 'name':'remember' });
-    let formRememLabel = new OctaUI( document.createElement('label') )
-        .setAttr({ 'for':'remember' })
-        .setTextContent('Remember Me');
-    let forgetPW = new UIA().setAttr({ 'href':'' }).setTextContent('Forgot Password?');
+    let formRememHead = new UIDiv().setAttr({ 'class':'d-flex justify-content-center flex-wrap pt-sm-2' });
+    
+    /*********************/
+    /* Remember Chk Code */
+    /*********************/
+    // let formRememCheckGrp = new UIDiv().setAttr({ 'class':'checkgroup' });
+    // let formRememIpt = new UIInput().setAttr({ 'type':'checkbox', 'id':'remember', 'name':'remember' });
+    // let formRememLabel = new OctaUI( document.createElement('label') )
+    //     .setAttr({ 'for':'remember' })
+    //     .setTextContent('Remember Me');
+
+    /*********************/
+    /* Forget IDPW Code  */
+    /*********************/
+    /*
+    let forgetID = new UIA().setAttr({ 'href':'', 'class':'px-2', 'style':'color:#fae499;font-size:.9em;' }).setTextContent('Forgot ID?');
+    let passSpan = new UISpan().setAttr({ 'style':'font-size:.9em;' }).setTextContent(' or ');
+    let forgetPW = new UIA().setAttr({ 'href':'', 'class':'px-2', 'style':'color:#fae499;font-size:.9em;' }).setTextContent('Password?');
+    */
 
     let formGroup = new UIDiv().setAttr({ 'class':'form-group' });
-    let signupBtn = new UIButton().setAttr({ 'class':'d-block default-btn move-top' });
+    let signupBtn = new UIButton().setAttr({ 'class':'d-block default-btn move-top', 'type':'button' });
     let signupSpan = new UISpan().setTextContent('Signup Now');
 
     let accountBottom = new UIDiv().setAttr({ 'class':'account-bottom' });
@@ -166,23 +236,26 @@ const SignupGUI = () => {
 
 
     // Conversion
-    formFloatingID.add( userIDIpt, userIDLabel );
-    formFloatingEmail.add( userEmailIpt, userEmailLabel );
+    // formFloatingID.add( userIDIpt, userIDLabel );
+    loginEmail.add( userEmailIpt, userEmailLabel );
     formFloatingPW.add( userPWIpt, userPWLabel );
     formFloatingRePW.add( userRePWIpt, userRePWLabel );
-    usrPhone.add( usrPhoneSpan, usrPhoneIpt, usrPhoneVerifyBtn  );
     
-    window.intlTelInput( usrPhoneIpt.dom, {
-        utilsScript: "https://cdn.jsdelivr.net/npm/intl-tel-input@18.1.1/build/js/utils.js",
-    });
+    /**************/
+    /* phone Auth */
+    /**************/
+    // usrPhone.add( usrPhoneSpan, usrPhoneIpt, usrPhoneVerifyBtn  );
+    
+    // window.intlTelInput( usrPhoneIpt.dom, {
+    //     utilsScript: "https://cdn.jsdelivr.net/npm/intl-tel-input@18.1.1/build/js/utils.js",
+    // });
 
-
-    formRememCheckGrp.add( formRememIpt, formRememLabel );
-    formRememHead.add( formRememCheckGrp, forgetPW );
-    formRemember.add( formRememHead );
+    // formRememCheckGrp.add( formRememIpt, formRememLabel );
+    // formRememHead.add( forgetID, passSpan, forgetPW );
+    // formRemember.add( formRememHead );
     formGroup.addSeq( signupBtn, signupSpan );
 
-    wrapperForm.add( formFloatingID, formFloatingEmail, formFloatingPW, formFloatingRePW, usrPhone, formRemember, formGroup );
+    wrapperForm.add( loginEmail, alertMsg, formFloatingPW, formFloatingRePW, formGroup );
 
     signinSpan.add( signinLink );
     signinAnotherWrap.add( signinAnotherIcon );
@@ -206,9 +279,6 @@ const SignupGUI = () => {
     
     container.appendChild( singupContainer.dom );
 
-    
-  
-
     // wrapperForm.dom.addEventListener('submit', (e) => {
     //     e.preventDefault();
     //     const { signup } = hookSignup();
@@ -220,6 +290,79 @@ const SignupGUI = () => {
 
     //     signup( userID, userPW, userEmail );
     // })
+
+    // Events
+    function alertMsgFunc( message, msgEle, alertColor, msgDiv ) {
+
+        msgDiv.clear();
+        let alertNullMsg = msgEle( message );
+        alertNullMsg.dom.style.color = alertColor;
+        msgDiv.add( alertNullMsg );
+
+    }
+
+    signupBtn.onClick( (e) => {
+        
+        let msgDiv = alertMsg;
+        let usrEmail = userEmailIpt.dom.value;
+        let usrPW = userRePWIpt.dom.value;
+        let emailValidation = validationEmail( usrEmail );
+
+        if( !usrEmail || !emailValidation ) {
+            alertMsgFunc( '∵ Invalid Email Address.', createAlertEle, 'tomato', msgDiv );
+            return;
+        }
+
+        sendSignInLinkToEmail( auth, usrEmail, actionCodeSettings )
+            .then( () => {
+                
+                console.log('Sign-in Email sent successfully');
+                window.localStorage.setItem( 'emailForSignIn', usrEmail );
+
+                //Create User into Server
+                const { signup } = hookSignup();
+                console.log( `서버 저장 || ID: ${ usrEmail }, PW: ${ usrPW }` );
+                signup( usrEmail, usrPW );
+
+            })
+            .catch( err => {
+                console.log('이메일 인증 Error: ', err );
+            }) 
+    });
+
+    /*************************/
+    /*  Btn Validation Code  */
+    /*************************/
+    /*
+    emailVerifyBtn.onClick( (e) => {
+        
+        let msgDiv = alertMsg;
+        let usrEmail = userEmailIpt.dom.value;
+        let emailValidation = validationEmail( usrEmail );
+
+        if( !usrEmail ) {
+            alertMsgFunc( '∵ Insert your Email.', createAlertEle, 'tomato', msgDiv );
+            return;
+        }
+        
+        if( emailValidation ) {
+
+            sendSignInLinkToEmail( auth, usrEmail, actionCodeSettings )
+                .then( () => {
+                    console.log('Sign-in Email sent successfully');
+                    window.localStorage.setItem( 'emailForSignIn', usrEmail );
+                })
+                .catch( err => {
+                    console.log('이메일 인증 Error: ', err );
+                }) 
+
+        } else {
+            alertMsgFunc( '∵ Insert right Email Form.', createAlertEle, 'tomato', msgDiv );
+            return;
+        }
+
+    })
+    */
 
     return container
 
