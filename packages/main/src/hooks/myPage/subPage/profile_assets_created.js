@@ -42,13 +42,15 @@ const profileAssetCreated = ( signals ) => {
     }
 
     getRealData( 'users', auth.currentUser.uid ).then( (res) => {
-
+ 
+            
             let assets = res.data().model;
+            let assetLen = ( assets !== undefined ) ? assets.length : 1; 
             let pageSize = 2;
-            let lastPage = parseInt( assets.length / pageSize ) + 1;
+            let lastPage = parseInt( assetLen / pageSize ) + 1;
             let curPage = 1;
             let startNum = (curPage * pageSize) - pageSize;
-            let lastNum = ( lastPage === curPage ) ? assets.length : curPage * pageSize;
+            let lastNum = ( lastPage === curPage) ? assetLen : curPage * pageSize;
 
             pageLoading( startNum, lastNum, assets );
             createPageList( lastPage, pagePrevItem, pageNextItem, pageUL );
@@ -253,130 +255,138 @@ const profileAssetCreated = ( signals ) => {
                     
 
                     // make a card title
-                    let cardTitle = new UIH( assets[i].name , 7 );
-                    let sceneEle = new UIDiv()
-                        .setAttr({ 
-                            'class': 'scn-asset',
-                            'style': 'z-index:10;height:160px;margin-top:20px;',
-                            'id':'asset-small-scene'
-                        });
-
-
-                    scene.background = new THREE.Color(0xffffff);
-                    scene.userData.element = sceneEle.dom;
-
-                    titleWrap.add( cardTitle, iconToggleBtnWrap );
-                    inner.add( assetIconCSS, titleWrap, assetIconNav );
-                    row.addSeq( col, item, inner );
-
-                    //make THREE Scene
-                    const camera = new THREE.PerspectiveCamera( 75, (inner.dom.clientWidth*.8) / (inner.dom.clientHeight*.65), 0.1, 1000 );
-                    const renderer = new THREE.WebGLRenderer();
-                    renderer.setSize( inner.dom.clientWidth*.8, inner.dom.clientHeight*.65 );
-
-                    //light
-                    let light = new THREE.HemisphereLight(0xffeeb1, 0x080820, 1);
-                    scene.add(light);
-
-                    const directionalLight = new THREE.DirectionalLight(0xffa95c, 1);
-                    directionalLight.position.set(-50, 50, 50);
-                    directionalLight.castShadow = true;
-                    directionalLight.shadow.bias = -0.0001;
-                    directionalLight.shadow.mapSize.width = 1024 * 4; // default
-                    directionalLight.shadow.mapSize.height = 1024 * 4; // default
-                    scene.add(directionalLight);
-
-                    light = new THREE.PointLight()
-                    light.position.set(0.8, 1.4, 1.0)
-                    scene.add(light)
-
-                    const ambientLight = new THREE.AmbientLight( 0xffffff );
-                    scene.add(ambientLight)
-
-                    const controls = new OrbitControls( camera, renderer.domElement );
-
-                    inner.dom.appendChild( renderer.domElement );
-
-                    // const geometry = new THREE.BoxGeometry( 1, 1, 1 );
-                    // const material = new THREE.MeshBasicMaterial( { color: 0x00ff00 } );
-                    // const cube = new THREE.Mesh( geometry, material );
-                    //scene.add( cube );
-
-                    camera.position.z = 2;
-                    controls.update();
-
-                    var urlMap = [];
-                    var manager = new THREE.LoadingManager();
-                    manager.setURLModifier( function( url ) {
-
-                        // this function is called for each asset request
-                        if ( url.split('.').pop() === ('jpg' || 'png' || 'gif' || 'jpeg' || 'tif') ) {
-
-                            let key = url.split('/').pop();
-
-                            assets[i].tex.map( item => {
-
-
-                                Object.keys( item ).map( texTitle => { 
-
-                                    if( texTitle === key ) {
-                                        url = item[key] 
-                                    } 
-
-                                })
-
-                            })
-
-                        }
-
-                        // assets[i].tex
                     
-                        return url;
-                    
-                    } );
+                    if( assets !== undefined ) {
 
-                    const fbxLoader = new FBXLoader( manager );
+                        let cardTitle =  new UIH( assets[i].name , 7 );
+                        let sceneEle = new UIDiv()
+                            .setAttr({ 
+                                'class': 'scn-asset',
+                                'style': 'z-index:10;height:160px;margin-top:20px;',
+                                'id':'asset-small-scene'
+                            });
 
-                    // fbxLoader.setResourcePath('https://firebasestorage.googleapis.com/v0/b/octa3d-439a2.appspot.com/o/');
 
-                    fbxLoader.load(
-                        assets[i].obj,
-                        ( obj ) => {
-                            obj.traverse(function (child) {
+                        scene.background = new THREE.Color(0xffffff);
+                        scene.userData.element = sceneEle.dom;
 
-                                if ( child.isMesh ) {
+                        titleWrap.add( cardTitle, iconToggleBtnWrap );
+                        inner.add( assetIconCSS, titleWrap, assetIconNav );
+                        row.addSeq( col, item, inner );
 
-                                    // texLoader.load( assets[i].tex[0], ( texture ) => {
-
-                                    //     child.material.map = texture;
-                                    //     child.material.needsupdate = true;
-                                    //     console.log( 'texture: ', texture );
-
-                                    // })
-                                    child.castShadow = true;
-			    				    child.receiveShadow = true;
-                                    //child.material = material
-                                }
-                            })
-                            // object.scale.set(.01, .01, .01)
-                            scene.add( obj )
-                        },
-                        (xhr) => {
-                            console.log((xhr.loaded / xhr.total) * 100 + '% loaded')
-                        },
-                        (error) => {
-                            console.log(error)
-                        }
-                    )
-                    
-                    
-                    animate();
-
-                    function animate() {
-                        requestAnimationFrame( animate );
+                        //make THREE Scene
+                        const camera = new THREE.PerspectiveCamera( 75, (inner.dom.clientWidth*.8) / (inner.dom.clientHeight*.65), 0.1, 1000 );
+                        const renderer = new THREE.WebGLRenderer();
+                        renderer.setSize( inner.dom.clientWidth*.8, inner.dom.clientHeight*.65 );
+                            
+                        //light
+                        let light = new THREE.HemisphereLight(0xffeeb1, 0x080820, 1);
+                        scene.add(light);
+                            
+                        const directionalLight = new THREE.DirectionalLight(0xffa95c, 1);
+                        directionalLight.position.set(-50, 50, 50);
+                        directionalLight.castShadow = true;
+                        directionalLight.shadow.bias = -0.0001;
+                        directionalLight.shadow.mapSize.width = 1024 * 4; // default
+                        directionalLight.shadow.mapSize.height = 1024 * 4; // default
+                        scene.add(directionalLight);
+                            
+                        light = new THREE.PointLight()
+                        light.position.set(0.8, 1.4, 1.0)
+                        scene.add(light)
+                            
+                        const ambientLight = new THREE.AmbientLight( 0xffffff );
+                        scene.add(ambientLight)
+                            
+                        const controls = new OrbitControls( camera, renderer.domElement );
+                            
+                        inner.dom.appendChild( renderer.domElement );
+                            
+                        // const geometry = new THREE.BoxGeometry( 1, 1, 1 );
+                        // const material = new THREE.MeshBasicMaterial( { color: 0x00ff00 } );
+                        // const cube = new THREE.Mesh( geometry, material );
+                        //scene.add( cube );
+                            
+                        camera.position.z = 2;
                         controls.update();
-                        renderer.render( scene, camera );
+                            
+                        var urlMap = [];
+                        var manager = new THREE.LoadingManager();
+                        manager.setURLModifier( function( url ) {
+                        
+                            // this function is called for each asset request
+                            if ( url.split('.').pop() === ('jpg' || 'png' || 'gif' || 'jpeg' || 'tif') ) {
+                            
+                                let key = url.split('/').pop();
+                            
+                                assets[i].tex.map( item => {
+                                
+                                
+                                    Object.keys( item ).map( texTitle => { 
+                                    
+                                        if( texTitle === key ) {
+                                            url = item[key] 
+                                        } 
+                                    
+                                    })
+                                
+                                })
+                            
+                            }
+                        
+                            // assets[i].tex
+                        
+                            return url;
+                        
+                        } );
+                    
+                        const fbxLoader = new FBXLoader( manager );
+                    
+                        // fbxLoader.setResourcePath('https://firebasestorage.googleapis.com/v0/b/octa3d-439a2.appspot.com/o/');
+                        
+                        fbxLoader.load(
+                            assets[i].obj,
+                            ( obj ) => {
+                                obj.traverse(function (child) {
+                                
+                                    if ( child.isMesh ) {
+                                    
+                                        // texLoader.load( assets[i].tex[0], ( texture ) => {
+                                    
+                                        //     child.material.map = texture;
+                                        //     child.material.needsupdate = true;
+                                        //     console.log( 'texture: ', texture );
+                                    
+                                        // })
+                                        child.castShadow = true;
+			    	    			    child.receiveShadow = true;
+                                        //child.material = material
+                                    }
+                                })
+                                // object.scale.set(.01, .01, .01)
+                                scene.add( obj )
+                            },
+                            (xhr) => {
+                                console.log((xhr.loaded / xhr.total) * 100 + '% loaded')
+                            },
+                            (error) => {
+                                console.log(error)
+                            }
+                        )
+                        
+                        
+                        animate();
+                        
+                        function animate() {
+                            requestAnimationFrame( animate );
+                            controls.update();
+                            renderer.render( scene, camera );
+                        }
+
                     }
+                    
+
+                    
 
                 }
             }

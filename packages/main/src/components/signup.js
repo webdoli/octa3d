@@ -207,7 +207,7 @@ const SignupGUI = () => {
     let signinSpan = new UISpan()
         .setAttr({ 'class':'d-block cate pt-10' })
         .setTextContent('Already Have an Account? ');
-    let signinLink = new UIA().setAttr({ 'href':'/login' }).setTextContent('Sign In');
+    let signinLink = new UIA().setAttr({ 'href':'/login' }).setTextContent('Log In');
     let signinAnotherWrap = new UISpan().setAttr({ 'class':'or' });
     let signinAnotherIcon = new UISpan().setTextContent('or');
     
@@ -320,10 +320,9 @@ const SignupGUI = () => {
                 window.localStorage.setItem( 'emailForSignIn', usrEmail );
 
                 //Create User into Server
-                const { signup } = hookSignup();
-                console.log( `서버 저장 || ID: ${ usrEmail }, PW: ${ usrPW }` );
-                signup( usrEmail, usrPW );
-
+                // const { signup } = hookSignup();
+                // signup( usrEmail, usrPW );
+                window.location.href = '/';
             })
             .catch( err => {
                 console.log('이메일 인증 Error: ', err );

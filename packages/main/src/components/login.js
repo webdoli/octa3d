@@ -17,7 +17,7 @@ const LoginGUI = () => {
                         <form class="account-form" id="octa3d-signin-form">
                             <div class="form-floating mb-3">
                                 <input type="email" class="form-control" id="floatingInput"
-                                    placeholder="name@example.com">
+                                    placeholder="">
                                 <label for="floatingInput">Email address</label>
                             </div>
                             <div class="form-floating">
@@ -71,8 +71,6 @@ const LoginGUI = () => {
             </div>
         </div>
         `
-
-        console.log('로그인 html추가 완료');
     return container
 }
 

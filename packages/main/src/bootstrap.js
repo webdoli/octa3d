@@ -1,5 +1,5 @@
 
-import { onAuthStateChanged } from 'firebase/auth';
+import { onAuthStateChanged, isSignInWithEmailLink, signInWithEmailLink } from 'firebase/auth';
 import { auth } from './db/firebaseDB';
 // import { RecaptchaVerifier } from 'firebase/auth';
 import detectUrlChange from 'detect-url-change';
@@ -24,6 +24,30 @@ import AssetMount from './hooks/mounts/member/assetMount';
 import HomeMount from './hooks/mounts/member/homeMount';
 import MypageMount from './hooks/mounts/member/mypageMount';
 import EditorMount from './hooks/mounts/member/editorMount';
+
+
+if( isSignInWithEmailLink( auth, window.location.href ) ) {
+
+    let email = window.localStorage.getItem( 'emailForSignIn' );
+
+    if( !email ) {
+        email = window.prompt( 'Please provide your email for confirmation' );
+    }
+
+    signInWithEmailLink( auth, email, window.location.href )
+    .then( (result) => {
+        
+        window.localStorage.removeItem( 'emailForSignIn' );
+        console.log('result: ', result );
+
+        // 1]result로 users 모델 추가하기
+        // 2]location.href = / 강제이동하기
+        // 3]로그아웃 자연스럽게 해결
+        window.location.href = '/';
+    
+    }).catch( err => console.log('error: ', err) );
+
+}
 
 //SPA
 const headerEle = document.querySelector('.header-one');
@@ -55,19 +79,12 @@ onAuthStateChanged( auth, ( user ) => {
     let params = ( urlParams ) ? urlParams : '';
 
     if( user ) {
-
-        console.log('유저 로그인')
+        console.log('이메일 인증: ', user.emailVerified );
         userMain( headerEle, mainEle, footerEle, user, urlRoute, params )
       
     } else {
 
         console.log('Guest');
-        // let urlOrigin = window.location.origin;
-        // let urlPathName = window.location.pathname;
-        // let urlRoute = urlOrigin + urlPathName;
-        // const queryString = window.location.search;
-        // const urlParams = new URLSearchParams( queryString );
-        // let params = ( urlParams ) ? urlParams : '';
         console.log('url path name: ', urlPathName );
         console.log('url routing: ', )
         console.log('url original path: ', urlOrigin );
