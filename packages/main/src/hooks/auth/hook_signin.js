@@ -8,12 +8,18 @@ export const hookSignin = () => {
 
         signInWithEmailAndPassword( auth, email, password )
             .then( res => {
+                
+                if( res.user.emailVerified ) {
+                    updateDoc( doc( db, 'users', res.user.uid ), {
+                        online: 'on'
+                    }).then( () => {
+                        location.replace('/');
+                    })
+                } else {
 
-                updateDoc( doc( db, 'users', res.user.uid ), {
-                    online: 'on'
-                }).then( () => {
-                    location.replace('/');
-                })
+                    alert('email not verified. check your email and verify it');
+                    
+                }
 
             })
             .catch( (err) => {

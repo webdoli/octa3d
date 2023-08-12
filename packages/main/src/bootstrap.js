@@ -1,5 +1,5 @@
 
-import { onAuthStateChanged, isSignInWithEmailLink, signInWithEmailLink } from 'firebase/auth';
+import { onAuthStateChanged, isSignInWithEmailLink, signInWithEmailLink, updateProfile } from 'firebase/auth';
 import { auth } from './db/firebaseDB';
 // import { RecaptchaVerifier } from 'firebase/auth';
 import detectUrlChange from 'detect-url-change';
@@ -9,15 +9,19 @@ import GuestHeader from './components/guestHeader';
 import Main from './components/main';
 import Footer from './components/footer';
 
+import { hookSignup } from './hooks/auth/hook_signup';
+
 //mount
 import { mount as guestAssetMount } from 'assets/Assets';
 import { mount as guestEditorMount } from 'editor/Editor'
 import LoginGUI from './components/login';
 import SignupGUI from './components/signup';
+import resetPWGUI from './components/resetPW';
 
 import hookAssetMount from './hooks/mounts/guest/hook_AssetMount';
 import hookSignupMount from './hooks/mounts/guest/hook_SignupMount';
 import hookSigninMount from './hooks/mounts/guest/hook_SigninMount';
+import hookResetPWMount from './hooks/mounts/guest/hook_resetPWMount';
 import hookEditorMount from './hooks/mounts/guest/hook_EditorMount';
 
 import AssetMount from './hooks/mounts/member/assetMount';
@@ -28,6 +32,7 @@ import EditorMount from './hooks/mounts/member/editorMount';
 
 if( isSignInWithEmailLink( auth, window.location.href ) ) {
 
+    console.log('@@ New Member Login @@')
     let email = window.localStorage.getItem( 'emailForSignIn' );
 
     if( !email ) {
@@ -37,8 +42,12 @@ if( isSignInWithEmailLink( auth, window.location.href ) ) {
     signInWithEmailLink( auth, email, window.location.href )
     .then( (result) => {
         
-        window.localStorage.removeItem( 'emailForSignIn' );
-        console.log('result: ', result );
+        window.localStorage.removeItem( 'emailForSignIn: ', result );
+        // console.log('New Member Info(result): ', result.user );
+
+        // updateProfile( result.uid, {
+        //     emailVerified: true
+        // });
 
         // 1]result로 users 모델 추가하기
         // 2]location.href = / 강제이동하기
@@ -78,12 +87,11 @@ onAuthStateChanged( auth, ( user ) => {
     const urlParams = new URLSearchParams( queryString );
     let params = ( urlParams ) ? urlParams : '';
 
-    if( user ) {
-        console.log('이메일 인증: ', user.emailVerified );
+    if( user && user.emailVerified ) {
+        console.log('@@ 이메일 인증 유저 로그인 @@');
         userMain( headerEle, mainEle, footerEle, user, urlRoute, params )
       
     } else {
-
         console.log('Guest');
         console.log('url path name: ', urlPathName );
         console.log('url routing: ', )
@@ -176,6 +184,13 @@ function routeGuestPage( mainEle, footerEle, path, params ) {
             break;
         case 'https://octa3d-439a2.firebaseapp.com/signup':
             hookSignupMount( mainEle, footerEle, SignupGUI, pre_loader );
+            break;
+
+        case 'http://localhost:8080/resetPW' :
+            hookResetPWMount( mainEle, footerEle, resetPWGUI, pre_loader );
+            break;
+        case 'https://octa3d-439a2.firebaseapp.com/resetPW':
+            hookResetPWMount( mainEle, footerEle, resetPWGUI, pre_loader );
             break;
 
         case 'http://localhost:8080/assets' :

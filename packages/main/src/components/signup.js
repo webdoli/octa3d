@@ -313,20 +313,23 @@ const SignupGUI = () => {
             return;
         }
 
-        sendSignInLinkToEmail( auth, usrEmail, actionCodeSettings )
-            .then( () => {
-                
-                console.log('Sign-in Email sent successfully');
-                window.localStorage.setItem( 'emailForSignIn', usrEmail );
+        const { signup } = hookSignup();
+        signup( usrEmail, usrPW );
 
-                //Create User into Server
-                // const { signup } = hookSignup();
-                // signup( usrEmail, usrPW );
-                window.location.href = '/';
-            })
-            .catch( err => {
-                console.log('이메일 인증 Error: ', err );
-            }) 
+        // sendSignInLinkToEmail( auth, usrEmail, actionCodeSettings )
+        //     .then( () => {
+
+        //         const { signup } = hookSignup();
+        //         console.log('Sign-in Email sent successfully');
+        //         window.localStorage.setItem( 'emailForSignIn', usrEmail );
+
+        //         //Create User into Server
+        //         signup( usrEmail, usrPW );
+        //         // window.location.href = '/';
+        //     })
+        //     .catch( err => {
+        //         console.log('이메일 인증 Error: ', err );
+        //     }) 
     });
 
     /*************************/
