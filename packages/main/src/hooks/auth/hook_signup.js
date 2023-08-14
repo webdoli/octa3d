@@ -1,7 +1,7 @@
 import { auth, db, storage } from "../../db/firebaseDB";
 import { ref, uploadBytesResumable, getDownloadURL } from 'firebase/storage';
 import { doc, setDoc, addDoc, collection } from 'firebase/firestore';
-import { createUserWithEmailAndPassword, updateProfile, RecaptchaVerifier, sendEmailVerification  } from "firebase/auth";
+import { createUserWithEmailAndPassword, updateProfile, RecaptchaVerifier, sendEmailVerification, sendPasswordResetEmail   } from "firebase/auth";
 
 const phoneAuthenticate = ( domID ) => {
 
@@ -19,6 +19,23 @@ function deleteCookies() {
  }
 
 const hookSignup = () => {
+
+    const resetPWMail = ( email ) => {
+
+        sendPasswordResetEmail( auth, email )
+        .then( () => {
+
+            console.log('password reset email sent!');
+            
+        
+        })
+        .catch( err => {
+
+            console.log( 'pw sent err: ', err.message );
+            window.location.href = '/';
+        })
+    
+    }
 
     const signup = async ( email, pw, nick ) => {
 
@@ -142,7 +159,7 @@ const hookSignup = () => {
     }
     */
 
-    return { signup }
+    return { signup, resetPWMail }
 
 }
 

@@ -37,6 +37,13 @@ const profileAboutPage = ( signals ) => {
             let cardInfoP03 = new UIP().setAttr({ 'class':'info-name' }).setTextContent( 'Country' );
             let cardInfoP04 = new UIP().setAttr({ 'class':'info-details' }).setTextContent( user.country );
 
+            let withdrawalWrapLi = new UIDiv().setAttr({ 'class':'withdrawalBtn-wrap' });
+            let withDrawalBtn = new UIButton()
+                .setAttr({ 'class':'withdrawlBtn', 'style':'background:tomato;color:#fff;' })
+                .setTextContent( '탈퇴(withdrawal)' );
+
+            withdrawalWrapLi.add( withDrawalBtn )
+
             let aboutBtn = new UIButton().setAttr({ 'type':'button', 'class':'btn btn-primary', 'data-bs-toggle':'modal', 'data-bs-target':'#confirmPWModal', 
             'style':'margin-top:20px; margin-left:41%; padding:10px 30px' }).setTextContent('Edit');
 
@@ -94,7 +101,7 @@ const profileAboutPage = ( signals ) => {
             let formCol04 = new UIDiv().setAttr({ 'class':'col-auto' });
             let formColipt02 = new UIInput().setAttr({ 'type':'password', 'id':'confirmPassword', 'class':'form-control', 'aria-labelledby':'passwordHelpInline', 'required':'' });
             let formRow02Invalid = new UIDiv().setAttr({ 'class':'invalid-feedback02', 'style':'color:tomato;font-size:.8em;' });
-            
+
             let editFormSubmit = new UIDiv().setAttr({ 'class':'submit-btn-field text-center' });
             let submitBtn = new UIButton().setAttr({ 'type':'submit', 'id':'profile-edit-submitBtn', 'style':'padding:10px 25px;margin:25px 0;' }).setTextContent('Edit');
 
@@ -175,6 +182,22 @@ const profileAboutPage = ( signals ) => {
 
                 }
 
+            });
+
+            withDrawalBtn.onClick( (e) => {
+                
+                let answer = window.confirm('탈퇴하시겠습니까?');
+
+                if( answer ) {
+                    //1] 사용자 uid 넣어서 user collection에서 해당 사용자 데이터 삭제하기 => 마이그레이션 기능(훗날)
+                    //2] 파이어베이스 auth 삭제하기
+                    //3] 프로미스 구문으로 홈 이동하기
+                    console.log('탈퇴 됐음');
+                }
+                else 
+                {
+                    console.log('탈퇴 No');
+                }
             })
 
             modalHeader.add( modealH_h01, modalBtnClose );
@@ -192,7 +215,7 @@ const profileAboutPage = ( signals ) => {
 
             cardInfo2Li01.add( cardInfoP01, cardInfoP02 );
             cardInfo2Li02.add( cardInfoP03, cardInfoP04 );
-            cardInfo2Ul.add( cardInfo2Li01, cardInfo2Li02 );
+            cardInfo2Ul.add( cardInfo2Li01, cardInfo2Li02, withdrawalWrapLi );
 
             cardInfo2.add( cardInfo2Title, cardContent02 );
 
