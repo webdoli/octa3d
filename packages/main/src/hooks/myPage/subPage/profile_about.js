@@ -1,16 +1,19 @@
 import { auth, db } from "../../../db/firebaseDB";
-import { doc, setDoc } from "firebase/firestore";
+import { doc, setDoc, getDocs, collection, query, where } from "firebase/firestore";
 import { reauthenticateWithCredential, EmailAuthProvider, updatePassword } from "firebase/auth";
 import getData from "../../hook_getData";
 import { OctaUI, UIButton, UIDiv, UIH, UIInput, UILI, UIP, UISpan, UITextArea, UIUL } from "../../../libs/octaUI";
 
 const profileAboutPage = ( signals ) => {
 
-    let collection = 'users';
+    let usrCollection = 'users';
+    let modelsRef = collection( db, 'models' );
+
     let currentUser = auth.currentUser.uid;
+    let usrID = auth.currentUser.email;
     let container = new UIDiv();
     
-    getData( collection, currentUser )
+    getData( usrCollection, currentUser )
         .then( ( data ) => {
 
             let user = data.data();
@@ -190,9 +193,24 @@ const profileAboutPage = ( signals ) => {
 
                 if( answer ) {
                     //1] 사용자 uid 넣어서 user collection에서 해당 사용자 데이터 삭제하기 => 마이그레이션 기능(훗날)
+
+                    async function seekIDforData( id ) {
+                        
+                        const modelQuery = query( modelsRef, where( 'user', '==', id ));
+                        const querySnapshot = await getDocs( modelQuery );
+
+                        querySnapshot.forEach( doc => {
+                            console.log('doc ID: ', doc );
+                        })
+                        
+                    }
+                    
+                    seekIDforData( usrID );
+
                     //2] 파이어베이스 auth 삭제하기
+                    
                     //3] 프로미스 구문으로 홈 이동하기
-                    console.log('탈퇴 됐음');
+                    console.log('withdrawal success!');
                 }
                 else 
                 {
