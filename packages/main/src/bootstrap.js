@@ -29,6 +29,12 @@ import HomeMount from './hooks/mounts/member/homeMount';
 import MypageMount from './hooks/mounts/member/mypageMount';
 import EditorMount from './hooks/mounts/member/editorMount';
 
+function removeLocalStroage ( result ) {
+    return new Promise( resolve => {
+        window.localStorage.removeItem( 'emailForSignIn: ', result );
+        resolve('local storage removed')
+    })
+}
 
 if( isSignInWithEmailLink( auth, window.location.href ) ) {
 
@@ -42,7 +48,11 @@ if( isSignInWithEmailLink( auth, window.location.href ) ) {
     signInWithEmailLink( auth, email, window.location.href )
     .then( (result) => {
         
-        window.localStorage.removeItem( 'emailForSignIn: ', result );
+        removeLocalStroage( result )
+        .then( () => {
+            window.location.href = '/';
+        })
+        // window.localStorage.removeItem( 'emailForSignIn: ', result );
         // console.log('New Member Info(result): ', result.user );
 
         // updateProfile( result.uid, {
@@ -52,7 +62,7 @@ if( isSignInWithEmailLink( auth, window.location.href ) ) {
         // 1]result로 users 모델 추가하기
         // 2]location.href = / 강제이동하기
         // 3]로그아웃 자연스럽게 해결
-        window.location.href = '/';
+        
     
     }).catch( err => console.log('error: ', err) );
 

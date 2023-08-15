@@ -54,7 +54,8 @@ const hookSignup = () => {
                         user_icon: 'https://firebasestorage.googleapis.com/v0/b/octa3d-439a2.appspot.com/o/octa3d%2Fmypage%2Fprofile%2FMartin-Berube-Square-Animal-Octopus.256.png?alt=media&token=ff22b8c6-df45-4241-8819-b494be047ffd',
                         online: true,
                         nickName: nickName,
-                        id: email
+                        id: email,
+                        docID: res.user.uid
                     }
 
                     await setDoc( doc( db, "users", res.user.uid ), data );

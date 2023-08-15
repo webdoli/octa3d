@@ -1,6 +1,6 @@
 import { auth, db } from "../../../db/firebaseDB";
-import { doc, setDoc, getDocs, collection, query, where } from "firebase/firestore";
-import { reauthenticateWithCredential, EmailAuthProvider, updatePassword } from "firebase/auth";
+import { doc, setDoc, getDocs, collection, query, where, deleteDoc } from "firebase/firestore";
+import { reauthenticateWithCredential, EmailAuthProvider, updatePassword, deleteUser  } from "firebase/auth";
 import getData from "../../hook_getData";
 import { OctaUI, UIButton, UIDiv, UIH, UIInput, UILI, UIP, UISpan, UITextArea, UIUL } from "../../../libs/octaUI";
 
@@ -8,7 +8,9 @@ const profileAboutPage = ( signals ) => {
 
     let usrCollection = 'users';
     let modelsRef = collection( db, 'models' );
-
+    let userRef = collection( db, 'users' );
+    let firstLogin = ( auth.currentUser.metadata.createdAt === auth.currentUser.metadata.lastLoginAt ) ? true : false;
+    console.log('첫 로그인: ', firstLogin );
     let currentUser = auth.currentUser.uid;
     let usrID = auth.currentUser.email;
     let container = new UIDiv();
@@ -187,30 +189,105 @@ const profileAboutPage = ( signals ) => {
 
             });
 
+            function deleteDocuments( collecName, id ) {
+
+                return new Promise( ( resolve ) => {
+
+                    // const ref = collection( db, collecName )
+                    // const q = query( ref, where( key, '==', val ));
+                    // const querySnapshot = getDocs( q );
+                    
+                    // querySnapshot.forEach( async ( snapshot ) => {
+                    //     console.log('doc ID: ', snapshot.docID );
+                        deleteDoc( doc( db, collecName, id ));
+                    // });
+
+                    resolve( '' )
+                })
+            }
+
+            async function deleteModels( id ) {
+                const ref = collection( db, 'models' )
+                const q = query( ref, where( 'uid', '==', id ));
+                const querySnapshot = await getDocs( q );
+
+                return new Promise( resolve => {
+
+                    querySnapshot.forEach( snapshot => {
+                        console.log('snapshot: ', snapshot.data().docID );
+                        deleteDoc( doc(db, 'models', snapshot.data().docID ))
+                    })
+
+                    resolve('');
+                })
+                
+            }
+
+            function deleteUserPrifile( user ) {
+
+                return new Promise( resolve => {
+
+                    deleteUser( user ).then( () => {
+                        console.log('삭제시작: ', user );
+                    }).catch( err => {
+                        console.log( '유저삭제 Error: ', err );
+                    });
+
+                    resolve()
+
+                })
+            }
+
             withDrawalBtn.onClick( (e) => {
                 
                 let answer = window.confirm('탈퇴하시겠습니까?');
 
                 if( answer ) {
                     //1] 사용자 uid 넣어서 user collection에서 해당 사용자 데이터 삭제하기 => 마이그레이션 기능(훗날)
+                    if( !firstLogin ) {
+                        deleteDocuments( 'users', currentUser )
+                            .then( () => {
+                            
+                                console.log('삭제[1]');
+                                deleteModels( currentUser )
+                                .then(() => {
+                                    console.log('삭제[2]');
+                                    deleteUserPrifile( auth.currentUser )
+                                    .then(() => {
+                                        console.log('삭제[3]');
+                                        window.location.href= '/';
+                                    });
+                                });
 
-                    async function seekIDforData( id ) {
-                        
-                        const modelQuery = query( modelsRef, where( 'user', '==', id ));
-                        const querySnapshot = await getDocs( modelQuery );
+                            })
+                    } else {
 
-                        querySnapshot.forEach( doc => {
-                            console.log('doc ID: ', doc );
-                        })
-                        
+                        alert('첫 로그인에서 탈퇴할 수 없습니다.(최소 로그인 1회 이상)');
+
                     }
                     
-                    seekIDforData( usrID );
 
-                    //2] 파이어베이스 auth 삭제하기
-                    
-                    //3] 프로미스 구문으로 홈 이동하기
-                    console.log('withdrawal success!');
+                    // deleteUserPrifile( auth.currentUser )
+                    // .then( () => {
+
+                    //     console.log('사용자 프로필 삭제 성공');
+                    //     deleteDocuments( 'users', 'docID', currentUser )
+                    //     .then( () => {
+
+                    //         console.log('user 삭제 성공');
+                    //         deleteDocuments( 'models', 'docID', usrID )
+                    //         .then( () => {
+
+                    //             console.log('model 삭제 성공'); 
+                    //             console.log('전체 삭제 됨');
+                    //             window.location.href = '/';
+                                
+                    //         });
+
+                    //     });
+
+                    // });
+
                 }
                 else 
                 {
