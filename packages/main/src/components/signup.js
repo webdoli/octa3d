@@ -3,7 +3,8 @@ import { hookSignup } from "../hooks/auth/hook_signup";
 import { auth } from "../db/firebaseDB";
 import { sendSignInLinkToEmail, RecaptchaVerifier, signInWithPhoneNumber  } from "firebase/auth";
 import { phoneAuthenticate } from "../hooks/auth/hook_signup";
-import { OctaUI, UIA, UIButton, UIDiv, UIH, UIIcon, UIImg, UIInput, UILI, UIRow, UISpan, UIUL } from "../libs/octaUI";
+import { OctaUI, UIA, UIButton, UIDiv, UIH, UIIcon, UIImg, UIInput, UILI, UIP, UIRow, UISpan, UIUL } from "../libs/octaUI";
+import { SignupContract } from "./contractString";
 
 const actionCodeSettings = {
     
@@ -65,17 +66,52 @@ const SignupGUI = () => {
         .setAttr({ 'class':'account-form', 'id':'octa3d-signup-form', 'style':'display:none;' });
 
     let signupContract = new UIDiv().setAttr({ 'class':'signupContract' });
+
     let usageRule = new UIDiv().setAttr({ 'class':'usageRule' });
-    let usageRuleLabel = new OctaUI( document.createElement('label'))
-        .setAttr({ 'class':'mogl_contract'})
-        .setTextContent('MOGL필수이용약관');
-    let usageRuleIpt = new UIInput().setAttr({ 'class':'ruleInpt', 'type':'text' });
+    let firstRule = new UIDiv().setAttr({ 'class':'ruleFirst' });
+    let usageNeedsContract = new UIP()
+        .setAttr({ 'class':'userBaseContract', 'style':'text-align:left;' })
+        .setTextContent('MoGL 이용약관〉');
+    let firstRuleContent = new UIDiv()
+        .setAttr({ 'class':'overflow-auto;', 'style':'text-align:left;height:300px;overflow-y:scroll;height:170px;' })
+        .setTextContent( SignupContract().usageContract );
+    
+    let firstChkForm = new UIDiv().setAttr({ 'class':'form-check mt-3 mb-3' });
+    let firstChkIpt = new UIInput().setAttr({ 'class':'form-check-input', 'type':'checkbox', 'value':'', 'id':'firstChkBox' });
+    let firstChkLabel = new OctaUI( document.createElement('label') )
+        .setAttr({ 'class':'form-check-label', 'style':'font-size:.75em;color:lightBlue;', 'for':'flexCheckDefault' })
+        .setTextContent('I have read and agree to the MOGL3D Terms and Conditions.');
 
-    let usrInfoAgree = new UIDiv().setAttr({ 'class':'usrAgree' });
-    let EventAgree = new UIDiv().setAttr({ 'class':'evtAgree' });
+    firstChkForm.add( firstChkIpt, firstChkLabel );
 
-    usageRule.add( usageRuleLabel, usageRuleIpt );
-    signupContract.add( usageRule )
+    let eventSlcRule = new UIDiv().setAttr({ 'class':'eventRule px-2 py-3', 'style':'margin-top:60px;' });
+    let secondRule = new UIDiv().setAttr({ 'class':'ruleEvent' });
+    let eventContract = new UIP()
+        .setAttr({ 'class':'eventContract', 'style':'text-align:left;' })
+        .setTextContent('[선택]이벤트·혜택 정보수신〉');
+    let eventRuleContent = new UIDiv()
+        .setAttr({ 'class':'overflow-auto;', 'style':'text-align:left;height:300px;overflow-y:scroll;height:170px;' })
+        .setTextContent( SignupContract().eventAgree );
+
+    let secondChkForm = new UIDiv().setAttr({ 'class':'form-check mt-3 mb-3' });
+    let secondChkIpt = new UIInput().setAttr({ 'class':'form-check-input', 'type':'checkbox', 'value':'', 'id':'secondChkBox' });
+    let secondChkLabel = new OctaUI( document.createElement('label') )
+        .setAttr({ 'class':'form-check-label', 'style':'font-size:.75em;color:lightBlue;', 'for':'flexCheckDefault' })
+        .setTextContent('I agree to receive MOGL3D Email(about 3D Graphic Info)');
+    
+    firstChkForm.add( firstChkIpt, firstChkLabel );
+    secondChkForm.add( secondChkIpt, secondChkLabel );
+
+    let SignUpNextBtn = new UIButton().setAttr({ 'class':'signupNextBtn btn btn-primary px-2 col-6 mx-auto', 'style':'margin-top:40px;' }).setTextContent('Next');
+    let alertChkMsg = new UIP().setAttr({ 'id':'contractAlertMsg' })
+
+    firstRule.add( usageNeedsContract, firstRuleContent, firstChkForm );
+    usageRule.add( firstRule );
+
+    secondRule.add( eventContract, eventRuleContent, secondChkForm );
+    eventSlcRule.add( secondRule );
+
+    signupContract.add( usageRule, eventSlcRule, alertChkMsg, SignUpNextBtn );
     
     /******************/
     /*  user ID Code  */
@@ -305,6 +341,21 @@ const SignupGUI = () => {
     // })
 
     // Events
+    SignUpNextBtn.onClick( (e) => {
+        let firstChkBox = firstChkIpt.dom.checked;
+        let secondChkBox = secondChkIpt.dom.checked;
+
+        if ( !firstChkBox ) {
+            alertChkMsg.dom.style.color = 'tomato';
+            alertChkMsg.dom.style.fontSize = '.8em';
+            alertChkMsg.setTextContent('√ 회원가입을 위해서는 필수 약관에 동의해야 합니다.');
+        } else {
+            signupContract.dom.style.display = 'none';
+            wrapperForm.dom.style.display = 'block';
+            accountBottom.dom.style.display = 'block';
+        }
+    })
+
     function alertMsgFunc( message, msgEle, alertColor, msgDiv ) {
 
         msgDiv.clear();
