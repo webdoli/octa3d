@@ -62,7 +62,20 @@ const SignupGUI = () => {
     
     let wrapperH01 = new UIH('Sign Up', 3 ).setAttr({ 'class':'title' });
     let wrapperForm = new OctaUI( document.createElement('form') )
-        .setAttr({ 'class':'account-form', 'id':'octa3d-signup-form' });
+        .setAttr({ 'class':'account-form', 'id':'octa3d-signup-form', 'style':'display:none;' });
+
+    let signupContract = new UIDiv().setAttr({ 'class':'signupContract' });
+    let usageRule = new UIDiv().setAttr({ 'class':'usageRule' });
+    let usageRuleLabel = new OctaUI( document.createElement('label'))
+        .setAttr({ 'class':'mogl_contract'})
+        .setTextContent('MOGL필수이용약관');
+    let usageRuleIpt = new UIInput().setAttr({ 'class':'ruleInpt', 'type':'text' });
+
+    let usrInfoAgree = new UIDiv().setAttr({ 'class':'usrAgree' });
+    let EventAgree = new UIDiv().setAttr({ 'class':'evtAgree' });
+
+    usageRule.add( usageRuleLabel, usageRuleIpt );
+    signupContract.add( usageRule )
     
     /******************/
     /*  user ID Code  */
@@ -202,7 +215,7 @@ const SignupGUI = () => {
     let signupBtn = new UIButton().setAttr({ 'class':'d-block default-btn move-top', 'type':'button' });
     let signupSpan = new UISpan().setTextContent('Signup Now');
 
-    let accountBottom = new UIDiv().setAttr({ 'class':'account-bottom' });
+    let accountBottom = new UIDiv().setAttr({ 'class':'account-bottom', 'style':'display:none;' });
 
     let signinSpan = new UISpan()
         .setAttr({ 'class':'d-block cate pt-10' })
@@ -269,7 +282,7 @@ const SignupGUI = () => {
    
     accountBottom.add( signinSpan, signinAnotherWrap, snsLoginTitle, snsLoginWrap )
 
-    wrapper.add( wrapperH01, wrapperForm, accountBottom );
+    wrapper.add( wrapperH01, signupContract, wrapperForm, accountBottom );
     signupCol.add( wrapper );
 
     signupImgCol.addSeq( signupImgDiv, signupImg );
