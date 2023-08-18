@@ -17,13 +17,14 @@ let paramSize = 0;
 
 const mount = ( props ) => {
     paramSize = 0;
-    console.log('파람사이즈 1]:', paramSize );
+    
     let { el, params } = props;
     for( let item of params.values()) {
         paramSize ++;
     }
     
-    console.log('파람사이즈2]: ', paramSize );
+    console.log('param size: ', paramSize );
+    
     let docID = new Array();
     // 1] params값이 있을 경우
     if( paramSize > 0 ) {
@@ -34,7 +35,7 @@ const mount = ( props ) => {
 
         }
     }
-    console.log('파람값 docID: ', docID );
+    
     var editor = new Editor();
     const signals = editor.signals;
     
