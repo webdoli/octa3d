@@ -2,7 +2,7 @@ import { auth, db } from "../../../db/firebaseDB";
 import { doc, setDoc, getDocs, collection, query, where, deleteDoc } from "firebase/firestore";
 import { reauthenticateWithCredential, EmailAuthProvider, updatePassword, deleteUser  } from "firebase/auth";
 import getData from "../../hook_getData";
-import { OctaUI, UIButton, UIDiv, UIH, UIInput, UILI, UIP, UISpan, UITextArea, UIUL } from "../../../libs/octaUI";
+import { MoglUI, UIButton, UIDiv, UIH, UIInput, UILI, UIP, UISpan, UITextArea, UIUL } from "../../../libs/moglUI";
 
 const profileAboutPage = ( signals ) => {
 
@@ -21,7 +21,7 @@ const profileAboutPage = ( signals ) => {
             let user = data.data();
             let tabPane = new UIDiv().setAttr({ 'class':'tab-pane', 'id':'about', 'role':'tabpanel', 'aria-labelledby':'nav-about-tab' });
             let row = new UIDiv().setAttr({ 'class':'row' });
-            let articleMain = new OctaUI( document.createElement('article' )).setAttr({ 'class':'visible', 'id':'profile-intro-article' });
+            let articleMain = new MoglUI( document.createElement('article' )).setAttr({ 'class':'visible', 'id':'profile-intro-article' });
             
             //cardInfo
             let cardInfo = new UIDiv().setAttr({ 'class':'info-card mb-3' });
@@ -62,47 +62,47 @@ const profileAboutPage = ( signals ) => {
             .setAttr({ 'class':'modal-title fs-5', 'id':'exampleModalLabel', 'style':'color:black;' });
             let modalBtnClose = new UIButton().setAttr({ 'type':'button', 'class':'btn-close', 'data-bs-dismiss':'modal', 'aria-label':'Close' });
             let modalBody = new UIDiv().setAttr({ 'class':'modal-body' });
-            let modalBodyLabel = new OctaUI( document.createElement('label') ).setAttr({ 'style':'color:black' }).setTextContent('insert password');
+            let modalBodyLabel = new MoglUI( document.createElement('label') ).setAttr({ 'style':'color:black' }).setTextContent('insert password');
             let modalBodyIpt = new UIInput().setAttr({ 'type':'text', 'id':'profile-valid-pw-input' });
-            let br01 = new OctaUI( document.createElement('br') );
+            let br01 = new MoglUI( document.createElement('br') );
             let span01 = new UISpan().setAttr({ 'id':'profileForm-pw-valid', 'style':'color:tomato;font-size:.7em;' });
             let modalFooter = new UIDiv().setAttr({ 'class':'modal-footer' });
             let modalSubmitBtn01 = new UIButton().setAttr({ 'type':'submit' }).setTextContent('Submit');
             let modalSubmitBtn02 = new UIButton().setAttr({ 'type':'button', 'class':'btn btn-secondary', 'data-bs-dismiss':'modal' }).setTextContent('Close');
 
             // Edit Article
-            let editArticle = new OctaUI( document.createElement('article') ).setAttr({ 'id':'intro-article-form', 'style':'display:none;' });
+            let editArticle = new MoglUI( document.createElement('article') ).setAttr({ 'id':'intro-article-form', 'style':'display:none;' });
             let myIntroTop = new UIDiv().setAttr({ 'class':'input-group' });
             let myIntroSpan = new UISpan().setAttr({ 'class':'input-group-text' }).setTextContent('My Intro');
             let myIntroTextarea = new UITextArea().setAttr({ 'class':'form-control', 
             'id':'profile-myIntro-edit', 'aria-label':'With textarea', 'rows':'6', 'required':'' });
             
             let infoWrap = new UIDiv().setAttr({ 'class':'mb-3 profile-edit-form-otherinfo', 'style':'font-size:1.2em; padding:30px 0;' });
-            let infoLabel = new OctaUI( document.createElement('label') ).setTextContent('Other Info');
+            let infoLabel = new MoglUI( document.createElement('label') ).setTextContent('Other Info');
             let nickNameWrap = new UIDiv().setAttr({ 'class':'input-group mb-3' });
             let nickNameSpan = new UISpan().setAttr({ 'class':'input-group-text' }).setTextContent('nick name');
             let nickNameIpt = new UIInput().setAttr({ 'type':'text', 'id':'profile-nickName-edit', 'class':'form-control', 'placeholder':'Nickname', 'required':'' });
             let nickNameAlert = new UIDiv().setAttr({ 'id':'nickname-alert', 'style':'color:tomato;' });
             
-            let slcNation = new OctaUI( document.createElement('select') )
+            let slcNation = new MoglUI( document.createElement('select') )
             .setAttr({ 'class':'form-select', 'id':'profile-nation-edit', 'aria-label':'Default select example', 'required':'' });
-            let opt01 = new OctaUI( document.createElement('option') ).setAttr({ 'selected':'' }).setTextContent('Select Country');
-            let opt02 = new OctaUI( document.createElement('option') ).setAttr({ 'value':'America' }).setTextContent('America');
-            let opt03 = new OctaUI( document.createElement('option') ).setAttr({ 'value':'Japan' }).setTextContent('Japan');
-            let opt04 = new OctaUI( document.createElement('option') ).setAttr({ 'value':'South Korea' }).setTextContent('South Korea');
+            let opt01 = new MoglUI( document.createElement('option') ).setAttr({ 'selected':'' }).setTextContent('Select Country');
+            let opt02 = new MoglUI( document.createElement('option') ).setAttr({ 'value':'America' }).setTextContent('America');
+            let opt03 = new MoglUI( document.createElement('option') ).setAttr({ 'value':'Japan' }).setTextContent('Japan');
+            let opt04 = new MoglUI( document.createElement('option') ).setAttr({ 'value':'South Korea' }).setTextContent('South Korea');
 
             let nationAlert = new UIDiv().setAttr({ 'id':'nation-alert', 'style':'color:tomato;' });
             let formWrap01 = new UIDiv().setAttr({ 'style':'margin-top:35px;' });
 
             let formRow01 = new UIDiv().setAttr({ 'class':'row g-3 align-items-center' });
             let formCol01 = new UIDiv().setAttr({ 'class':'col-auto' });
-            let formCol01La01 = new OctaUI( document.createElement('label') ).setAttr({ 'for':'inputPassword6', 'class':'col-form-label' }).setTextContent('new Password');
+            let formCol01La01 = new MoglUI( document.createElement('label') ).setAttr({ 'for':'inputPassword6', 'class':'col-form-label' }).setTextContent('new Password');
             let formCol02 = new UIDiv().setAttr({ 'class':'col-auto' });
             let formColipt01 = new UIInput().setAttr({ 'type':'password', 'id':'newPassword', 'class':'form-control', 'aria-labelledby':'passwordHelpInline', 'required':'' });
 
             let formRow02 = new UIDiv().setAttr({ 'class':'row g-3 align-items-center', 'style':'margin-top:10px;' });
             let formCol03 = new UIDiv().setAttr({ 'class':'col-auto' });
-            let formCol02La01 = new OctaUI( document.createElement('label') ).setAttr({ 'for':'inputPassword6', 'class':'col-form-label' }).setTextContent('confirm Password');
+            let formCol02La01 = new MoglUI( document.createElement('label') ).setAttr({ 'for':'inputPassword6', 'class':'col-form-label' }).setTextContent('confirm Password');
             let formCol04 = new UIDiv().setAttr({ 'class':'col-auto' });
             let formColipt02 = new UIInput().setAttr({ 'type':'password', 'id':'confirmPassword', 'class':'form-control', 'aria-labelledby':'passwordHelpInline', 'required':'' });
             let formRow02Invalid = new UIDiv().setAttr({ 'class':'invalid-feedback02', 'style':'color:tomato;font-size:.8em;' });

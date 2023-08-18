@@ -136,7 +136,7 @@ function getData( c, documents, editor ) {
     return new Promise( ( resolve, reject ) => {
 
         documents.map( async (item) => {
-
+            
             let q = query( collection( db, c ), where( "docID", "==", item ) );
             const modelDatas = await getDocs( q );
 
@@ -144,7 +144,7 @@ function getData( c, documents, editor ) {
 
                 let modelUrlArr = datas.data().model;
                 let modelSrc = new Array();
-                
+                console.log('modelUrlArr: ', modelUrlArr );
                 resolve( modelUrlArr );
                 // setDataArr( modelUrlArr, modelSrc )
                 //     .then( ( res ) => {

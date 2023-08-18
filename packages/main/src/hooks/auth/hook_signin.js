@@ -18,13 +18,20 @@ export const hookSignin = () => {
                 } else {
 
                     alert('email not verified. check your email and verify it');
-                    
+                    location.replace('/');
                 }
 
             })
             .catch( (err) => {
 
-                console.log( err );
+                const loginMsgEle = document.querySelector('.loginMsg');
+                let errMsg = err.message.includes('auth/wrong-password');
+                let showMsg = 
+                ( errMsg ) 
+                ? 'Invalid password. Please try again or click Find Password to reset.'
+                : ' Access to this account has been temporarily disabled due to many failed login attempts. You can immediately restore it by resetting your password or you can try again later.';
+                
+                loginMsgEle.innerHTML = showMsg;
 
             })
 

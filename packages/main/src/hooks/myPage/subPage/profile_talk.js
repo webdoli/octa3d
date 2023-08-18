@@ -1,4 +1,4 @@
-import { UIA, UIButton, UIDiv, UIH, UIIcon, UIImg, UIP, UISpan } from "../../../libs/octaUI";
+import { UIA, UIButton, UIDiv, UIH, UIIcon, UIImg, UIP, UISpan } from "../../../libs/moglUI";
 
 const profileTalkPage = () => {
 

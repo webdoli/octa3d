@@ -10,8 +10,9 @@ import { Timeline } from "./components/viewport/Timeline";
 import { getDatas } from "./hooks/firebaseCRUD";
 
 // css import
-import "./index.css";
-
+import menuTopCSS from "./components/MenuTopCSS";
+import menubarCSS from "./components/MenubarCSS";
+import viewportMainCSS from "./components/viewport/viewportMainCSS";
 
 const mount = ( props ) => {
 
@@ -19,8 +20,11 @@ const mount = ( props ) => {
     let docID = new Array();
     // 1] params값이 있을 경우
     if( params.size > 0 ) {
+        
         for( let doc of params.values() ) {
+            
             docID.push( doc );
+
         }
     }
 
@@ -35,6 +39,18 @@ const mount = ( props ) => {
     const container = document.createElement('div');
     container.setAttribute( 'class', 'container-editor');
 
+    const menutopStyle = document.createElement('style');
+    menutopStyle.innerHTML = menuTopCSS;
+
+    const viewportMainStyle = document.createElement('style');
+    viewportMainStyle.innerHTML = viewportMainCSS;
+   
+    // const menubarStyle = document.createElement('style');
+    // menubarStyle.innerHTML = menubarCSS;
+    
+    el.appendChild( menutopStyle );
+    el.appendChild( viewportMainStyle );
+    // el.appendChild( menubarStyle );
     el.appendChild( container );
 
     const viewport = new ViewportMain( editor );

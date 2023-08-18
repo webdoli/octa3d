@@ -3,7 +3,7 @@ import { hookSignup } from "../hooks/auth/hook_signup";
 import { auth } from "../db/firebaseDB";
 import { sendSignInLinkToEmail, RecaptchaVerifier, signInWithPhoneNumber  } from "firebase/auth";
 import { phoneAuthenticate } from "../hooks/auth/hook_signup";
-import { OctaUI, UIA, UIButton, UIDiv, UIH, UIIcon, UIImg, UIInput, UILI, UIP, UIRow, UISpan, UIUL } from "../libs/octaUI";
+import { MoglUI, UIA, UIButton, UIDiv, UIH, UIIcon, UIImg, UIInput, UILI, UIP, UIRow, UISpan, UIUL } from "../libs/moglUI";
 import { SignupContract } from "./contractString";
 
 const actionCodeSettings = {
@@ -62,8 +62,8 @@ const SignupGUI = () => {
     let wrapper = new UIDiv().setAttr({ 'class':'account-wrapper' });
     
     let wrapperH01 = new UIH('Sign Up', 3 ).setAttr({ 'class':'title' });
-    let wrapperForm = new OctaUI( document.createElement('form') )
-        .setAttr({ 'class':'account-form', 'id':'octa3d-signup-form', 'style':'display:none;' });
+    let wrapperForm = new MoglUI( document.createElement('form') )
+        .setAttr({ 'class':'account-form', 'id':'mogl3d-signup-form', 'style':'display:none;' });
 
     let signupContract = new UIDiv().setAttr({ 'class':'signupContract' });
 
@@ -78,7 +78,7 @@ const SignupGUI = () => {
     
     let firstChkForm = new UIDiv().setAttr({ 'class':'form-check mt-3 mb-3' });
     let firstChkIpt = new UIInput().setAttr({ 'class':'form-check-input', 'type':'checkbox', 'value':'', 'id':'firstChkBox' });
-    let firstChkLabel = new OctaUI( document.createElement('label') )
+    let firstChkLabel = new MoglUI( document.createElement('label') )
         .setAttr({ 'class':'form-check-label', 'style':'font-size:.75em;color:lightBlue;', 'for':'flexCheckDefault' })
         .setTextContent('I have read and agree to the MOGL3D Terms and Conditions.');
 
@@ -95,7 +95,7 @@ const SignupGUI = () => {
 
     let secondChkForm = new UIDiv().setAttr({ 'class':'form-check mt-3 mb-3' });
     let secondChkIpt = new UIInput().setAttr({ 'class':'form-check-input', 'type':'checkbox', 'value':'', 'id':'secondChkBox' });
-    let secondChkLabel = new OctaUI( document.createElement('label') )
+    let secondChkLabel = new MoglUI( document.createElement('label') )
         .setAttr({ 'class':'form-check-label', 'style':'font-size:.75em;color:lightBlue;', 'for':'flexCheckDefault' })
         .setTextContent('I agree to receive MOGL3D Email(about 3D Graphic Info)');
     
@@ -120,7 +120,7 @@ const SignupGUI = () => {
     let formFloatingID = new UIDiv().setAttr({ 'class':'form-floating mb-3' });
     let userIDIpt = new UIInput()
         .setAttr({ 'type':'text', 'class':'form-control', 'id':'userIdInput', 'placeholder':'user-id' });
-    let userIDLabel = new OctaUI( document.createElement('label' ))
+    let userIDLabel = new MoglUI( document.createElement('label' ))
         .setAttr({ 'for':'userIdInput' })
         .setTextContent('User ID');
     */
@@ -128,7 +128,7 @@ const SignupGUI = () => {
     let loginEmail = new UIDiv().setAttr({ 'class':'form-floating col-md-12 mb-3', 'style':'display:flex;' });
     let userEmailIpt = new UIInput()
         .setAttr({ 'type':'email', 'class':'form-control', 'id':'floatingInput', 'placeholder':'This email used when id is lost' });
-    let userEmailLabel = new OctaUI( document.createElement('label' ))
+    let userEmailLabel = new MoglUI( document.createElement('label' ))
         .setAttr({ 'for':'floatingInput' })
         .setTextContent('Email( id )');
     let emailVerifyBtn = new UIInput()
@@ -152,14 +152,14 @@ const SignupGUI = () => {
     let formFloatingPW = new UIDiv().setAttr({ 'class':'form-floating mb-3' });
     let userPWIpt = new UIInput()
         .setAttr({ 'type':'password', 'class':'form-control', 'id':'floatingPassword', 'placeholder':'Password' });
-    let userPWLabel = new OctaUI( document.createElement('label' ))
+    let userPWLabel = new MoglUI( document.createElement('label' ))
         .setAttr({ 'for':'floatingPassword' })
         .setTextContent('Password');
 
     let formFloatingRePW = new UIDiv().setAttr({ 'class':'form-floating mb-3' });
     let userRePWIpt = new UIInput()
         .setAttr({ 'type':'password', 'class':'form-control', 'id':'confirmPass', 'placeholder':'Confirm Password' });
-    let userRePWLabel = new OctaUI( document.createElement('label' ))
+    let userRePWLabel = new MoglUI( document.createElement('label' ))
         .setAttr({ 'for':'confirmPass' })
         .setTextContent('Confirm Password');
 
@@ -234,7 +234,7 @@ const SignupGUI = () => {
     /*********************/
     // let formRememCheckGrp = new UIDiv().setAttr({ 'class':'checkgroup' });
     // let formRememIpt = new UIInput().setAttr({ 'type':'checkbox', 'id':'remember', 'name':'remember' });
-    // let formRememLabel = new OctaUI( document.createElement('label') )
+    // let formRememLabel = new MoglUI( document.createElement('label') )
     //     .setAttr({ 'for':'remember' })
     //     .setTextContent('Remember Me');
 

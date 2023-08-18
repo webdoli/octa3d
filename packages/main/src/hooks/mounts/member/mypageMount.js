@@ -132,11 +132,11 @@ export default class MypageMount extends abstractMount {
 
         }
             
-        if( document.querySelector('.octa3d-logout-btn') ) {
+        if( document.querySelector('.mogl3d-logout-btn') ) {
 
             let { logout } = hookSignout();
 
-            document.querySelector('.octa3d-logout-btn').addEventListener('click', (e) => {
+            document.querySelector('.mogl3d-logout-btn').addEventListener('click', (e) => {
 
                 logout();
             })

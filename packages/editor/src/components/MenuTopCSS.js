@@ -1,3 +1,14 @@
+
+const menuTopCSS = `
+.container-editor {
+    width: 100%;
+    height: 100vh;
+    overflow:hidden;
+    display:flex;
+    flex-direction: column;
+    /* border: 2px solid yellow; */
+}
+
 hr {
 	border: 0;
 	border-top: 1px solid #ccc;
@@ -377,4 +388,6 @@ select {
         margin: 0 !important;
     }
 
+`
 
+export default menuTopCSS;

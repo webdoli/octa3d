@@ -1,4 +1,4 @@
-import { OctaUI, UIButton, UIDiv, UIH, UIRow } from "../../../libs/octaUI";
+import { MoglUI, UIButton, UIDiv, UIH, UIRow } from "../../../libs/moglUI";
 import profileAssetUpload from "./profile_assets_upload";
 import profileAssetCreated from "./profile_assets_created";
 import profileAssetPicked from "./profile_assets_picked";
@@ -10,14 +10,14 @@ const profileAssetPage = ( signals ) => {
         container.setAttr({ 'class': 'tab-pane activity-page active', 'id': 'assets-page', 'role': 'tabpanel' });
 
     let row = new UIRow();
-    let article = new OctaUI( document.createElement('article') );
+    let article = new MoglUI( document.createElement('article') );
     let activeTab = new UIDiv().setAttr({'class': 'activity-tab'});
-    let topUL = new OctaUI( document.createElement('ul') );
+    let topUL = new MoglUI( document.createElement('ul') );
         topUL.setAttr({'class':'nav nav-pills mb-30 px-2', 'id':'pills-tab', 'role':'tablist' });
 
     let tabContent = new UIDiv().setAttr({'class':'tab-content activity-content', 'id':'pills-tabContent'});
 
-    let li01 = new OctaUI( document.createElement('li') ).setAttr({'class':'nav-item', 'role':'presentation'});
+    let li01 = new MoglUI( document.createElement('li') ).setAttr({'class':'nav-item', 'role':'presentation'});
     let btn01 = new UIButton( 'Upload Asset' ).setAttr({
         'class':'nav-link', 
         'id':'pills-personal-tab',
@@ -28,9 +28,9 @@ const profileAssetPage = ( signals ) => {
         'aria-controls':'upload-assets', 
         'aria-selected':'false'
     });
-    let icon01 = new OctaUI( document.createElement('i') ).setAttr({'class': 'icofont-flask'});
+    let icon01 = new MoglUI( document.createElement('i') ).setAttr({'class': 'icofont-flask'});
 
-    let li02 = new OctaUI( document.createElement('li') ).setAttr({'class': 'nav-item', 'role':'presentation'});
+    let li02 = new MoglUI( document.createElement('li') ).setAttr({'class': 'nav-item', 'role':'presentation'});
     let btn02 = new UIButton( 'Created' ).setAttr({
         'class':'nav-link active', 
         'id':'pills-groups-tab',
@@ -41,9 +41,9 @@ const profileAssetPage = ( signals ) => {
         'aria-controls':'created-assets', 
         'aria-selected':'false'
     });
-    let icon02 = new OctaUI( document.createElement('i') ).setAttr({'class': 'icofont-puzzle'});
+    let icon02 = new MoglUI( document.createElement('i') ).setAttr({'class': 'icofont-puzzle'});
 
-    let li03 = new OctaUI( document.createElement('li') ).setAttr({'class': 'nav-item', 'role':'presentation'});
+    let li03 = new MoglUI( document.createElement('li') ).setAttr({'class': 'nav-item', 'role':'presentation'});
     let btn03 = new UIButton( 'Picked' ).setAttr({
         'class':'nav-link', 
         'id':'pills-friends-tab',
@@ -54,9 +54,9 @@ const profileAssetPage = ( signals ) => {
         'aria-controls':'picked-assets', 
         'aria-selected':'false'
     });
-    let icon03 = new OctaUI( document.createElement('i') ).setAttr({'class': 'icofont-library'});
+    let icon03 = new MoglUI( document.createElement('i') ).setAttr({'class': 'icofont-library'});
 
-    let li04 = new OctaUI( document.createElement('li') ).setAttr({'class': 'nav-item', 'role':'presentation'});
+    let li04 = new MoglUI( document.createElement('li') ).setAttr({'class': 'nav-item', 'role':'presentation'});
     let btn04 = new UIButton( 'Edit' ).setAttr({
         'class':'nav-link', 
         'id':'pills-friends-tab',
@@ -67,7 +67,7 @@ const profileAssetPage = ( signals ) => {
         'aria-controls':'edit-assets-tab', 
         'aria-selected':'false'
     });
-    let icon04 = new OctaUI( document.createElement('i') ).setAttr({'class': 'icofont-library'});
+    let icon04 = new MoglUI( document.createElement('i') ).setAttr({'class': 'icofont-library'});
 
     li01.addSeq( btn01, icon01 );
     li02.addSeq( btn02, icon02 );

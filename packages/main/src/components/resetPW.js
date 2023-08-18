@@ -1,4 +1,4 @@
-import { OctaUI, UIA, UIButton, UIDiv, UIH, UIIcon, UIImg, UIInput, UILI, UIRow, UISpan, UIUL } from "../libs/octaUI";
+import { MoglUI, UIA, UIButton, UIDiv, UIH, UIIcon, UIImg, UIInput, UILI, UIRow, UISpan, UIUL } from "../libs/moglUI";
 import AuthCSS from "./authStyle";
 import { hookSignup } from "../hooks/auth/hook_signup";
 
@@ -11,13 +11,13 @@ const resetPWGUI = () => {
         container.appendChild( AuthCSS().authCSS );
 
     //head section
-    let headerSection = new OctaUI( document.createElement('section') ).setAttr({ 'class':'page-header-section style-1' });
+    let headerSection = new MoglUI( document.createElement('section') ).setAttr({ 'class':'page-header-section style-1' });
     let headerContainer = new UIDiv().setAttr({ 'class':'container' });
     let headerContent = new UIDiv().setAttr({ 'class':'page-header-content' });
     let headerInner = new UIDiv().setAttr({ 'class':'page-header-inner' });
     let pageTitle = new UIDiv().setAttr({ 'class':'page-title' });
     let titleText = new UIH( 'Forgot Password?', 2 );
-    let contentText = new OctaUI( document.createElement('ol') ).setAttr({ 'class':'breadcrumb' });
+    let contentText = new MoglUI( document.createElement('ol') ).setAttr({ 'class':'breadcrumb' });
     let headerLi01 = new UILI();
     let homeLink = new UIA().setAttr({ 'href':''}).setTextContent('Home');
     let headerLi02 = new UILI().setAttr({ 'class':'active' }).setTextContent('Forgot Password');
@@ -29,11 +29,11 @@ const resetPWGUI = () => {
     let loginSectionCol = new UIDiv().setAttr({ 'class':'col-lg-5' });
     let loginSecWrapper = new UIDiv().setAttr({ 'class':'account-wrapper' });
     let loginSecTitle = new UIH( 'Reset Password', 3 );
-    let loginSecForm = new OctaUI( document.createElement('form') ).setAttr({ 'class':'account-form' });
+    let loginSecForm = new MoglUI( document.createElement('form') ).setAttr({ 'class':'account-form' });
     
     let formEmailSec = new UIDiv().setAttr({ 'class':'form-floating mb-3'});
     let formEmailIpt = new UIInput().setAttr({ 'type':'email', 'class':'form-control', 'id':'floatingInput', 'placeholder':'name@example.com' });
-    let formEmailLabel = new OctaUI( document.createElement('label')).setAttr({ 'for':'floatingInput' }).setTextContent('Email address');
+    let formEmailLabel = new MoglUI( document.createElement('label')).setAttr({ 'for':'floatingInput' }).setTextContent('Email address');
 
     let formGrp01 = new UIDiv().setAttr({'class':'form-group px-3'});
     let formGrp01Wrap = new UIDiv().setAttr({ 'class':'d-flex justify-content-between flex-wrap pt-sm-2' });

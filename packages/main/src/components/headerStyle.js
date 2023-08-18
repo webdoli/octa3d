@@ -26,21 +26,21 @@ let HeaderCSS = () => {
     /*  2. Header bottom area
     /*----------------------------------------*/
 
-    .octa3d-login-guest a {
+    .mogl3d-login-guest a {
         color: #F0C83C !important;
     }
 
-    .octa3d-login-guest a:hover {
+    .mogl3d-login-guest a:hover {
         color: #f17c3a !important;
     }
 
-    .octa3d-main-header-nav {
+    .mogl3d-main-header-nav {
         top: 0;
         left: 0;
         right: 0;
     }
 
-    .octa3d-main-container {
+    .mogl3d-main-container {
         margin: 0 auto;
         max-width: 1380px;
         display: flex;
@@ -50,7 +50,7 @@ let HeaderCSS = () => {
         transition: all 0.3s ease-in-out;
     }
 
-    .octa3d-main-header-nav ul {
+    .mogl3d-main-header-nav ul {
         margin: 0px;
         padding: 0px;
         display: flex;
@@ -60,31 +60,39 @@ let HeaderCSS = () => {
         justify-content: center;
     }
 
-    .octa3d-main-header-nav a:hover{
+    .mogl3d-main-header-nav a:hover{
         color: #F0C83C;
     }
 
-    .octa3d-main-header-nav a {
+    .mogl3d-navbar-brand {
+        text-decoration:none;
+        color:#d9dbed;
+        display:flex;
+        align-items:center;
+        justify-content:center;
+    }
+
+    .mogl3d-main-header-nav a {
         color: #fff;
         font-size: 18px;
         text-transform: uppercase;
-        font-family: 'Philosopher', sans-serif;
-        font-weight: 600;
+        /*font-family: 'Philosopher', sans-serif;
+        font-weight: 600;*/
         text-decoration: none;
         padding: 7px 15px;
         transition: all 0.3s ease-in-out;
     }
 
-    .octa3d-main-header-nav.active {
+    .mogl3d-main-header-nav.active {
         background-color: #fff;
         box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3)
     }
 
-    .octa3d-main-header-nav.active a {
+    .mogl3d-main-header-nav.active a {
         color: #000;
     }
 
-    .octa3d-main-header-area{
+    .mogl3d-main-header-area{
         font-family: 'Barlow', sans-serif;
         font-weight: normal;
         font-style: normal;
@@ -93,8 +101,20 @@ let HeaderCSS = () => {
         background-size: cover;
         background-position: left center;
     }
-    
-    .octa3d-main-header-area.stick {
+
+    .main-logo {
+        margin-bottom: 10px;
+    }
+    .main-logo-title {
+        font-family:'Russo One', sans-serif !important;
+        font-weight: 200;
+        font-size: 2em;
+    }
+    .mogl3d-main-menu {
+        font-family: 'Chakra Petch', sans-serif !important;
+	    font-weight:400 !important;
+    }
+    .mogl3d-main-header-area.stick {
         left: 0;
         position: fixed;
         top: 0;
@@ -105,27 +125,27 @@ let HeaderCSS = () => {
         background-size: cover;
         background-position: left center; 
     }
-    .octa3d-main-header-area.stick .header_menu ul.main-menu >li>a {
+    .mogl3d-main-header-area.stick .header_menu ul.main-menu >li>a {
         padding: 30px 0px;
     }
-    .octa3d-main-header-area.stick .logo a {
+    .mogl3d-main-header-area.stick .logo a {
         display: inline-block;
         height: auto;
         padding: 15px 0;
     }
-    .octa3d-main-header-area.stick .header-logo img {
+    .mogl3d-main-header-area.stick .header-logo img {
         position: relative;
         top: 0px;
         width: 30%;
     }
-    .octa3d-main-header-area.stick .header-logo {
+    .mogl3d-main-header-area.stick .header-logo {
         width: 100%;
         height: 100%;
         position: relative;
         z-index: 1;
         top: 0px;
     }
-    .octa3d-main-header-area.stick .header-logo::after {
+    .mogl3d-main-header-area.stick .header-logo::after {
         left: -90px;
         top: 0px;
         width: 80%;
@@ -134,21 +154,21 @@ let HeaderCSS = () => {
         content: "";
         z-index: -1;
     }
-    .octa3d-mobile {
+    .mogl3d-mobile {
         display: none;
     }
 
     @media(max-width: 911px){
 
-        .octa3d-main-container {
+        .mogl3d-main-container {
             display: none;
         }
 
-        .octa3d-mobile {
+        .mogl3d-mobile {
             display: block;
         }
 
-        .octa3d-main-container-mobile {
+        .mogl3d-main-container-mobile {
             margin: 0 auto;
             max-width: 620px;
             display: flex;
@@ -158,18 +178,18 @@ let HeaderCSS = () => {
             transition: all 0.3s ease-in-out;
         }
 
-        .octa3d-main-container-mobile.open {
+        .mogl3d-main-container-mobile.open {
             display: flex;
             flex-direction: column;
             height: auto;
         }
 
-        .octa3d-main-header-logo-mobile img{
+        .mogl3d-main-header-logo-mobile img{
             width: 50%;
             transition: all 0.3s ease-in-out;
         }
 
-        .octa3d-main-container-mobile svg {
+        .mogl3d-main-container-mobile svg {
             margin-right: 22px;
             fill: #fff;
         }
@@ -183,8 +203,20 @@ let HeaderCSS = () => {
             display: none;
         }
 
+        #sticker {
+            position:relative;
+            z-index:10;
+        }
+
         .active {
             display: block !important;
+        }
+
+        .mobile-main-logo-icon {
+            margin-left:10px;
+            margin-top:5px;
+            color:#d9dbed;
+            font-family:'Russo One', sans-serif !important;
         }
 
         .mobile-hambuger-open {

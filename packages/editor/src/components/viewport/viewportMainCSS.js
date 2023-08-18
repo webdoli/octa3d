@@ -1,3 +1,5 @@
+const viewportMainCSS = `
+
 #viewport_ {
     position: absolute;
     top: 140px;
@@ -235,3 +237,7 @@
     color: white;
     bottom: 0;
 }
+
+`;
+
+export default viewportMainCSS

@@ -39,7 +39,7 @@ const MainSection = () => {
 
     createScript( 0, article, libs)
         
-    container.innerHTML = Header();
+    container.appendChild( Header().dom );
     container.appendChild( article );
 
     return container

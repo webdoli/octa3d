@@ -1,4 +1,4 @@
-import { OctaUI, UIA, UIDiv, UIH, UIImg, UIP } from "../../../libs/octaUI";
+import { MoglUI, UIA, UIDiv, UIH, UIImg, UIP } from "../../../libs/moglUI";
 
 const profileActivityPage = () => {
 
@@ -8,7 +8,7 @@ const profileActivityPage = () => {
     let row = new UIDiv().setAttr({ 'class':'row' });
 
     let div01 = new UIDiv();
-    let article = new OctaUI( document.createElement('article') );
+    let article = new MoglUI( document.createElement('article') );
     let artH04 = new UIH( 'Author Activity', 4 ).setAttr({ 'class':'h4-title' });
     let innerRow = new UIDiv().setAttr({ 'class':'row gy-3' });
     let artCol = new UIDiv().setAttr({ 'class':'col-12' });
@@ -20,7 +20,7 @@ const profileActivityPage = () => {
     let labConH04 = new UIH( '', 4 );
     let labConA01 = new UIA().setAttr({ 'href':'#' }).setTextContent('Gold digger x');
     let labConP01 = new UIP().setAttr({ 'class':'mb-2' }).setTextContent(`GOLD DIGGER (x Antoni Tudisco) #44/44 was put up for sale for`);
-    let b01 = new OctaUI( document.createElement('b') ).setTextContent('0.0991 ETH');
+    let b01 = new MoglUI( document.createElement('b') ).setTextContent('0.0991 ETH');
     let labConP02 = new UIP().setAttr({ 'class':'user-id' }).setTextContent(`By:`);
     let labConP01A01 = new UIA().setAttr({ 'href':'#' }).setTextContent('@rasselmrh');
     let labConP03 = new UIP().setTextContent('At: 10/07/2022, 10:03 am');

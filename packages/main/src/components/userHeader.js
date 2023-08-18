@@ -4,7 +4,7 @@ const UserHeader = () => {
 
     let container = document.createElement('div');
         container.id = 'sticker';
-        container.className = 'octa3d-main-header-area octa3d-main-header-area-2';
+        container.className = 'mogl3d-main-header-area mogl3d-main-header-area-2';
 
     let headerStyle = document.createElement('style');
         headerStyle.id = 'main-header-style';
@@ -12,30 +12,37 @@ const UserHeader = () => {
 
     container.appendChild( headerStyle );
     container.innerHTML += `
-        <nav class="octa3d-main-header-nav">
-            <div class="octa3d-main-container">       
-                <div class="octa3d-main-header-logo">
-                    <a href="/"><img src="img/logo/cghubLogo02.png" style="width:55%;margin-left:20px;" alt=""></a>
+        <nav class="mogl3d-main-header-nav">
+            <div class="mogl3d-main-container">       
+                <div class="mogl3d-main-header-logo">
+                    <a class="mogl3d-navbar-brand" href="/">
+                        <img class="main-logo img-fluid" style="width:55px;margin:0;" src="img/logo/cghub_logo01.png" alt="logo">
+                        <span class="main-logo-title" style="margin-left:20px;">MoGL 3D</span>
+                    </a>
+                    <!--<a href="/"><img src="img/logo/cghubLogo02.png" style="width:55%;margin-left:20px;" alt=""></a>-->
                 </div>
-                <ul class="octa3d-main-menu">
+                <ul class="mogl3d-main-menu">
                     <li><a href="/">About</a></li>
-                    <li><a href="/octa3d-editor">Octa 3D</a>
+                    <li><a href="/mogl3d-editor">MoGL3D</a>
                     <li><a href="/assets">Assets</a></li>
                     <!--<li><a href="/">Scenes</a></li>-->
-                    <li><a href="/">Blog</a></li>
-                    <div class="octa3d-login-guest" style="margin-left:40px;">
+                    <li><a href="https://mogl3d.tistory.com/" target="_blank">Blog</a></li>
+                    <div class="mogl3d-login-guest" style="margin-left:40px;">
                         <ul>
-                            <li><a href="/mypage" class="octa3d-myPage-btn">MY PAGE</a></li>
-                            <li><a href="#" class="octa3d-logout-btn">LOGOUT</a></li>
+                            <li><a href="/mypage">MY PAGE</a></li>
+                            <li><a href="#" class="mogl3d-logout-btn">LOGOUT</a></li>
                         </ul>
                     </div>
                 </ul>
     
             </div>
-            <div class="octa3d-mobile">
-                <div class="octa3d-main-container-mobile">
-                    <div class="octa3d-main-header-logo-mobile">
-                        <a href="/"><img src="img/logo/logo3.png" alt=""></a>
+            <div class="mogl3d-mobile">
+                <div class="mogl3d-main-container-mobile">
+                    <div class="mogl3d-main-header-logo-mobile">
+                        <a class="mogl3d-navbar-brand" href="/">
+                            <img src="img/logo/cghub_logo01.png" style="width:35px;" alt="">
+                            <span class="mobile-main-logo-icon">MOGL3D</span>
+                        </a>
                     </div>
     
                     <svg id="icon-mobile-ham" class="active" align="center" viewBox="0 0 80 100" width="40" height="40">

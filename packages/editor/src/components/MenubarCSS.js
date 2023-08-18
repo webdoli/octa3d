@@ -1,3 +1,4 @@
+const menubarCSS = `
 .mocut-menu {
     /* border: 1px solid yellow; */
     width: 80px;
@@ -182,3 +183,6 @@
   .drop-down__item:hover:before{
     display:block;
   }
+`
+
+export default menubarCSS

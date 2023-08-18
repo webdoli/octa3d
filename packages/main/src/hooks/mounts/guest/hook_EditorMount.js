@@ -7,7 +7,7 @@ const hookEditorMount = ( main, footer, mount, db, loader, assetParam ) => {
 
     let params = ( assetParam ) ? assetParam : '';
     const { res } = mount( { el:main, params:params } );
-    history.pushState({ data: 'Editor' }, 'Editor Page', '/octa3d-editor');
+    history.pushState({ data: 'Editor' }, 'Editor Page', '/mogl3d-editor');
 
 }
 

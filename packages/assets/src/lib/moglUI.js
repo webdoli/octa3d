@@ -1,4 +1,4 @@
-class OctaUI {
+class MoglUI {
 
     constructor( dom ) {
         
@@ -8,10 +8,10 @@ class OctaUI {
     add() {
         for( let i = 0; i < arguments.length; i++ ) {
             const argument = arguments[i];
-            if( argument instanceof OctaUI ) {
+            if( argument instanceof MoglUI ) {
                 this.dom.appendChild( argument.dom );
             } else {
-                console.error('add UIElement Error: ', argument, 'is not an instance of OctaUI');
+                console.error('add UIElement Error: ', argument, 'is not an instance of MoglUI');
             }
         }
         return this;
@@ -24,10 +24,10 @@ class OctaUI {
         } else {
             
             for( let i = 0; i < arguments.length; i++ ) {
-                if( arguments[i] instanceof OctaUI ) {
+                if( arguments[i] instanceof MoglUI ) {
                     if( arguments[i+1] ) arguments[i].dom.appendChild( arguments[i+1].dom );
                 }else {
-                    console.error('add UIElement Error: ', arguments[i], 'is not an instance of OctaUI');
+                    console.error('add UIElement Error: ', arguments[i], 'is not an instance of MoglUI');
                 }
             }
             this.dom.appendChild( arguments[0].dom);
@@ -38,10 +38,10 @@ class OctaUI {
     // after() {
     //     console.log('arguments length: ', arguments.length );
 
-    //     if( arguments[0] instanceof OctaUI ) {
+    //     if( arguments[0] instanceof MoglUI ) {
     //         this.dom.after( arguments[0].dom );
     //     }else {
-    //         console.error('add UIElement Error: ', arguments[0], 'is not an instance of OctaUI');
+    //         console.error('add UIElement Error: ', arguments[0], 'is not an instance of MoglUI');
     //     }
         
     //     return this;
@@ -52,10 +52,10 @@ class OctaUI {
     remove() {
         for( let i = 0; i < arguments.length; i++ ) {
             const argument = arguments[ i ];
-            if( argument instanceof OctaUI ){
+            if( argument instanceof MoglUI ){
                 this.dom.removeChild( argument.dom );
             } else {
-                console.error('add UIElement Error: ', argument, 'is not an instance of OctaUI');
+                console.error('add UIElement Error: ', argument, 'is not an instance of MoglUI');
             } 
         }
         return this;
@@ -110,7 +110,7 @@ events.forEach(  (evt) => {
 
     const method = 'on' + evt;
 
-    OctaUI.prototype[ method ] = function ( cb ) {
+    MoglUI.prototype[ method ] = function ( cb ) {
 
         this.dom.addEventListener( evt.toLowerCase(), cb.bind( this ) );
 
@@ -122,13 +122,13 @@ events.forEach(  (evt) => {
 
 
 //heritage
-class UIDiv extends OctaUI {
+class UIDiv extends MoglUI {
     constructor() {
         super( document.createElement('div') )
     }
 }
 
-class UISpan extends OctaUI{
+class UISpan extends MoglUI{
     constructor(){
         super( document.createElement( 'span' ));
     }
@@ -141,7 +141,7 @@ class UIRow extends UIDiv{
     }
 }
 
-class UIInput extends OctaUI {
+class UIInput extends MoglUI {
     constructor() {
         super( document.createElement('input') );
     }
@@ -156,7 +156,7 @@ class UIInput extends OctaUI {
     }
 }
 
-class UITextArea extends OctaUI {
+class UITextArea extends MoglUI {
     constructor() {
         super( document.createElement('textarea') );
     }
@@ -171,57 +171,57 @@ class UITextArea extends OctaUI {
     }
 }
 
-class UIButton extends OctaUI {
+class UIButton extends MoglUI {
     constructor( value ) {
         super( document.createElement( 'button' ));
         this.dom.textContent = value;
     }
 }
 
-class UIP extends OctaUI {
+class UIP extends MoglUI {
     constructor( value ) {
         super( document.createElement('p'));
         this.dom.textContent = value;
     }
 }
 
-class UIH extends OctaUI {
+class UIH extends MoglUI {
     constructor( value, num ) {
         super( document.createElement(`h${num}`));
         this.dom.textContent = value;
     }
 }
 
-class UIUL extends OctaUI {
+class UIUL extends MoglUI {
     constructor() {
         super( document.createElement('ul'));
     }
 }
 
-class UILI extends OctaUI {
+class UILI extends MoglUI {
     constructor() {
         super( document.createElement('li'));
     }
 }
 
-class UIA extends OctaUI {
+class UIA extends MoglUI {
     constructor( url ) {
         super( document.createElement('a'));
         this.dom.href = url;
     }
 }
 
-class UIImg extends OctaUI {
+class UIImg extends MoglUI {
     constructor() {
         super( document.createElement('img'));
     }
 }
 
-class UIIcon extends OctaUI {
+class UIIcon extends MoglUI {
     constructor() {
         super( document.createElement('i'));
     }
 }
 
 
-export {  OctaUI, UIDiv, UISpan, UIRow, UIInput, UITextArea, UIButton, UIP, UIH, UIUL, UILI, UIA, UIImg, UIIcon }
+export {  MoglUI, UIDiv, UISpan, UIRow, UIInput, UITextArea, UIButton, UIP, UIH, UIUL, UILI, UIA, UIImg, UIIcon }

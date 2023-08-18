@@ -4,7 +4,6 @@ import { TransformControls } from 'three/addons/controls/TransformControls.js';
 
 import { ViewHelper } from './Viewport.ViewHelper';
 import { UIPanel } from "../../libs/ui";
-import './ViewportMain.css';
 
 import { SetPositionCommand } from '../commands/SetPositionCommand';
 import { SetRotationCommand } from '../commands/SetRotationCommand';

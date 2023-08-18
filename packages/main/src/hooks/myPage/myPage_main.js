@@ -1,6 +1,6 @@
 import { auth, db } from "../../db/firebaseDB";
 import getData from "../hook_realtimeData";
-import { UIDiv, UIIcon, UIImg, UIInput, UILI, UISpan, UIUL, UIH, UIP, UIA, OctaUI, UIButton } from "../../libs/octaUI";
+import { UIDiv, UIIcon, UIImg, UIInput, UILI, UISpan, UIUL, UIH, UIP, UIA, MoglUI, UIButton } from "../../libs/moglUI";
 import { coverUpload, avatarUpload } from "../hook_upload";
 
 //import pages
@@ -109,7 +109,7 @@ const myPageMain = ( signals ) => {
             //profile details
             let profileDetail = new UIDiv().setAttr({ 'class':'profile-details' });
 
-            let profileNav = new OctaUI( document.createElement('nav') ).setAttr({ 'class':'profile-nav' });
+            let profileNav = new MoglUI( document.createElement('nav') ).setAttr({ 'class':'profile-nav' });
             let navTabs = new UIDiv().setAttr({ 'class':'nav nav-tabs', 'id':'nav-tab', 'role':'tablist' });
             let aboutBtn = new UIButton().setAttr({ 
                 'class':'nav-link profile-sub-btn', 'id':'nav-about-tab', 'data-pageBtn':'about', 'type':'button',
@@ -144,7 +144,7 @@ const myPageMain = ( signals ) => {
 
             //Aside
             let asideWrapper = new UIDiv().setAttr({ 'class':'col-xl-3' });
-            let asideTag = new OctaUI( document.createElement('aside' )).setAttr({ 'class':'mt-5 mt-xl-0', 'style':'padding-left:15px;' });
+            let asideTag = new MoglUI( document.createElement('aside' )).setAttr({ 'class':'mt-5 mt-xl-0', 'style':'padding-left:15px;' });
             
             //Aside:: pfWidget
             let pfWidget = new UIDiv().setAttr({ 'class':'profile-widget search-widget' });
@@ -156,7 +156,7 @@ const myPageMain = ( signals ) => {
             let widgetP01 = new UIP().setTextContent('Search from best 3D Asset collections');
             let widgetConForm = new UIDiv().setAttr({ 'class':'form-floating nft-search-input' });
             let widgetConIpt = new UIInput().setAttr({ 'type':'text', 'class':'form-control', 'placeholder':'Search Assets' });
-            let widgetLabel = new OctaUI( document.createElement('label') ).setTextContent('Search Assets');
+            let widgetLabel = new MoglUI( document.createElement('label') ).setTextContent('Search Assets');
             let widgetBtn = new UIButton().setAttr({ 'type':'button' });
             let widgetBtnIcon = new UIIcon().setAttr({ 'class':'icofont-search-1' });
 

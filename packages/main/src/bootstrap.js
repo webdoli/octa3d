@@ -134,7 +134,7 @@ function userMain( headerEle, mainEle, footerEle, user, urlRoute, params ) {
         { 'https://octa3d-439a2.firebaseapp.com/assets': new AssetMount( signals ) },
         { 'http://localhost:8080/mypage': new MypageMount( signals ) },
         { 'https://octa3d-439a2.firebaseapp.com/mypage': new MypageMount( signals ) },
-        { 'http://localhost:8080/octa3d-editor': new EditorMount( signals ) },
+        { 'http://localhost:8080/mogl3d-editor': new EditorMount( signals ) },
         // { 'http://localhost:8080/octa3d-editor': hookEditorMount( mainEle, footerEle, guestEditorMount, false, pre_loader, assetParam ) },
         { 'https://octa3d-439a2.firebaseapp.com/octa3d-editor': new EditorMount( signals ) },
     ];
@@ -150,7 +150,7 @@ function userMain( headerEle, mainEle, footerEle, user, urlRoute, params ) {
     
     });
     
-    // mobileExe( mainEle, footerEle );
+    mobileExe( mainEle, footerEle );
    
 }
 
@@ -211,10 +211,10 @@ function routeGuestPage( mainEle, footerEle, path, params ) {
             hookAssetMount( mainEle, footerEle, guestAssetMount, false, pre_loader );
             break;
 
-        case 'http://localhost:8080/octa3d-editor' :
+        case 'http://localhost:8080/mogl3d-editor' :
             hookEditorMount( mainEle, footerEle, guestEditorMount, false, pre_loader, assetParam );
             break;
-        case 'https://octa3d-editor.firebaseapp.com/assets':
+        case 'https://octa3d-editor.firebaseapp.com/mogl3d-editor':
             hookEditorMount( mainEle, footerEle, guestEditorMount, false, pre_loader, assetParam );
             break;
 
@@ -233,7 +233,7 @@ function mobileExe( mainEle, footerEle ) {
     console.log('모바일 버튼 실행');
     let iconHamburger = document.querySelector('#icon-mobile-ham');
     let iconExit = document.querySelector('#icon-mobile-exit');
-    let mobileMenu = document.querySelector('.octa3d-mobile');
+    let mobileMenu = document.querySelector('.mogl3d-mobile');
 
 
     iconExit.addEventListener('click', (e) => {
@@ -261,11 +261,12 @@ function mobileExe( mainEle, footerEle ) {
                 iconExit.setAttribute('class', 'active');
 
                 mobileMenu.classList.add('open');
+                mobileMenu.style.zIndex = '10';
                 mobileMenu.insertAdjacentHTML('beforeend', `
                     <div class="mobile-hambuger-open">
                         <ul class="mobile-hambuger-open-menu">
                             <li><a href="#">About</a></li>
-                            <li><a href="#">OCTA 3D</a></li>
+                            <li><a href="">MoGL3D</a></li>
                             <li><a href="#" class="octa-asset-page-mobile-btn">ASSETS</a></li>
                             <li><a href="#">SCENES</a></li>
                             <li><a href="#">BLOG</a></li>

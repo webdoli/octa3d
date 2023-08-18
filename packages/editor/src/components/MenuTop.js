@@ -1,5 +1,5 @@
 import { UIPanel } from "../libs/ui";
-import "./MenuTop.css";
+// import "./MenuTop.css";
 import { MenuTopFile } from "./menuTop/MenuTop.File";
 import { MenuTopAdd } from "./menuTop/MenuTop.Add";
 import { MenuTopEdit } from "./menuTop/MenuTop.Edit";

@@ -1,4 +1,4 @@
-import { UIDiv, UIH, UIUL, UILI, UIP, UIA, UIImg, UIIcon, UISpan, OctaUI, UIButton } from "../../../libs/octaUI";
+import { UIDiv, UIH, UIUL, UILI, UIP, UIA, UIImg, UIIcon, UISpan, MoglUI, UIButton } from "../../../libs/moglUI";
 import getRealData from "../../hook_getData";
 import { auth } from "../../../db/firebaseDB";
 import * as THREE from 'three';
@@ -10,9 +10,9 @@ const profileAssetCreated = ( signals ) => {
 
     const tapPane = new UIDiv().setAttr({ 'class': 'tab-pane show active', 'id': 'created-assets', 'role': 'tabpanel', 'aria-labelledby':'created-assets-tab' });
     let row = new UIDiv().setAttr({ 'class': 'row justify-content-center gx-3 gy-2', 'id':'subPageWrapper' }); // Create 세부 페이지 = class'content'와 같음;
-    //let canvas = new OctaUI( document.createElement('canvas') ).setAttr({ 'id':'c', 'style':`position:absolute;` });
+    //let canvas = new MoglUI( document.createElement('canvas') ).setAttr({ 'id':'c', 'style':`position:absolute;` });
     
-    let paginationWrap = new OctaUI( document.createElement('nav') )
+    let paginationWrap = new MoglUI( document.createElement('nav') )
         .setAttr({ 'aria-label':'Page navigation example', 'style':'display:flex;justify-content:center;align-items:center;' });
     let pageUL = new UIUL().setAttr({ 'class':'pagination', 'style':'margin-top:15px;' });
     let pagePrevItem = new UILI().setAttr({ 'class':'page-item' });
@@ -97,7 +97,7 @@ const profileAssetCreated = ( signals ) => {
                     let inner = new UIDiv().setAttr({ 
                         'class': 'z-1 nft-inner dropdown', 'style':'height:200px;'});
                     
-                    let assetIconCSS = new OctaUI( document.createElement('style') );
+                    let assetIconCSS = new MoglUI( document.createElement('style') );
                         assetIconCSS.setTextContent( `
                             #assetIconNav {
                                 background-color: #fff;
@@ -173,7 +173,7 @@ const profileAssetCreated = ( signals ) => {
                         `)
                     let titleWrap = new UIDiv().setAttr({ 'class':'titleWrap', 'style':'display:flex;justify-content:space-between;margin-bottom:15px;'});
 
-                    let assetIconNav = new OctaUI( document.createElement('nav') ).setAttr({
+                    let assetIconNav = new MoglUI( document.createElement('nav') ).setAttr({
                         'id':'assetIconNav',
                         'style':'position:absolute'
                     });
@@ -202,7 +202,8 @@ const profileAssetCreated = ( signals ) => {
                     iconNavLi03.add( iconNaviLi03Link );
 
                     iconNaviLi03Link.dom.addEventListener('click', (e) => {
-                        window.location.href = `/octa3d-editor?assets=${assets[i].docID}`;
+                        console.log('asset docID: ', assets[i].docID );
+                        window.location.href = `/mogl3d-editor?assets=${assets[i].docID}`;
                         
                     });
 

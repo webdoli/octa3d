@@ -9,7 +9,7 @@ const hookSigninMount = ( main, footer, mount, loader ) => {
     history.pushState({ data: '로긴' }, 'Login Page', '/login');
     loader.style.display = 'none';
 
-    document.querySelector('#octa3d-signin-form').addEventListener('submit', (e) => {
+    document.querySelector('#mogl3d-signin-form').addEventListener('submit', (e) => {
 
         e.preventDefault();
         const { hookLogin } = hookSignin();

@@ -1,4 +1,4 @@
-import { OctaUI, UIA, UIButton, UIDiv, UIH, UIIcon, UIImg, UIInput, UILI, UIRow, UISpan, UIUL } from "../libs/octaUI";
+import { MoglUI, UIA, UIButton, UIDiv, UIH, UIIcon, UIImg, UIInput, UILI, UIP, UIRow, UISpan, UIUL } from "../libs/moglUI";
 import AuthCSS from "./authStyle";
 
 const LoginGUI = () => {
@@ -14,29 +14,32 @@ const LoginGUI = () => {
     let col = new UIDiv().setAttr({ 'class':'col-lg-5' });
     let wrapper = new UIDiv().setAttr({ 'class':'account-wrapper' });
     let title = new UIH('Sign In', 3).setAttr({ 'class':'title' });
-    let form = new OctaUI( document.createElement('form') )
-        .setAttr({ 'class':'account-form', 'id':'octa3d-signin-form' });
+    let form = new MoglUI( document.createElement('form') )
+        .setAttr({ 'class':'account-form', 'id':'mogl3d-signin-form' });
     
     let emailForm = new UIDiv().setAttr({ 'class':'form-floating mb-3' });
     let emailIpt = new UIInput().setAttr({ 'type':'email', 'class':'form-control', 'id':'floatingInput', 'placeholder':'' });
-    let emailLabel = new OctaUI( document.createElement('label') )
+    let emailLabel = new MoglUI( document.createElement('label') )
         .setAttr({ 'for':'floatingInput' })
         .setTextContent('Email address');
     
     let pwForm = new UIDiv().setAttr({ 'class':'form-floating' });
     let pwIpt = new UIInput().setAttr({ 'type':'password', 'class':'form-control', 'id':'floatingPassword', 'placeholder':'Password' });
-    let pwLabel = new OctaUI( document.createElement('label') ).setAttr({ 'for':'floatingPassword' }).setTextContent('Password');
+    let pwLabel = new MoglUI( document.createElement('label') ).setAttr({ 'for':'floatingPassword' }).setTextContent('Password');
     
     let formGrp = new UIDiv().setAttr({ 'class':'form-group' });
     let rememWrap = new UIDiv().setAttr({ 'class':'d-flex justify-content-between flex-wrap pt-sm-2' });
     let checkGrp = new UIDiv().setAttr({ 'class':'checkgroup' });
     let chkIpt = new UIInput().setAttr({ 'type':'checkbox', 'name':'remember', 'id':'remember' });
-    let chkLabel = new OctaUI( document.createElement('label') ).setAttr({ 'for':'remember' }).setTextContent('Remember');
+    let chkLabel = new MoglUI( document.createElement('label') ).setAttr({ 'for':'remember' }).setTextContent('Remember');
     let chkA = new UIA().setAttr({ 'href':'/resetPW' }).setTextContent('Forgot Password?');
     
     let formGrp02 = new UIDiv().setAttr({'class':'form-group'});
     let formGrpBtn = new UIButton().setAttr({ 'class':'d-block default-btn move-top' });
     let formGrpSpan = new UISpan().setTextContent('LOGIN');
+
+    let alertMsg = new UIP()
+        .setAttr({ 'class':'loginMsg', 'style':'color:tomato;font-size:.72em;' });
     
     let formBottom = new UIDiv().setAttr({ 'class':'account-bottom' });
     let bottomSpan = new UISpan()
@@ -73,7 +76,7 @@ const LoginGUI = () => {
     formGrp.add( rememWrap );
     formGrp02.addSeq( formGrpBtn, formGrpSpan );
 
-    form.add( emailForm, pwForm, formGrp, formGrp02 );
+    form.add( emailForm, pwForm, formGrp, alertMsg, formGrp02 );
 
     bottomSpan.add( signupLink );
     connectLink01.add( connectLink02 );

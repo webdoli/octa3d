@@ -1,4 +1,4 @@
-import { UIA, UIDiv, UIIcon, UIImg, UILI, UIH, UIP, UISpan, UIUL } from "../../../libs/octaUI"
+import { UIA, UIDiv, UIIcon, UIImg, UILI, UIH, UIP, UISpan, UIUL } from "../../../libs/moglUI"
 
 const profileAssetPicked = () => {
 
