@@ -95,6 +95,7 @@ onAuthStateChanged( auth, ( user ) => {
     let urlRoute = urlOrigin + urlPathName;
     const queryString = window.location.search;
     const urlParams = new URLSearchParams( queryString );
+    
     let params = ( urlParams ) ? urlParams : '';
 
     if( user && user.emailVerified ) {
@@ -126,7 +127,7 @@ function userMain( headerEle, mainEle, footerEle, user, urlRoute, params ) {
 
     let pre_loader = document.querySelector('.preloader');
     let assetParam = ( params ) ? params : '';
-    console.log('파람값: ', assetParam );
+    
     let mountUrls = [
         { 'http://localhost:8080/': new HomeMount( signals ) },
         { 'https://octa3d-439a2.firebaseapp.com/': new HomeMount( signals ) },

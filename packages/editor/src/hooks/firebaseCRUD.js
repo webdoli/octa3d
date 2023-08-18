@@ -132,14 +132,14 @@ function setDataArr( modelUrlArr, modelSrc ) {
 }
 
 function getData( c, documents, editor ) {
-   
+    
     return new Promise( ( resolve, reject ) => {
-
+        console.log('getData documents: ', documents );
         documents.map( async (item) => {
             
             let q = query( collection( db, c ), where( "docID", "==", item ) );
             const modelDatas = await getDocs( q );
-
+            
             modelDatas.forEach( datas => {
 
                 let modelUrlArr = datas.data().model;
@@ -213,7 +213,7 @@ function getFBTexData ( texureDB ) {
 const getDatas = ( c, docs ) => {
 
     let res = [];
-
+    console.log('getDatas: ', docs );
     if( docs ) {
 
         
@@ -221,7 +221,7 @@ const getDatas = ( c, docs ) => {
 
             getData( c, docs )
                 .then( fbDocs => {
-
+                    console.log( 'fbDocs: ', fbDocs );
                     for( let i = 0; i < fbDocs.length; i++ ) {
 
                         let objUrl = fbDocs[i].obj;
